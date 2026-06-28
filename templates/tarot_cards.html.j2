@@ -1,0 +1,27 @@
+{% from "partials/cards_macros.html.j2" import card_css, tarot_card %}
+{% from "partials/font_picker.html.j2" import font_picker_head, font_picker_control %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - tarot cards</title>
+    {{ card_css() }}
+    {{ font_picker_head() }}
+  </head>
+  <body>
+    <header>
+      <h1 style="margin:0;">tarot cards</h1>
+      <a class="muted" href="./index.html">back to index</a>
+      <span class="muted">cards: {{ cards|length }}</span>
+      {{ font_picker_control() }}
+    </header>
+
+    <div class="deck">
+      {% for card in cards %}
+        {{ tarot_card(card) }}
+      {% endfor %}
+    </div>
+  </body>
+</html>
+

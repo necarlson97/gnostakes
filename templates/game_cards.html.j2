@@ -1,0 +1,25 @@
+{% from "partials/cards_macros.html.j2" import card_css, game_card, name_font_head %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - game cards</title>
+    {{ name_font_head() }}
+    {{ card_css() }}
+  </head>
+  <body>
+    <header>
+      <h1 style="margin:0;">game cards</h1>
+      <a class="muted" href="./index.html">back to index</a>
+      <span class="muted">cards: {{ cards|length }}</span>
+    </header>
+
+    <div class="deck">
+      {% for card in cards %}
+        {{ game_card(card) }}
+      {% endfor %}
+    </div>
+  </body>
+</html>
+

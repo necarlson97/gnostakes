@@ -1,0 +1,147 @@
+{# Curated Google Fonts list. Each option is rendered in its own face. #}
+{% set google_fonts_body = [
+  "Roboto",
+  "Open Sans",
+  "Lato",
+  "Montserrat",
+  "Oswald",
+  "Raleway",
+  "Poppins",
+  "Merriweather",
+  "Nunito",
+  "PT Sans",
+  "Ubuntu",
+  "Playfair Display",
+  "Roboto Slab",
+  "Source Sans 3",
+  "Inter",
+  "Rubik",
+  "Work Sans",
+  "Noto Sans",
+  "Fira Sans",
+  "Quicksand",
+  "Barlow",
+  "DM Sans",
+  "Mukta",
+  "Libre Baskerville",
+  "Crimson Text",
+  "EB Garamond",
+  "Lora",
+  "Bitter",
+  "Arimo",
+  "Titillium Web",
+  "Josefin Sans",
+  "Anton",
+  "Bebas Neue",
+  "Pacifico",
+  "Dancing Script",
+  "Caveat",
+  "Comfortaa",
+  "Exo 2",
+  "Kanit",
+  "Manrope",
+  "Outfit",
+  "Space Grotesk",
+  "IBM Plex Sans",
+  "IBM Plex Serif",
+  "Spectral",
+  "Cardo",
+  "Cormorant Garamond",
+  "Alegreya",
+  "Vollkorn",
+  "Inconsolata",
+] %}
+{% set google_fonts_decorative = [
+  "Germania One",
+  "MedievalSharp",
+  "Uncial Antiqua",
+  "Cinzel Decorative",
+  "Cinzel",
+  "Pirata One",
+  "UnifrakturMaguntia",
+  "New Rocker",
+  "Almendra Display",
+  "Metamorphous",
+  "Ewert",
+  "IM Fell English",
+  "Pinyon Script",
+  "Amatic SC",
+  "Permanent Marker",
+  "Shadows Into Light",
+  "Kalam",
+  "Macondo",
+] %}
+{% set google_fonts = google_fonts_body + google_fonts_decorative %}
+
+{% macro font_picker_head() -%}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?{% for font in google_fonts %}family={{ font | replace(' ', '+') }}{% if not loop.last %}&{% endif %}{% endfor %}&display=swap"
+/>
+<style>
+  .font-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .font-picker label {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .font-dropdown {
+    min-width: 12rem;
+    max-width: 18rem;
+    padding: 4px 8px;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+</style>
+{%- endmacro %}
+
+{% macro font_picker_control(default_font="Metamorphous") -%}
+<div class="font-picker">
+  <label for="font-dropdown">font</label>
+  <select id="font-dropdown" class="font-dropdown" aria-label="Card font">
+    <optgroup label="Body &amp; text">
+      {% for font in google_fonts_body %}
+        <option
+          value="{{ font }}"
+          {% if font == default_font %}selected{% endif %}
+          style="font-family: '{{ font }}', sans-serif;"
+        >{{ font }}</option>
+      {% endfor %}
+    </optgroup>
+    <optgroup label="Decorative">
+      {% for font in google_fonts_decorative %}
+        <option
+          value="{{ font }}"
+          {% if font == default_font %}selected{% endif %}
+          style="font-family: '{{ font }}', sans-serif;"
+        >{{ font }}</option>
+      {% endfor %}
+    </optgroup>
+  </select>
+</div>
+<script>
+  (function () {
+    const select = document.getElementById("font-dropdown");
+    if (!select) return;
+
+    function applyNameFont(fontName) {
+      const family = "'" + fontName.replace(/'/g, "\\'") + "', sans-serif";
+      document.documentElement.style.setProperty("--name-font", family);
+      select.style.fontFamily = family;
+    }
+
+    select.addEventListener("change", function () {
+      applyNameFont(select.value);
+    });
+
+    applyNameFont(select.value);
+  })();
+</script>
+{%- endmacro %}

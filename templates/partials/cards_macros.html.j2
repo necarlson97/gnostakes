@@ -1,0 +1,195 @@
+{% macro name_font_head(family="Pirata One") -%}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family={{ family | replace(' ', '+') }}&display=swap"
+/>
+{%- endmacro %}
+
+{% macro card_css() -%}
+<style>
+  :root {
+    --card-w: 63mm;
+    --card-h: 88mm;
+    --border: 1px;
+    --name-font: 'Metamorphous', sans-serif;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+    margin: 16px;
+  }
+
+  header {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  a { color: inherit; }
+  .muted { color: #666; }
+
+  /* 1px border between cards: use a grid gap with black background */
+  .deck {
+    display: grid;
+    grid-template-columns: repeat(4, var(--card-w));
+    gap: var(--border);
+    background: #000;
+    padding: var(--border);
+    width: fit-content;
+  }
+
+  .card {
+    width: var(--card-w);
+    height: var(--card-h);
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-block {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2mm 0.5mm 0em;
+    background: rgba(255,255,255,0.88);
+    display: block;
+  }
+
+  .text-block.bottom {
+    border-bottom: none;
+    transform: rotate(180deg);
+  }
+
+  .line {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    text-align: center;
+    white-space: pre-wrap;
+  }
+
+  .line b {
+    font-weight: bolder;
+  }
+
+  .line i {
+    font-style: italic;
+  }
+
+  .line u {
+    text-decoration: underline;
+  }
+
+  .line.name {
+    font-family: var(--name-font);
+    font-weight: 800;
+    font-size: 11pt;
+    letter-spacing: 0.2px;
+    line-height: 1.05;
+  }
+
+  .tarot-card .line.name {
+    font-size: 12pt;
+  }
+
+  .line.rule {
+    margin-top: 1.2mm;
+    font-weight: 500;
+    font-size: 7pt;
+    line-height: 1.15;
+  }
+
+  .art-area {
+    flex: 1;
+    min-height: 0; /* allow shrink between blocks */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .art-area img.art {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .game-card {
+    position: relative;
+    justify-content: space-between;
+  }
+
+  .game-card .art-area {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    flex: none;
+    min-height: 0;
+    z-index: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .game-card .art-area img.art {
+    width: auto;
+    height: 50mm;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .game-card .text-block {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+{%- endmacro %}
+
+{% macro tarot_card(card) -%}
+<div class="card tarot-card">
+  <div class="text-block top">
+    <div class="line name">{{ card.name_html|safe }}</div>
+  </div>
+
+  <div class="art-area">
+    {% if card.art_filename %}
+      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+    {% endif %}
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">{{ card.inverted_name_html|safe }}</div>
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro game_card(card) -%}
+<div class="card game-card">
+  <div class="text-block top">
+    <div class="line name">{{ card.name_html|safe }}</div>
+    {% if card.rule %}
+      <div class="line rule">{{ card.rule_html|safe }}</div>
+    {% endif %}
+  </div>
+
+  <div class="art-area">
+    {% if card.art_filename %}
+      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+    {% endif %}
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">{{ card.inverted_name_html|safe }}</div>
+    {% if card.inverted_rule %}
+      <div class="line rule">{{ card.inverted_rule_html|safe }}</div>
+    {% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
