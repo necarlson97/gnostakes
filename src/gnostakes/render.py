@@ -106,7 +106,7 @@ def canonicalize_cards(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def build_site(
     templates_dir: str | Path = "templates",
-    out_dir: str | Path = "site",
+    out_dir: str | Path = "docs",
     *,
     cache_dir: str | Path = "data/cache",
     sheet_timeout_s: float = 10,

@@ -25,8 +25,8 @@ from gnostakes.sources.google_drive_folder import DEFAULT_ASSETS_FOLDER_ID, sync
 class DevConfig:
     templates_dir: Path = Path("templates")
     src_dir: Path = Path("src")
-    out_dir: Path = Path("site")
-    assets_dir: Path = Path("site/assets/images")
+    out_dir: Path = Path("docs")
+    assets_dir: Path = Path("docs/assets/images")
     drive_folder_id: str = DEFAULT_ASSETS_FOLDER_ID
     host: str = "127.0.0.1"
     port: int = 8000
