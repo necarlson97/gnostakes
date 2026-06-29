@@ -1,0 +1,597 @@
+{% from "partials/cards_macros.html.j2" import card_css, sandbox_card, name_font_head %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - digital sandbox</title>
+    {{ name_font_head() }}
+    {{ card_css() }}
+    <style>
+      :root {
+        --card-w: 42mm;
+        --card-h: 59mm;
+        --pile-w: calc(var(--card-w) + 24px);
+      }
+
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sandbox-header {
+        flex: none;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        flex-wrap: wrap;
+        padding: 10px 14px;
+        border-bottom: 1px solid #ddd;
+        background: #fff;
+        z-index: 2;
+      }
+
+      .sandbox-header h1 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .sandbox-layout {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
+
+      .draw-pile {
+        flex: none;
+        width: var(--pile-w);
+        background: #f4f4f4;
+        border-right: 1px solid #ddd;
+        padding: 10px 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        z-index: 1;
+      }
+
+      .draw-pile h2 {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #444;
+        align-self: stretch;
+      }
+
+      .draw-pile .hint {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #777;
+        line-height: 1.3;
+        align-self: stretch;
+      }
+
+      .pile-slot {
+        width: var(--card-w);
+        height: var(--card-h);
+        flex: none;
+        border: 2px dashed #bbb;
+        border-radius: 4px;
+        background: #fff;
+        cursor: grab;
+        touch-action: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+        user-select: none;
+      }
+
+      .pile-slot:active:not(.is-empty) {
+        cursor: grabbing;
+      }
+
+      .pile-slot.is-empty {
+        cursor: default;
+        background: #eee;
+        border-color: #ccc;
+      }
+
+      .pile-slot.is-drop-target {
+        border-color: #4a7;
+        background: #f0fff4;
+      }
+
+      .pile-slot .deck-count {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #444;
+        line-height: 1;
+      }
+
+      .pile-slot .deck-label {
+        font-size: 0.7rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .shuffle-btn {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .shuffle-btn:hover {
+        background: #f0f0f0;
+      }
+
+      .shuffle-btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      #card-templates {
+        display: none;
+      }
+
+      .play-area {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 1px 1px, #e8e8e8 1px, transparent 0) 0 0 / 18px 18px,
+          #fafafa;
+        touch-action: none;
+      }
+
+      .placed-card {
+        position: absolute;
+        cursor: grab;
+        touch-action: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        z-index: 10;
+        transition: box-shadow 0.15s;
+      }
+
+      .placed-card.is-dragging {
+        cursor: grabbing;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+        z-index: 100;
+      }
+
+      .placed-card.is-flipped {
+        transform: rotate(180deg);
+      }
+
+      .token-tracker {
+        position: fixed;
+        top: 52px;
+        right: 12px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        font-size: 0.85rem;
+        min-width: 150px;
+        user-select: none;
+      }
+
+      .token-tracker h2 {
+        margin: 0 0 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #555;
+      }
+
+      .token-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .token-row label {
+        color: #333;
+      }
+
+      .token-controls {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .token-controls button {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .token-controls button:hover {
+        background: #f0f0f0;
+      }
+
+      .token-controls input {
+        width: 42px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 2px 0;
+        font-size: 0.85rem;
+        -moz-appearance: textfield;
+      }
+
+      .token-controls input::-webkit-outer-spin-button,
+      .token-controls input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .token-divider {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 8px 0;
+      }
+
+      .empty-pile {
+        color: #888;
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="sandbox-header">
+      <h1>digital sandbox</h1>
+      <a class="muted" href="./index.html">back to index</a>
+      <span class="muted">finished cards: {{ finished_cards|length }} / {{ cards|length }}</span>
+    </header>
+
+    <div class="sandbox-layout">
+      <aside class="draw-pile" id="draw-pile">
+        <h2>draw pile</h2>
+        <p class="hint">Drag from the pile to draw. Drop a card here to return it to the bottom.</p>
+        {% if finished_cards %}
+          <div class="pile-slot" id="pile-slot" role="button" tabindex="0" aria-label="Draw pile">
+            <span class="deck-count" id="deck-count">{{ finished_cards|length }}</span>
+            <span class="deck-label">cards</span>
+          </div>
+          <button type="button" class="shuffle-btn" id="shuffle-btn">shuffle</button>
+        {% else %}
+          <p class="empty-pile">No finished cards yet. A card needs name, inverted name, rule, inverted rule, and on-pickup text.</p>
+        {% endif %}
+      </aside>
+
+      {% if finished_cards %}
+        <div id="card-templates" aria-hidden="true">
+          {% for card in finished_cards %}
+            <div data-card-index="{{ loop.index0 }}">
+              {{ sandbox_card(card) }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <main class="play-area" id="play-area" aria-label="play area"></main>
+    </div>
+
+    <aside class="token-tracker" id="token-tracker">
+      <h2>tokens</h2>
+      <div class="token-row">
+        <label for="tok-earth">Earth</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="earth,-1" aria-label="Decrease Earth">−</button>
+          <input id="tok-earth" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="earth,1" aria-label="Increase Earth">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-water">Water</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="water,-1" aria-label="Decrease Water">−</button>
+          <input id="tok-water" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="water,1" aria-label="Increase Water">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-fire">Fire</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="fire,-1" aria-label="Decrease Fire">−</button>
+          <input id="tok-fire" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="fire,1" aria-label="Increase Fire">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-air">Air</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="air,-1" aria-label="Decrease Air">−</button>
+          <input id="tok-air" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="air,1" aria-label="Increase Air">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-quint">Quintessence</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="quintessence,-1" aria-label="Decrease Quintessence">−</button>
+          <input id="tok-quint" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="quintessence,1" aria-label="Increase Quintessence">+</button>
+        </div>
+      </div>
+      <hr class="token-divider" />
+      <div class="token-row">
+        <label for="tok-keys">Keys</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="keys,-1" aria-label="Decrease Keys">−</button>
+          <input id="tok-keys" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="keys,1" aria-label="Increase Keys">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-teeth">Teeth</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="teeth,-1" aria-label="Decrease Teeth">−</button>
+          <input id="tok-teeth" type="number" value="10" min="0" step="1" />
+          <button type="button" data-token-delta="teeth,1" aria-label="Increase Teeth">+</button>
+        </div>
+      </div>
+    </aside>
+
+    <script>
+      (function () {
+        const playArea = document.getElementById("play-area");
+        const pileSlot = document.getElementById("pile-slot");
+        const deckCountEl = document.getElementById("deck-count");
+        const shuffleBtn = document.getElementById("shuffle-btn");
+        const cardTemplates = document.getElementById("card-templates");
+        const tokenTracker = document.getElementById("token-tracker");
+        const CLICK_THRESHOLD_PX = 5;
+
+        const tokenInputs = {
+          earth: document.getElementById("tok-earth"),
+          water: document.getElementById("tok-water"),
+          fire: document.getElementById("tok-fire"),
+          air: document.getElementById("tok-air"),
+          quintessence: document.getElementById("tok-quint"),
+          keys: document.getElementById("tok-keys"),
+          teeth: document.getElementById("tok-teeth"),
+        };
+
+        function clampTokenValue(input) {
+          const n = parseInt(input.value, 10);
+          input.value = String(Number.isFinite(n) && n >= 0 ? n : 0);
+        }
+
+        tokenTracker.addEventListener("click", function (e) {
+          const btn = e.target.closest("[data-token-delta]");
+          if (!btn) return;
+          const [key, deltaStr] = btn.dataset.tokenDelta.split(",");
+          const input = tokenInputs[key];
+          if (!input) return;
+          const delta = parseInt(deltaStr, 10);
+          const next = Math.max(0, (parseInt(input.value, 10) || 0) + delta);
+          input.value = String(next);
+        });
+
+        Object.values(tokenInputs).forEach(function (input) {
+          input.addEventListener("change", function () {
+            clampTokenValue(input);
+          });
+        });
+
+        const cardCount = cardTemplates
+          ? cardTemplates.querySelectorAll("[data-card-index]").length
+          : 0;
+        let deck = [];
+
+        function shuffleArray(arr) {
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+          }
+          return arr;
+        }
+
+        function resetDeck() {
+          deck = [];
+          for (let i = 0; i < cardCount; i++) {
+            deck.push(i);
+          }
+          shuffleArray(deck);
+          updatePileUI();
+        }
+
+        function updatePileUI() {
+          if (!pileSlot) return;
+          const n = deck.length;
+          deckCountEl.textContent = String(n);
+          pileSlot.classList.toggle("is-empty", n === 0);
+          if (shuffleBtn) {
+            shuffleBtn.disabled = n === 0;
+          }
+        }
+
+        function cloneCard(index) {
+          const wrapper = cardTemplates.querySelector('[data-card-index="' + index + '"]');
+          const template = wrapper.querySelector(".sandbox-card");
+          const el = template.cloneNode(true);
+          el.dataset.cardIndex = String(index);
+          return el;
+        }
+
+        function isOverPile(clientX, clientY) {
+          if (!pileSlot) return false;
+          const rect = pileSlot.getBoundingClientRect();
+          return (
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom
+          );
+        }
+
+        if (cardCount > 0) {
+          resetDeck();
+        }
+
+        if (shuffleBtn) {
+          shuffleBtn.addEventListener("click", function () {
+            shuffleArray(deck);
+          });
+        }
+
+        let drag = null;
+
+        function playAreaPoint(clientX, clientY) {
+          const rect = playArea.getBoundingClientRect();
+          return {
+            x: clientX - rect.left,
+            y: clientY - rect.top,
+          };
+        }
+
+        function placeCard(el, x, y) {
+          const w = el.offsetWidth;
+          const h = el.offsetHeight;
+          const maxX = Math.max(0, playArea.clientWidth - w);
+          const maxY = Math.max(0, playArea.clientHeight - h);
+          el.style.left = Math.min(Math.max(0, x), maxX) + "px";
+          el.style.top = Math.min(Math.max(0, y), maxY) + "px";
+        }
+
+        function beginDrag(el, pointerId, clientX, clientY) {
+          const rect = el.getBoundingClientRect();
+          const offsetX = clientX - rect.left;
+          const offsetY = clientY - rect.top;
+
+          el.classList.add("is-dragging");
+          el.setPointerCapture(pointerId);
+
+          drag = {
+            el: el,
+            pointerId: pointerId,
+            offsetX: offsetX,
+            offsetY: offsetY,
+            startX: clientX,
+            startY: clientY,
+            moved: false,
+          };
+        }
+
+        function drawAndDrag(pointerId, clientX, clientY) {
+          if (deck.length === 0) return;
+
+          const index = deck.shift();
+          updatePileUI();
+
+          const el = cloneCard(index);
+          el.classList.add("placed-card");
+          playArea.appendChild(el);
+
+          const pt = playAreaPoint(clientX, clientY);
+          placeCard(el, pt.x - el.offsetWidth / 2, pt.y - el.offsetHeight / 2);
+          beginDrag(el, pointerId, clientX, clientY);
+          drag.moved = true;
+        }
+
+        function returnCardToDeck(el) {
+          const index = parseInt(el.dataset.cardIndex, 10);
+          if (!Number.isFinite(index)) return;
+          el.remove();
+          deck.push(index);
+          updatePileUI();
+        }
+
+        function onPointerDown(e) {
+          if (e.button !== 0) return;
+          if (tokenTracker.contains(e.target)) return;
+
+          if (pileSlot && pileSlot.contains(e.target) && deck.length > 0) {
+            e.preventDefault();
+            drawAndDrag(e.pointerId, e.clientX, e.clientY);
+            return;
+          }
+
+          const placedCard = e.target.closest(".play-area .placed-card");
+          if (placedCard) {
+            e.preventDefault();
+            beginDrag(placedCard, e.pointerId, e.clientX, e.clientY);
+          }
+        }
+
+        function onPointerMove(e) {
+          if (!drag || e.pointerId !== drag.pointerId) return;
+
+          const dx = e.clientX - drag.startX;
+          const dy = e.clientY - drag.startY;
+          if (!drag.moved && (Math.abs(dx) > CLICK_THRESHOLD_PX || Math.abs(dy) > CLICK_THRESHOLD_PX)) {
+            drag.moved = true;
+          }
+
+          if (pileSlot) {
+            pileSlot.classList.toggle("is-drop-target", isOverPile(e.clientX, e.clientY));
+          }
+
+          const areaRect = playArea.getBoundingClientRect();
+          const x = e.clientX - areaRect.left - drag.offsetX;
+          const y = e.clientY - areaRect.top - drag.offsetY;
+          placeCard(drag.el, x, y);
+        }
+
+        function onPointerUp(e) {
+          if (!drag || e.pointerId !== drag.pointerId) return;
+
+          const el = drag.el;
+          const overPile = isOverPile(e.clientX, e.clientY);
+          const wasClick = !drag.moved;
+
+          el.classList.remove("is-dragging");
+          if (pileSlot) {
+            pileSlot.classList.remove("is-drop-target");
+          }
+          try {
+            el.releasePointerCapture(drag.pointerId);
+          } catch (_) {}
+
+          if (overPile) {
+            returnCardToDeck(el);
+          } else if (wasClick) {
+            el.classList.toggle("is-flipped");
+          }
+
+          drag = null;
+        }
+
+        document.addEventListener("pointerdown", onPointerDown);
+        document.addEventListener("pointermove", onPointerMove);
+        document.addEventListener("pointerup", onPointerUp);
+        document.addEventListener("pointercancel", onPointerUp);
+      })();
+    </script>
+  </body>
+</html>

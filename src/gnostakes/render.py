@@ -97,6 +97,7 @@ def canonicalize_cards(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "on_pickup_html": _get_ci_html(r, "On Pickup", "OnPickup", "Pickup", "Pickup Rule"),
                 "art": art,
                 "art_filename": _art_filename(art),
+                "is_finished": bool(name and inv_name and rule and inv_rule and on_pickup),
                 "raw": r,
             }
         )
@@ -155,6 +156,14 @@ def build_site(
     )
     (out_dir / "game_cards.html").write_text(
         env.get_template("game_cards.html.j2").render(cards=cards),
+        encoding="utf-8",
+    )
+    finished_cards = [c for c in cards if c.get("is_finished")]
+    (out_dir / "digital_sandbox.html").write_text(
+        env.get_template("digital_sandbox.html.j2").render(
+            cards=cards,
+            finished_cards=finished_cards,
+        ),
         encoding="utf-8",
     )
 

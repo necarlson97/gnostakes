@@ -169,6 +169,30 @@
 </div>
 {%- endmacro %}
 
+{% macro sandbox_card(card, extra_class="") -%}
+<div class="card game-card sandbox-card {{ extra_class }}">
+  <div class="text-block top">
+    <div class="line name">{{ card.name_html|safe }}</div>
+    {% if card.rule %}
+      <div class="line rule">{{ card.rule_html|safe }}</div>
+    {% endif %}
+  </div>
+
+  <div class="art-area">
+    {% if card.art_filename %}
+      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+    {% endif %}
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">{{ card.inverted_name_html|safe }}</div>
+    {% if card.inverted_rule %}
+      <div class="line rule">{{ card.inverted_rule_html|safe }}</div>
+    {% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
 {% macro game_card(card) -%}
 <div class="card game-card">
   <div class="text-block top">
