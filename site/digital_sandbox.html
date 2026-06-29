@@ -1,0 +1,1704 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - digital sandbox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
+/>
+    <style>
+  :root {
+    --card-w: 63mm;
+    --card-h: 88mm;
+    --border: 1px;
+    --name-font: 'Metamorphous', sans-serif;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+    margin: 16px;
+  }
+
+  header {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  a { color: inherit; }
+  .muted { color: #666; }
+
+  /* 1px border between cards: use a grid gap with black background */
+  .deck {
+    display: grid;
+    grid-template-columns: repeat(4, var(--card-w));
+    gap: var(--border);
+    background: #000;
+    padding: var(--border);
+    width: fit-content;
+  }
+
+  .card {
+    width: var(--card-w);
+    height: var(--card-h);
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-block {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2mm 0.5mm 0em;
+    background: rgba(255,255,255,0.88);
+    display: block;
+  }
+
+  .text-block.bottom {
+    border-bottom: none;
+    transform: rotate(180deg);
+  }
+
+  .line {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    text-align: center;
+    white-space: pre-wrap;
+  }
+
+  .line b {
+    font-weight: bolder;
+  }
+
+  .line i {
+    font-style: italic;
+  }
+
+  .line u {
+    text-decoration: underline;
+  }
+
+  .line.name {
+    font-family: var(--name-font);
+    font-weight: 800;
+    font-size: 11pt;
+    letter-spacing: 0.2px;
+    line-height: 1.05;
+  }
+
+  .tarot-card .line.name {
+    font-size: 12pt;
+  }
+
+  .line.rule {
+    margin-top: 1.2mm;
+    font-weight: 500;
+    font-size: 7pt;
+    line-height: 1.15;
+  }
+
+  .art-area {
+    flex: 1;
+    min-height: 0; /* allow shrink between blocks */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .art-area img.art {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .game-card {
+    position: relative;
+    justify-content: space-between;
+  }
+
+  .game-card .art-area {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    flex: none;
+    min-height: 0;
+    z-index: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .game-card .art-area img.art {
+    width: auto;
+    height: 50mm;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .game-card .text-block {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+    <style>
+      :root {
+        --card-w: 42mm;
+        --card-h: 59mm;
+        --pile-w: calc(var(--card-w) + 24px);
+      }
+
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sandbox-header {
+        flex: none;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        flex-wrap: wrap;
+        padding: 10px 14px;
+        border-bottom: 1px solid #ddd;
+        background: #fff;
+        z-index: 2;
+      }
+
+      .sandbox-header h1 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .sandbox-layout {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
+
+      .draw-pile {
+        flex: none;
+        width: var(--pile-w);
+        background: #f4f4f4;
+        border-right: 1px solid #ddd;
+        padding: 10px 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        z-index: 1;
+      }
+
+      .draw-pile h2 {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #444;
+        align-self: stretch;
+      }
+
+      .draw-pile .hint {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #777;
+        line-height: 1.3;
+        align-self: stretch;
+      }
+
+      .pile-slot {
+        width: var(--card-w);
+        height: var(--card-h);
+        flex: none;
+        border: 2px dashed #bbb;
+        border-radius: 4px;
+        background: #fff;
+        cursor: grab;
+        touch-action: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+        user-select: none;
+      }
+
+      .pile-slot:active:not(.is-empty) {
+        cursor: grabbing;
+      }
+
+      .pile-slot.is-empty {
+        cursor: default;
+        background: #eee;
+        border-color: #ccc;
+      }
+
+      .pile-slot.is-drop-target {
+        border-color: #4a7;
+        background: #f0fff4;
+      }
+
+      .pile-slot .deck-count {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #444;
+        line-height: 1;
+      }
+
+      .pile-slot .deck-label {
+        font-size: 0.7rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .shuffle-btn {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .shuffle-btn:hover {
+        background: #f0f0f0;
+      }
+
+      .shuffle-btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      #card-templates {
+        display: none;
+      }
+
+      .play-area {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 1px 1px, #e8e8e8 1px, transparent 0) 0 0 / 18px 18px,
+          #fafafa;
+        touch-action: none;
+      }
+
+      .placed-card {
+        position: absolute;
+        cursor: grab;
+        touch-action: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        z-index: 10;
+        transition: box-shadow 0.15s;
+      }
+
+      .placed-card.is-dragging {
+        cursor: grabbing;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+        z-index: 100;
+      }
+
+      .placed-card.is-flipped {
+        transform: rotate(180deg);
+      }
+
+      .token-tracker {
+        position: fixed;
+        top: 52px;
+        right: 12px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        font-size: 0.85rem;
+        min-width: 150px;
+        user-select: none;
+      }
+
+      .token-tracker h2 {
+        margin: 0 0 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #555;
+      }
+
+      .token-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .token-row label {
+        color: #333;
+      }
+
+      .token-controls {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .token-controls button {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .token-controls button:hover {
+        background: #f0f0f0;
+      }
+
+      .token-controls input {
+        width: 42px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 2px 0;
+        font-size: 0.85rem;
+        -moz-appearance: textfield;
+      }
+
+      .token-controls input::-webkit-outer-spin-button,
+      .token-controls input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .token-divider {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 8px 0;
+      }
+
+      .empty-pile {
+        color: #888;
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="sandbox-header">
+      <h1>digital sandbox</h1>
+      <a class="muted" href="./index.html">back to index</a>
+      <span class="muted">finished cards: 43 / 80</span>
+    </header>
+
+    <div class="sandbox-layout">
+      <aside class="draw-pile" id="draw-pile">
+        <h2>draw pile</h2>
+        <p class="hint">Drag from the pile to draw. Drop a card here to return it to the bottom.</p>
+        
+          <div class="pile-slot" id="pile-slot" role="button" tabindex="0" aria-label="Draw pile">
+            <span class="deck-count" id="deck-count">43</span>
+            <span class="deck-label">cards</span>
+          </div>
+          <button type="button" class="shuffle-btn" id="shuffle-btn">shuffle</button>
+        
+      </aside>
+
+      
+        <div id="card-templates" aria-hidden="true">
+          
+            <div data-card-index="0">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Hollowhead</div>
+    
+      <div class="line rule">When you gain a key:<br>if you have only 2 other active cards: gain an additional key</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Hollowhead" src="assets/images/jester.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">God-Struck Fool</div>
+    
+      <div class="line rule">You may now have 5 other simultaniously active cards (6 total)</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="1">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Knower of True Names</div>
+    
+      <div class="line rule">Any time you score a hand without F:<br>* bury a W on this card<br>At the end of the round, if there is W burried:<br>* you must swap in a W crystal<br>* unbury all W on this card<br>If you incinerate this card, incinerate a dice.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Knower of True Names" src="assets/images/magician.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Lockpicking Archon</div>
+    
+      <div class="line rule">All players now require one extra key to win.<br>If you incinerate this card, incinerate a dice.</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="2">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Plate-Plundering Deacon</div>
+    
+      <div class="line rule">Whenever you claim a card, you may spend 2Q to claim any other.<br>(this claim automatically loses against wagers)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Plate-Plundering Deacon" src="assets/images/deacon.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Pious Parishioner</div>
+    
+      <div class="line rule">If you incinerate two cards in a single turn, gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="3">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Sane Sorrowful</div>
+    
+      <div class="line rule">Insane Incandescent</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Insane Incandescent</div>
+    
+      <div class="line rule">If an ability costs 1 or 2 tokens, it costs 1 more.</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="4">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Wailing Confessor</div>
+    
+      <div class="line rule">Any time you score a hand without A:<br>* if you have more teeth than discarded dice, lose a tooth<br>If you incinerate this card, incinerate a dice.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Voiceless Accused</div>
+    
+      <div class="line rule">You cannot score a hand with less than 5 dice.<br>If you incinerate this card, incinerate a dice.</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="5">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Mocking Recluse</div>
+    
+      <div class="line rule">F faces now count as A faces also<br>A faces now count as F faces also</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Mocking Recluse" src="assets/images/jar.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Jar Dweller</div>
+    
+      <div class="line rule">E faces now count as E faces also<br>W faces now count as W faces also</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="6">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Primed Pomologist</div>
+    
+      <div class="line rule">On scoring, look at the highest Potency among uncomitted dice. Gain that many E.<br>If it is 6+, you may instead gain 2Q.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Charitable Ciderist</div>
+    
+      <div class="line rule">On scoring a hand with 2 or more E:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="7">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Passive Puffer</div>
+    
+      <div class="line rule">Whenever you commit 4 die at once, you may uncommit another die.<br><br>You may now send 2 of any token to get 1Q</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Active Assistant</div>
+    
+      <div class="line rule">On scoring a triplet:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="8">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Alembic Servitor</div>
+    
+      <div class="line rule">Any time you gain E, A, F, or W, you may gain one more</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Burn-Scarred Glasswright</div>
+    
+      <div class="line rule">Spend 2 E to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="9">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Bezoar Seeker</div>
+    
+      <div class="line rule">On rolling an E, you may discard that die, and gain E equal to the Potency.<br><br>On rolling a W, F or A, you may spend 1 E to rotate a die one face over in either direction.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Sadistic Shepherd</div>
+    
+      <div class="line rule">Spend 2 E to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="10">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Reeking Husk</div>
+    
+      <div class="line rule">On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency<br><br>On rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Discarded Follower</div>
+    
+      <div class="line rule">Spend 6 of any one token type to:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="11">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Shrewd Quaker</div>
+    
+      <div class="line rule">Whenever you score a pair, two-pair, triplet, or quadruplet, chose one:<br>* gain 3E<br>* bury one of any token type on any card</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Hard-Tack Baker</div>
+    
+      <div class="line rule">You can now score triplets as quadruples</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="12">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Perennial Pruner</div>
+    
+      <div class="line rule">Whenever you score 6 (or more) dice in a hand:<br>* gain 1 E</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Perennial Pruner" src="assets/images/venus.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Haphazard Herbalist</div>
+    
+      <div class="line rule">Whenever you score a pair, two-pair, triplet, or quadruplet, choose one<br>* spend 8 E<br>* lose 1 key<br>to:<br>* regain 2 teeth</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="13">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Venemous Vessel</div>
+    
+      <div class="line rule">Whenever you roll a E, you may discard that die to bury one E on this card<br>Whenever you roll a A, you may discard that die to double the E on this card<br>Whenever you roll a W, you may discard that die to gain the E buried on this card</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Venemous Vessel" src="assets/images/snake.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Sinuous Acolyte</div>
+    
+      <div class="line rule">Whenever you commit a triplet or quadruplet, you may manually rotate an uncomitted die to a any face.</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="14">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Oathbreaker</div>
+    
+      <div class="line rule">Whenever you would lose a tooth, instead you may:<br>* spend 5 E<br>or:<br>* incinerate this card</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Oathkeeper</div>
+    
+      <div class="line rule">Whenever you score a triplet, or quadruplet:<br>* gain 1Q<br>Whenever you score anything else, or score nothing:<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="15">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Solifactory Smith</div>
+    
+      <div class="line rule">Whenever you incinerate a card: gain 1E<br>If you score a hand of all E, or a hand of all &gt;= 4:<br>* gain 1Q</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Brawny Striker</div>
+    
+      <div class="line rule">On rolling an E, choose 2:<br>* lose 1 tooth<br>* spend 4E<br>* spend 2Q<br>* incinerate a card<br>to:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="16">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Lead Drinker</div>
+    
+      <div class="line rule">On committing a W die pair, you may gain W equal to the Potency.<br>Spend 1W to reroll uncomittted any die.<br>If, upon that reroll, you roll a 1 - lose a tooth</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Lead Drinker" src="assets/images/wine.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Bacchus Host</div>
+    
+      <div class="line rule">On scoring a hand with 2 or more W:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="17">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Noble Ghost-Writer</div>
+    
+      <div class="line rule">Whenever you incinerate a card: gain 1W<br>Once per hand, spend W to rotate a die one face over in either direction<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Pilfered Penname</div>
+    
+      <div class="line rule">On scoring a straight:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="18">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Gin-Soaked Gutter-Sweeper</div>
+    
+      <div class="line rule">Whenever you gain W, you may gain +1W<br>Once per hand, spend W to rotate 1 die to match another face that was rolled<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Dependable Tosspot</div>
+    
+      <div class="line rule">Spend 2 W to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="19">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Hollow-Bellied Saint</div>
+    
+      <div class="line rule">On rolling an W, you may discard that die, and gain W equal to the face&#x27;s value.<br>TODO</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Hollow-Bellied Saint" src="assets/images/soup?.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Starving Theologian</div>
+    
+      <div class="line rule">Spend 2 W to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="20">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Enthralling Eulogist</div>
+    
+      <div class="line rule">On rolling an W, you may discard that die, and gain W equal to the face&#x27;s value.<br>TODO</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Paid Mourner</div>
+    
+      <div class="line rule">Spend 6 W to:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="21">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Twofold Widow</div>
+    
+      <div class="line rule">Whenever you score a straight:<br>* TODO</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Twofold Widow" src="assets/images/veil.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Lethean Elder</div>
+    
+      <div class="line rule">Spend 2 W to score a hand twice</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="22">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Worm-Brained Absinthard</div>
+    
+      <div class="line rule">Whenever you score a straight:<br>* Bury 2 W on this card<br>Whenever you score a non-straight or nothing:<br>* Remove 1 W from this card</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Fairy-Chaser</div>
+    
+      <div class="line rule">Gain all W buried on this card.<br>If W is exactly 5:<br>* gain a tooth<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="23">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Hairshirt Bearer</div>
+    
+      <div class="line rule">When scoring, spend 1 A to:<br>* score a straight with 1 fewer dice than normal.<br>E.g.: 1,2 could score as a &#x27;3 straight&#x27;</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Fleabitten Penitent</div>
+    
+      <div class="line rule">Whenever you score a straight:<br>* gain 1 key<br>Whenever you score anything else, or score nothing:<br>* lose 1 tooth</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="24">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Epicurean Gourmand</div>
+    
+      <div class="line rule">After scoring a hand with one or more W, you must:<br>* incinerate a card<br>* and gain 2Q.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Gout-Ridden Glutton</div>
+    
+      <div class="line rule">If you have no uncomitted dice when scoring, choose 1:<br>* gain 2W<br>* lose all W and E tokens, incinerate this card, and gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="25">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Promethean Pyro</div>
+    
+      <div class="line rule">On rolling a A:<br>* If you have 1 empty card slot, gain W<br>* If you have 2 empty card slots, gain W and E<br>* If you have 3 empty card slots, gain W, E and F</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Promethean Pyro" src="assets/images/pyro.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Doomed Pandorite</div>
+    
+      <div class="line rule">On scoring a hand with a F:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="26">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Branded Protégé</div>
+    
+      <div class="line rule">Any time you discard a die, gain 1F<br>(you can discard any dice after rolling a hand, before scoring)<br>and<br>You may now send 2F to get 1Q</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Expendable Assistant</div>
+    
+      <div class="line rule">On scoring a hand with a F:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="27">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Academic Artillerist</div>
+    
+      <div class="line rule">Any time you gain F, you may gain +1F.<br>When scoring, you always choose before other players.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Craven Cannoneer</div>
+    
+      <div class="line rule">Spend 2 F to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="28">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Fire-Drake</div>
+    
+      <div class="line rule">On rolling an F, you may discard that die, and gain F equal to the face&#x27;s value.<br>Whenever a player incinerates a card, you may spend 2F to claim that card instead</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Powder Miller</div>
+    
+      <div class="line rule">Spend 2 F to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="29">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Fingerless Sapper</div>
+    
+      <div class="line rule">On rolling an F, you may discard that die, and gain F equal to the face&#x27;s value.<br>Once per round, you may spend F to reroll all uncomitted dice</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Powder Monkey</div>
+    
+      <div class="line rule">Spend 5 F to:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="30">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Short-Lived Brute</div>
+    
+      <div class="line rule">On rolling a W, you may bury a W on this card.<br>On rolling a F, you may bury a F on this card. <br>Incinerate this card: Gain E equal to whichever is lower: this card&#x27;s W or F.<br>(&#x27;None&#x27; is indeed &#x27;lower&#x27;)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Timeless Warrior-Poet</div>
+    
+      <div class="line rule">Whenever you incinerate a card: gain 1F<br>Spend 1F to uncommit a die</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="31">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Witch Drowner</div>
+    
+      <div class="line rule">Whenever you incinerate a card:<br>* gain 1Q</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Corrupted Inquisitor</div>
+    
+      <div class="line rule">At the end of a round, if you incinerated 2 or more cards:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="32">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Shunned Executioner</div>
+    
+      <div class="line rule">At the start of every turn:<br>* incinerate a card<br>* gain 1Q</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Bloodstained Recluse</div>
+    
+      <div class="line rule">On scoring a hand of all F, you may:<br>* incinerate all your cards (including this one)<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="33">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Mercurial Monomaniac</div>
+    
+      <div class="line rule">Whenever you incinerate a card, bury 1 F on this card.<br>If you have 5F on this card, incinerate it, and gain a key.<br>Spend 1 burried F on this card to rotate a die to any face</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Haunted Mind</div>
+    
+      <div class="line rule">On scoring a hand with an F:<br>* lose a tooth<br>to:<br>* force a player to lose a tooth</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="34">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Glass-Eyed Alchemist</div>
+    
+      <div class="line rule">TODO<br>Spend 1A to uncommit 2 dice</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Sun-Blinded Prismist</div>
+    
+      <div class="line rule">On scoring a hand with a A:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="35">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Tongueless Traitor</div>
+    
+      <div class="line rule">Whenever you swap a crystal or Potency, gain 2A<br><br>Once per hand, spend 1 W to rotate a die to any face<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Candid Jester</div>
+    
+      <div class="line rule">On scoring a hand with a A:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="36">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Persecuted Paranoiac</div>
+    
+      <div class="line rule">Whenever you gain A, you may gain +1A<br>Any time, spend F to ignore a bullet point on any card.</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Psychotic Christ</div>
+    
+      <div class="line rule">Spend 2 A to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="37">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Flayed Flagellant</div>
+    
+      <div class="line rule">On rolling an A, you may discard that die, and gain A equal to the face&#x27;s value.<br><br>Once per hand, spend 1 A to rotate a die to any face<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Lash-Blessed Monk</div>
+    
+      <div class="line rule">Spend 2 A to:<br>* gain 1 key<br>* incinerate this card</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="38">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Bodysnatcher</div>
+    
+      <div class="line rule">Whenever you incinerate a card: gain 1A<br>Spend 4A to claim the top card of the discard pile</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Overworked Gravedigger</div>
+    
+      <div class="line rule">Spend 5 A to:<br>* gain 1 key</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="39">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Mummy Grinder</div>
+    
+      <div class="line rule">Whenever you score an &#x27;x of a color&#x27;:<br>* bury 2Q on this card<br>Before a roll, you may spend 1 burried Q to fix a die value<br>On losing a tooth, if this card has 6 or more burried Q:<br>* Do not lose the tooth<br>* Incinerate the card</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Intrepid Archaeologist</div>
+    
+      <div class="line rule">When you gain W or F, convert all your A to E.<br>Whenever you would lose a tooth, you may instead pay 4 E</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="40">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Reliquary Larcenist</div>
+    
+      <div class="line rule">Whenever you score an 3 of a color:<br>* gain 3A<br>Whenever you score 4 of a color:<br>* gain 6A</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Finger-Bone Forager</div>
+    
+      <div class="line rule">During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="41">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Footnoted Scholar</div>
+    
+      <div class="line rule">On rolling a A or F, choose one:<br>* You gain 1 F<br>* An opponent loses 3 token of their choice</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Pedantic Pedagogue</div>
+    
+      <div class="line rule">On scoring a hand with all A or F:<br>* force a player to lose a tooth</div>
+    
+  </div>
+</div>
+            </div>
+          
+            <div data-card-index="42">
+              <div class="card game-card sandbox-card ">
+  <div class="text-block top">
+    <div class="line name">Shuar Headshrinker</div>
+    
+      <div class="line rule">Any time you commit a set of dice W:<br>* discard 1 die</div>
+    
+  </div>
+
+  <div class="art-area">
+    
+      <img class="art" alt="Shuar Headshrinker" src="assets/images/shrinker.png" />
+    
+  </div>
+
+  <div class="text-block bottom">
+    <div class="line name">Ayahuascite</div>
+    
+      <div class="line rule">Every time you manually rotate a die, bury 1A on this card.<br>Whenever you score nothing, you must gain all A burried on this card.<br>If you gain 5A, incinerate this card, and gain a key.</div>
+    
+  </div>
+</div>
+            </div>
+          
+        </div>
+      
+
+      <main class="play-area" id="play-area" aria-label="play area"></main>
+    </div>
+
+    <aside class="token-tracker" id="token-tracker">
+      <h2>tokens</h2>
+      <div class="token-row">
+        <label for="tok-earth">Earth</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="earth,-1" aria-label="Decrease Earth">−</button>
+          <input id="tok-earth" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="earth,1" aria-label="Increase Earth">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-water">Water</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="water,-1" aria-label="Decrease Water">−</button>
+          <input id="tok-water" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="water,1" aria-label="Increase Water">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-fire">Fire</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="fire,-1" aria-label="Decrease Fire">−</button>
+          <input id="tok-fire" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="fire,1" aria-label="Increase Fire">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-air">Air</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="air,-1" aria-label="Decrease Air">−</button>
+          <input id="tok-air" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="air,1" aria-label="Increase Air">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-quint">Quintessence</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="quintessence,-1" aria-label="Decrease Quintessence">−</button>
+          <input id="tok-quint" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="quintessence,1" aria-label="Increase Quintessence">+</button>
+        </div>
+      </div>
+      <hr class="token-divider" />
+      <div class="token-row">
+        <label for="tok-keys">Keys</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="keys,-1" aria-label="Decrease Keys">−</button>
+          <input id="tok-keys" type="number" value="0" min="0" step="1" />
+          <button type="button" data-token-delta="keys,1" aria-label="Increase Keys">+</button>
+        </div>
+      </div>
+      <div class="token-row">
+        <label for="tok-teeth">Teeth</label>
+        <div class="token-controls">
+          <button type="button" data-token-delta="teeth,-1" aria-label="Decrease Teeth">−</button>
+          <input id="tok-teeth" type="number" value="10" min="0" step="1" />
+          <button type="button" data-token-delta="teeth,1" aria-label="Increase Teeth">+</button>
+        </div>
+      </div>
+    </aside>
+
+    <script>
+      (function () {
+        const playArea = document.getElementById("play-area");
+        const pileSlot = document.getElementById("pile-slot");
+        const deckCountEl = document.getElementById("deck-count");
+        const shuffleBtn = document.getElementById("shuffle-btn");
+        const cardTemplates = document.getElementById("card-templates");
+        const tokenTracker = document.getElementById("token-tracker");
+        const CLICK_THRESHOLD_PX = 5;
+
+        const tokenInputs = {
+          earth: document.getElementById("tok-earth"),
+          water: document.getElementById("tok-water"),
+          fire: document.getElementById("tok-fire"),
+          air: document.getElementById("tok-air"),
+          quintessence: document.getElementById("tok-quint"),
+          keys: document.getElementById("tok-keys"),
+          teeth: document.getElementById("tok-teeth"),
+        };
+
+        function clampTokenValue(input) {
+          const n = parseInt(input.value, 10);
+          input.value = String(Number.isFinite(n) && n >= 0 ? n : 0);
+        }
+
+        tokenTracker.addEventListener("click", function (e) {
+          const btn = e.target.closest("[data-token-delta]");
+          if (!btn) return;
+          const [key, deltaStr] = btn.dataset.tokenDelta.split(",");
+          const input = tokenInputs[key];
+          if (!input) return;
+          const delta = parseInt(deltaStr, 10);
+          const next = Math.max(0, (parseInt(input.value, 10) || 0) + delta);
+          input.value = String(next);
+        });
+
+        Object.values(tokenInputs).forEach(function (input) {
+          input.addEventListener("change", function () {
+            clampTokenValue(input);
+          });
+        });
+
+        const cardCount = cardTemplates
+          ? cardTemplates.querySelectorAll("[data-card-index]").length
+          : 0;
+        let deck = [];
+
+        function shuffleArray(arr) {
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+          }
+          return arr;
+        }
+
+        function resetDeck() {
+          deck = [];
+          for (let i = 0; i < cardCount; i++) {
+            deck.push(i);
+          }
+          shuffleArray(deck);
+          updatePileUI();
+        }
+
+        function updatePileUI() {
+          if (!pileSlot) return;
+          const n = deck.length;
+          deckCountEl.textContent = String(n);
+          pileSlot.classList.toggle("is-empty", n === 0);
+          if (shuffleBtn) {
+            shuffleBtn.disabled = n === 0;
+          }
+        }
+
+        function cloneCard(index) {
+          const wrapper = cardTemplates.querySelector('[data-card-index="' + index + '"]');
+          const template = wrapper.querySelector(".sandbox-card");
+          const el = template.cloneNode(true);
+          el.dataset.cardIndex = String(index);
+          return el;
+        }
+
+        function isOverPile(clientX, clientY) {
+          if (!pileSlot) return false;
+          const rect = pileSlot.getBoundingClientRect();
+          return (
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom
+          );
+        }
+
+        if (cardCount > 0) {
+          resetDeck();
+        }
+
+        if (shuffleBtn) {
+          shuffleBtn.addEventListener("click", function () {
+            shuffleArray(deck);
+          });
+        }
+
+        let drag = null;
+
+        function playAreaPoint(clientX, clientY) {
+          const rect = playArea.getBoundingClientRect();
+          return {
+            x: clientX - rect.left,
+            y: clientY - rect.top,
+          };
+        }
+
+        function placeCard(el, x, y) {
+          const w = el.offsetWidth;
+          const h = el.offsetHeight;
+          const maxX = Math.max(0, playArea.clientWidth - w);
+          const maxY = Math.max(0, playArea.clientHeight - h);
+          el.style.left = Math.min(Math.max(0, x), maxX) + "px";
+          el.style.top = Math.min(Math.max(0, y), maxY) + "px";
+        }
+
+        function beginDrag(el, pointerId, clientX, clientY) {
+          const rect = el.getBoundingClientRect();
+          const offsetX = clientX - rect.left;
+          const offsetY = clientY - rect.top;
+
+          el.classList.add("is-dragging");
+          el.setPointerCapture(pointerId);
+
+          drag = {
+            el: el,
+            pointerId: pointerId,
+            offsetX: offsetX,
+            offsetY: offsetY,
+            startX: clientX,
+            startY: clientY,
+            moved: false,
+          };
+        }
+
+        function drawAndDrag(pointerId, clientX, clientY) {
+          if (deck.length === 0) return;
+
+          const index = deck.shift();
+          updatePileUI();
+
+          const el = cloneCard(index);
+          el.classList.add("placed-card");
+          playArea.appendChild(el);
+
+          const pt = playAreaPoint(clientX, clientY);
+          placeCard(el, pt.x - el.offsetWidth / 2, pt.y - el.offsetHeight / 2);
+          beginDrag(el, pointerId, clientX, clientY);
+          drag.moved = true;
+        }
+
+        function returnCardToDeck(el) {
+          const index = parseInt(el.dataset.cardIndex, 10);
+          if (!Number.isFinite(index)) return;
+          el.remove();
+          deck.push(index);
+          updatePileUI();
+        }
+
+        function onPointerDown(e) {
+          if (e.button !== 0) return;
+          if (tokenTracker.contains(e.target)) return;
+
+          if (pileSlot && pileSlot.contains(e.target) && deck.length > 0) {
+            e.preventDefault();
+            drawAndDrag(e.pointerId, e.clientX, e.clientY);
+            return;
+          }
+
+          const placedCard = e.target.closest(".play-area .placed-card");
+          if (placedCard) {
+            e.preventDefault();
+            beginDrag(placedCard, e.pointerId, e.clientX, e.clientY);
+          }
+        }
+
+        function onPointerMove(e) {
+          if (!drag || e.pointerId !== drag.pointerId) return;
+
+          const dx = e.clientX - drag.startX;
+          const dy = e.clientY - drag.startY;
+          if (!drag.moved && (Math.abs(dx) > CLICK_THRESHOLD_PX || Math.abs(dy) > CLICK_THRESHOLD_PX)) {
+            drag.moved = true;
+          }
+
+          if (pileSlot) {
+            pileSlot.classList.toggle("is-drop-target", isOverPile(e.clientX, e.clientY));
+          }
+
+          const areaRect = playArea.getBoundingClientRect();
+          const x = e.clientX - areaRect.left - drag.offsetX;
+          const y = e.clientY - areaRect.top - drag.offsetY;
+          placeCard(drag.el, x, y);
+        }
+
+        function onPointerUp(e) {
+          if (!drag || e.pointerId !== drag.pointerId) return;
+
+          const el = drag.el;
+          const overPile = isOverPile(e.clientX, e.clientY);
+          const wasClick = !drag.moved;
+
+          el.classList.remove("is-dragging");
+          if (pileSlot) {
+            pileSlot.classList.remove("is-drop-target");
+          }
+          try {
+            el.releasePointerCapture(drag.pointerId);
+          } catch (_) {}
+
+          if (overPile) {
+            returnCardToDeck(el);
+          } else if (wasClick) {
+            el.classList.toggle("is-flipped");
+          }
+
+          drag = null;
+        }
+
+        document.addEventListener("pointerdown", onPointerDown);
+        document.addEventListener("pointermove", onPointerMove);
+        document.addEventListener("pointerup", onPointerUp);
+        document.addEventListener("pointercancel", onPointerUp);
+      })();
+    </script>
+  </body>
+</html>

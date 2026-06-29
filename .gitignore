@@ -29,6 +29,7 @@ ENV/
 secrets.yml
 
 # Project outputs
-site/
+# Atomic download temps (e.g. .venus.png.tmp.1712345678)
+*.tmp.[0-9]*
 data/cache/
 assets/cache/
