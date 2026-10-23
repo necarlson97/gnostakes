@@ -1,0 +1,16 @@
+{
+ "name": "earth",
+ "doc": "Token economy: gain and spend earth.",
+ "features": {
+  "gain_E": 0.8,
+  "use_E": 0.8,
+  "crystal_E": 0.4,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "E": 1.6
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

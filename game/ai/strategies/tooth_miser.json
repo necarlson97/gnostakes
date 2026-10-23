@@ -1,0 +1,14 @@
+{
+ "name": "tooth_miser",
+ "doc": "Protects teeth and drags the game out.",
+ "features": {
+  "teeth_guard": 1.0,
+  "teeth": 0.8,
+  "teeth_cost": 0.5,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 2.0,
+ "cadre": 4
+}

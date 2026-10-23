@@ -1,0 +1,13 @@
+{
+ "name": "discarder",
+ "doc": "Discard engine: Branded Protégé, Pot-Licking Friar, Sinuous Acolyte, Spagyric Physician.",
+ "features": {
+  "discard_payoff": 1.0,
+  "dice_control": 0.3,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

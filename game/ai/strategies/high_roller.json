@@ -1,0 +1,22 @@
+{
+ "name": "high_roller",
+ "doc": "Chases the hardest sets (two requests each) and instant wins.",
+ "features": {
+  "win": 1.0,
+  "dice_control": 0.5,
+  "bonus_die": 0.5,
+  "straight": 0.3,
+  "kind": 0.3,
+  "color": 0.3,
+  "keys": 0.4
+ },
+ "sets": {
+  "straight": 1.4,
+  "kind": 1.4,
+  "color": 1.4,
+  "pairs": 0.8
+ },
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

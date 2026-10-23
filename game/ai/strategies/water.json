@@ -1,0 +1,16 @@
+{
+ "name": "water",
+ "doc": "Token economy: gain and spend water.",
+ "features": {
+  "gain_W": 0.8,
+  "use_W": 0.8,
+  "crystal_W": 0.4,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "W": 1.6
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

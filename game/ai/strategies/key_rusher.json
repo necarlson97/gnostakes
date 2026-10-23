@@ -1,0 +1,16 @@
+{
+ "name": "key_rusher",
+ "doc": "Cashes out for keys as fast as possible; doesn't build an engine.",
+ "features": {
+  "keys": 1.2,
+  "use_E": 0.2,
+  "use_W": 0.2,
+  "use_F": 0.2,
+  "use_A": 0.2,
+  "use_Q": 0.2
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 0.8,
+ "cadre": 4
+}

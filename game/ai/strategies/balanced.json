@@ -1,0 +1,15 @@
+{
+ "name": "balanced",
+ "doc": "No preference: takes whatever is strong. The adaptive bot's baseline.",
+ "features": {
+  "keys": 0.6,
+  "teeth_guard": 0.2,
+  "teeth": 0.2,
+  "dice_control": 0.2,
+  "bonus_die": 0.2
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

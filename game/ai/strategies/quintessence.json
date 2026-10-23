@@ -1,0 +1,15 @@
+{
+ "name": "quintessence",
+ "doc": "Token economy: gain and spend quintessence.",
+ "features": {
+  "gain_Q": 1.0,
+  "use_Q": 1.0,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "Q": 1.75
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

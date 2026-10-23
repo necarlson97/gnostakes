@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "print-and-play",
+      "runtimeExecutable": "print_and_play/env/Scripts/python.exe",
+      "runtimeArgs": ["-u", "-c", "import os,runpy; os.chdir('print_and_play'); import sys; sys.path.insert(0,'.'); runpy.run_module('tools.dev', run_name='__main__')"],
+      "port": 8000
+    }
+  ]
+}

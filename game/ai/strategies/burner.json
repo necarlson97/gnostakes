@@ -1,0 +1,13 @@
+{
+ "name": "burner",
+ "doc": "Incineration engine: cards that pay off when cards burn.",
+ "features": {
+  "burn_payoff": 1.0,
+  "burn_cost": 0.5,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

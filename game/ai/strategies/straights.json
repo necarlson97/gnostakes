@@ -1,0 +1,18 @@
+{
+ "name": "straights",
+ "doc": "Loves straights: Potency control, gap and short-straight rules.",
+ "features": {
+  "straight": 1.0,
+  "potency": 0.5,
+  "dice_control": 0.3,
+  "kind": -0.3,
+  "keys": 0.4
+ },
+ "sets": {
+  "straight": 1.6,
+  "kind": 0.6
+ },
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

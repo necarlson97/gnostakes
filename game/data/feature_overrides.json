@@ -1,0 +1,57 @@
+{
+ "_doc": "Hand corrections to tools/card_features.py output. Key: '<card id>.<top|inv>'. A value of 0 deletes the feature.",
+ "major_07.top": {
+  "gain_E": 0,
+  "gain_W": 0,
+  "gain_F": 0,
+  "gain_A": 0,
+  "crystal_A": 0.5,
+  "kind": 0.5,
+  "straight": 0.5,
+  "color": 0.5
+ },
+ "major_17.top": {
+  "bonus_die": 0,
+  "nothing": 0,
+  "use_Q": 1,
+  "dice_control": 1
+ },
+ "water_09.inv": {
+  "gain_E": 0,
+  "keys": 1
+ },
+ "fire_10.inv": {
+  "aggro": 0.5,
+  "teeth": 0,
+  "teeth_guard": 0.5
+ },
+ "fire_king.inv": {
+  "keys": 0.5
+ },
+ "air_prince.top": {
+  "burn_cost": 0.5,
+  "teeth_guard": 0.5
+ },
+ "major_03.inv": {
+  "straight": -0.5,
+  "kind": -0.5,
+  "pairs": -0.5,
+  "color": -0.5
+ },
+ "water_08.top": {
+  "straight": 1
+ },
+ "major_01.inv": {
+  "keys": 0,
+  "aggro": 1,
+  "teeth_guard": 0.5
+ },
+ "major_06.top": {
+  "teeth": 0,
+  "teeth_cost": -1
+ },
+ "fire_queen.inv": {
+  "teeth": 0,
+  "teeth_payoff": 1
+ }
+}

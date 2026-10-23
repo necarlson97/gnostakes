@@ -1,0 +1,27 @@
+{
+ "name": "economist",
+ "doc": "Uses every token type: wants income and sinks for all of them.",
+ "features": {
+  "gain_E": 0.4,
+  "gain_W": 0.4,
+  "gain_F": 0.4,
+  "gain_A": 0.4,
+  "gain_Q": 0.4,
+  "use_E": 0.4,
+  "use_W": 0.4,
+  "use_F": 0.4,
+  "use_A": 0.4,
+  "use_Q": 0.4,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "E": 1.25,
+  "W": 1.25,
+  "F": 1.25,
+  "A": 1.25,
+  "Q": 1.25
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

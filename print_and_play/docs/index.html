@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - index</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; margin: 24px; }
+      header { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+      .muted { color: #666; }
+      nav { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+      nav a { display: inline-block; padding: 8px 10px; border: 1px solid #ddd; border-radius: 10px; text-decoration: none; }
+      nav a:hover { border-color: #bbb; }
+      table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+      th, td { border-bottom: 1px solid #eee; padding: 8px 10px; text-align: left; vertical-align: top; }
+      th { position: sticky; top: 0; background: #fff; }
+      code { background: #f6f6f6; padding: 1px 4px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 style="margin:0;">gnostakes</h1>
+      <div class="muted">rendered from Google Sheets → Jinja2</div>
+    </header>
+
+    <nav>
+      <a href="./game_cards.html"><strong>game cards</strong></a>
+      <a href="./tarot_cards.html"><strong>tarot cards</strong></a>
+      <a href="./digital_sandbox.html"><strong>digital sandbox</strong></a>
+    </nav>
+
+    <p class="muted">Cards loaded: <strong>83</strong></p>
+
+    
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>art</th>
+            <th>rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td>Hollowhead</td>
+              <td><code>jester</code></td>
+              <td style="white-space: pre-wrap;">When you gain a key:<br>if you have only 2 other active cards: gain an additional key.</td>
+            </tr>
+          
+            <tr>
+              <td>Knower of True Names</td>
+              <td><code>magician</code></td>
+              <td style="white-space: pre-wrap;">Any time you score a set without F: bury a W on this card.<br>On Scheme start, if there is W buried:<br>you must swap in a W crystal, then unbury all W on this card.</td>
+            </tr>
+          
+            <tr>
+              <td>Mooncalf Mother</td>
+              <td><code>mother</code></td>
+              <td style="white-space: pre-wrap;">Once per roll, you may discard a die to rotate a die to any face.</td>
+            </tr>
+          
+            <tr>
+              <td>Gargoyle Mother</td>
+              <td><code>gargoyle</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you only need to commit/discard 4 dice per roll.</td>
+            </tr>
+          
+            <tr>
+              <td>Incorruptible Judge</td>
+              <td><code>judge</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you get a bonus die that is all E<br>Any time you score a set without E:<br>convert all of a non-E token to E<br>If you get 0 non-E tokens: lose a tooth</td>
+            </tr>
+          
+            <tr>
+              <td>Plate-Plundering Deacon</td>
+              <td><code>deacon</code></td>
+              <td style="white-space: pre-wrap;">Whenever you claim a card, you may spend 2Q to claim any other.<br>(this claim automatically loses against wagers)</td>
+            </tr>
+          
+            <tr>
+              <td>Doomed Romantic</td>
+              <td><code>skele</code></td>
+              <td style="white-space: pre-wrap;">When you incinerate this card:<br>swap tooth count with another player then lose 1 tooth</td>
+            </tr>
+          
+            <tr>
+              <td>Promising Pugilist</td>
+              <td><code>boxer</code></td>
+              <td style="white-space: pre-wrap;">Choose one of the following scoring sets:<br>Quadruplet (bury E), Five Straight (bury W),<br>Five of a Color(bury F),  Four Air (bury A)<br>When you score that set:<br>gain a key and if you have &gt;1 tooth lose a tooth</td>
+            </tr>
+          
+            <tr>
+              <td>Hard-Weathered Quarryman</td>
+              <td><code>quarryman</code></td>
+              <td style="white-space: pre-wrap;">On Scheme start, you may spend 1A to swap in a 6 for any Potency</td>
+            </tr>
+          
+            <tr>
+              <td>Pillar-top Hermit</td>
+              <td><code>pillar</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you get a bonus die that is all 6s.<br>Whenever you would gain tokens, gain 1 less</td>
+            </tr>
+          
+            <tr>
+              <td>Barefoot Pilgrim</td>
+              <td><code>marooned</code></td>
+              <td style="white-space: pre-wrap;">On Scheme start: incinerate this card to:<br>permanently gain another elemental die, starting with only W faces</td>
+            </tr>
+          
+            <tr>
+              <td>Clamp-Turning Examiner</td>
+              <td><code>inquisitor</code></td>
+              <td style="white-space: pre-wrap;">Relinquish this card, attaching it to an opponent&#x27;s card.<br>When the attached card is incinerated, this card is incinerated too.<br>Whenever they gain a new card, you may choose to incinerate<br>the new card and Clamp-Turning Examiner.</td>
+            </tr>
+          
+            <tr>
+              <td>Self-Sacrificant</td>
+              <td><code>hanged</code></td>
+              <td style="white-space: pre-wrap;">Whenever you are allowed to make a swap, you may instead:<br>pay 3 of any one token color to gain 1 key</td>
+            </tr>
+          
+            <tr>
+              <td>Toothless Grinner</td>
+              <td><code>pauper</code></td>
+              <td style="white-space: pre-wrap;">When a card reads &quot;or&quot;, you may spend 2Q to substitute &quot;and&quot;</td>
+            </tr>
+          
+            <tr>
+              <td>Binger</td>
+              <td><code>binge</code></td>
+              <td style="white-space: pre-wrap;">You can now score straights with a one gap of 1<br>(E.g., 1,2,4 scores as a Three Straight)</td>
+            </tr>
+          
+            <tr>
+              <td>Pact Proctor</td>
+              <td><code>devil</code></td>
+              <td style="white-space: pre-wrap;">Spend 2Q and lose one tooth to resurrect any incinerated card</td>
+            </tr>
+          
+            <tr>
+              <td>Faustian Scholar</td>
+              <td><code>faust</code></td>
+              <td style="white-space: pre-wrap;">Spend 1 tooth to lay this card upside down:<br>it permanently becomes a new empty card slot</td>
+            </tr>
+          
+            <tr>
+              <td>Silent Companion</td>
+              <td><code>nun</code></td>
+              <td style="white-space: pre-wrap;">On Scheme start: you may spend 2Q to<br>replace an elemental face with Q - which can be counted as any color</td>
+            </tr>
+          
+            <tr>
+              <td>Sane Sorrowful</td>
+              <td><code>insane</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you get a bonus die of all W<br>Any time you commit one or more W dice: discard 1 die</td>
+            </tr>
+          
+            <tr>
+              <td>Reservoir of Sunshine</td>
+              <td><code>homunculus</code></td>
+              <td style="white-space: pre-wrap;">You may discard a die and spend 1Q to bury any token on any card</td>
+            </tr>
+          
+            <tr>
+              <td>Wailing Confessor</td>
+              <td><code>accused</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you get a bonus die of all A<br>Any time you score a set without A:<br>if you have more teeth than discarded dice, lose a tooth</td>
+            </tr>
+          
+            <tr>
+              <td>Mocking Recluse</td>
+              <td><code>jar</code></td>
+              <td style="white-space: pre-wrap;">When you incinerate this, gain a face of any color.<br>During Scheme, you may swap it in.</td>
+            </tr>
+          
+            <tr>
+              <td>Primed Pomologist</td>
+              <td><code>cider</code></td>
+              <td style="white-space: pre-wrap;">On Scry start, look at the highest Potency among discarded dice:<br>gain that many E.<br>If it is 6+, you may instead gain 2Q.</td>
+            </tr>
+          
+            <tr>
+              <td>Passive Puffer</td>
+              <td><code>glassblower</code></td>
+              <td style="white-space: pre-wrap;">Whenever you commit 5 or more dice at once,<br>you may uncommit another die.<br><br>On Scheme start, you may increase a Potency by +1</td>
+            </tr>
+          
+            <tr>
+              <td>Alembic Servitor</td>
+              <td><code>burner</code></td>
+              <td style="white-space: pre-wrap;">While this is active, you get a bonus die that must remain empty,<br>(can&#x27;t really score - but it can be committed, discarded, etc)</td>
+            </tr>
+          
+            <tr>
+              <td>Bezoar Seeker</td>
+              <td><code>shepard</code></td>
+              <td style="white-space: pre-wrap;">On rolling an E, you may discard a Potency die to gain E equal to that Potency.<br><br>On rolling a W, F or A, you may spend 1 E<br>to rotate a ready die one face over in either direction.</td>
+            </tr>
+          
+            <tr>
+              <td>Reeking Husk</td>
+              <td><code>leper</code></td>
+              <td style="white-space: pre-wrap;">On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency<br><br>On rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency</td>
+            </tr>
+          
+            <tr>
+              <td>Shrewd Quaker</td>
+              <td><code>quaker</code></td>
+              <td style="white-space: pre-wrap;">On Scheme start, you may decrease a Potency by -1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>you may spend 3E to get 2F or 2A</td>
+            </tr>
+          
+            <tr>
+              <td>Perennial Pruner</td>
+              <td><code>venus fly</code></td>
+              <td style="white-space: pre-wrap;">On Swig start, you may spend 2E to rotate and commit a ready die.<br><br>Whenever you win a wager, gain a tooth.</td>
+            </tr>
+          
+            <tr>
+              <td>Venomous Vessel</td>
+              <td><code>snake</code></td>
+              <td style="white-space: pre-wrap;">Whenever you roll an E, discard that die to bury 1E on this card<br>Whenever you roll two As, discard those dice to double the E on this card<br>Whenever you roll a W, discard that die to gain the E buried on this card</td>
+            </tr>
+          
+            <tr>
+              <td>Oathbreaker</td>
+              <td><code>oath</code></td>
+              <td style="white-space: pre-wrap;">Whenever you would lose a tooth, instead you may:<br>spend 5E or incinerate this card</td>
+            </tr>
+          
+            <tr>
+              <td>Solifactory Smith</td>
+              <td><code>blacksmith</code></td>
+              <td style="white-space: pre-wrap;">Whenever you incinerate a card: gain 1E<br><br>If you score a set of all E, or a set of all &gt;= 4: gain 1Q</td>
+            </tr>
+          
+            <tr>
+              <td>Hopeful Sower</td>
+              <td><code>grain</code></td>
+              <td style="white-space: pre-wrap;">Whenever you score Two Color-Pairs, Triplet, or Quadruplet, choose one:<br>* gain 2E<br>* bury one of any token type on any card</td>
+            </tr>
+          
+            <tr>
+              <td>The Tallyman</td>
+              <td><code>abacus</code></td>
+              <td style="white-space: pre-wrap;">Bury a Potency die on The Tallyman, starting on 1.<br>Whenever you incinerate a card, increment that die.<br>When the die reaches 6 - you get that die as a bonus Potency die,<br>as long as Tallyman remains active.</td>
+            </tr>
+          
+            <tr>
+              <td>Spagyric Physician</td>
+              <td><code>arsnice</code></td>
+              <td style="white-space: pre-wrap;">Whenever you discard an Elemental die, bury 1 token matching its face&#x27;s element on this card.<br>Whenever you score Triplet or Quadruplet gain this card&#x27;s buried tokens.</td>
+            </tr>
+          
+            <tr>
+              <td>Iatrochemist</td>
+              <td><code>powder</code></td>
+              <td style="white-space: pre-wrap;">If you commit 7 dice at once, you may bury an E on this card.<br>Spend 1E buried on this card to rotate a committed die to any face.</td>
+            </tr>
+          
+            <tr>
+              <td>Lead Drinker</td>
+              <td><code>wine</code></td>
+              <td style="white-space: pre-wrap;">On committing two W, you may discard a Potency die<br>to gain W equal to that Potency.<br><br>Spend 1W to take a discarded die, undiscard it and reroll.<br>If that die rolls 1: lose a tooth</td>
+            </tr>
+          
+            <tr>
+              <td>Noble Ghostwriter</td>
+              <td><code>ghostwriter</code></td>
+              <td style="white-space: pre-wrap;">Whenever you incinerate a card: gain 1W<br>Once per round, spend W to rotate a die one face over in either direction<br>(this does trigger another &#x27;on roll&#x27; to the new face)</td>
+            </tr>
+          
+            <tr>
+              <td>Gin-Soaked Gutter-Sweeper</td>
+              <td><code>gin</code></td>
+              <td style="white-space: pre-wrap;">Whenever you gain W, you may gain +1W<br>Once per round, spend W to rotate 1 die to match another face that was rolled<br>(this does trigger another &#x27;on roll&#x27; to the new face)</td>
+            </tr>
+          
+            <tr>
+              <td>Hollow-Bellied Saint</td>
+              <td><code>soup</code></td>
+              <td style="white-space: pre-wrap;">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</td>
+            </tr>
+          
+            <tr>
+              <td>Enthralling Eulogist</td>
+              <td><code>mourn</code></td>
+              <td style="white-space: pre-wrap;">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</td>
+            </tr>
+          
+            <tr>
+              <td>Twofold Widow</td>
+              <td><code>veil</code></td>
+              <td style="white-space: pre-wrap;">Whenever you score a straight: bury 1E on this card<br>During Scheme, you may spend 1E on this card<br>to swap in an E for any face</td>
+            </tr>
+          
+            <tr>
+              <td>Worm-Brained Absinthard</td>
+              <td><code>fairy</code></td>
+              <td style="white-space: pre-wrap;">Whenever you score a straight:<br>* Bury 2 W on this card<br>Whenever you score a non-straight or nothing:<br>* Remove 1 W from this card</td>
+            </tr>
+          
+            <tr>
+              <td>Hairshirt Bearer</td>
+              <td><code>hairshirt</code></td>
+              <td style="white-space: pre-wrap;">When scoring, spend 1 A to:<br>score a straight with 1 fewer dice than normal.<br>E.g.: 1,2 could score as Three straight</td>
+            </tr>
+          
+            <tr>
+              <td>Epicurean Gourmand</td>
+              <td><code>gout</code></td>
+              <td style="white-space: pre-wrap;">After scoring a set with one or more W, you must:<br>* incinerate a card<br>* and gain 2Q.</td>
+            </tr>
+          
+            <tr>
+              <td>Leech Catcher</td>
+              <td><code>leech</code></td>
+              <td style="white-space: pre-wrap;">On Swig start, you may incinerate a card. If you do:<br>* Bury 3 F on this card<br>* During this Swig, you may expend buried F to undiscard dice<br>(or save it to expend next round)</td>
+            </tr>
+          
+            <tr>
+              <td>Nubile Nymph</td>
+              <td><code>virgin</code></td>
+              <td style="white-space: pre-wrap;">Whenever you could score a Four or Five Straight, you may instead:<br>* Uncommit a die<br>* Bury 1W on this card<br>If you have 3W on this card: incinerate it and gain 1 key</td>
+            </tr>
+          
+            <tr>
+              <td>Orgasmic Musician</td>
+              <td><code>music</code></td>
+              <td style="white-space: pre-wrap;">On Scheme start, you may increase a Potency by +1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>bury a W on this card.<br>Spend 1 buried W to uncommit a die.</td>
+            </tr>
+          
+            <tr>
+              <td>Broken Martyr</td>
+              <td><code>tar</code></td>
+              <td style="white-space: pre-wrap;">On Scry start: lose a tooth, then, gain a tooth<br>On Scheme start, you may increase a Potency by +1</td>
+            </tr>
+          
+            <tr>
+              <td>Sulfurous Sage</td>
+              <td><code>socratic</code></td>
+              <td style="white-space: pre-wrap;">When you score All Colors, if you have 0 of any E,W,F or A:<br>gain 1 of each E,W,F and A</td>
+            </tr>
+          
+            <tr>
+              <td>Promethean Pyro</td>
+              <td><code>pyro</code></td>
+              <td style="white-space: pre-wrap;">On rolling an A:<br>* If you have 1 empty card slot, gain W<br>* If you have 2 empty card slots, gain W and E<br>* If you have 3 empty card slots, gain W, E and F</td>
+            </tr>
+          
+            <tr>
+              <td>Branded Protégé</td>
+              <td><code>branded</code></td>
+              <td style="white-space: pre-wrap;">Whenever you discard a die, gain 1F.<br><br>You may now spend 2F to get 1Q.</td>
+            </tr>
+          
+            <tr>
+              <td>Academic Artillerist</td>
+              <td><code>cannonneer</code></td>
+              <td style="white-space: pre-wrap;">Any time you gain F, you may gain +1F.<br>When scoring, you always choose before other players.</td>
+            </tr>
+          
+            <tr>
+              <td>Fire-Drake</td>
+              <td><code>miller</code></td>
+              <td style="white-space: pre-wrap;">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Whenever a player incinerates a card, you may spend 2F to claim that card instead</td>
+            </tr>
+          
+            <tr>
+              <td>Fingerless Sapper</td>
+              <td><code>sapper</code></td>
+              <td style="white-space: pre-wrap;">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Once per round, you may spend 2F to undiscard all discarded dice</td>
+            </tr>
+          
+            <tr>
+              <td>Short-Lived Brute</td>
+              <td><code>warrior</code></td>
+              <td style="white-space: pre-wrap;">On rolling a W, you may bury a W on this card.<br>On rolling a F, you may bury a F on this card. <br>Incinerate this card: Gain E equal to whichever is lower: this card&#x27;s W or F.<br>(&#x27;None&#x27; is indeed &#x27;lower&#x27;)</td>
+            </tr>
+          
+            <tr>
+              <td>Witch Drowner</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you incinerate a card: gain 1Q<br>On Scheme start, you may decrease a Potency by -1</td>
+            </tr>
+          
+            <tr>
+              <td>Furnace Keeper</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">On rolling an F, you may incinerate a card to gain 2 F<br>On Scheme start, you may increase a Potency by +1</td>
+            </tr>
+          
+            <tr>
+              <td>Shunned Executioner</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">On Scheme start: incinerate a card and gain 1Q</td>
+            </tr>
+          
+            <tr>
+              <td>Covert Degenerate</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Spend 1F to: Uncommit a die<br>Spend 2E to: Rotate a die to any face, once per round<br>On Scheme start, you may increase a Potency by +1</td>
+            </tr>
+          
+            <tr>
+              <td>Closeted Apostate</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you perform an italicized section of a card, gain 1F<br>On Scheme start, you may decrease a Potency by -1</td>
+            </tr>
+          
+            <tr>
+              <td>Strawman</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">While this is active, replace all italicized sections on your cards with:<br>spend 1A - if you cannot, lose two teeth</td>
+            </tr>
+          
+            <tr>
+              <td>Epileptic Metallurgist</td>
+              <td><code>assayer</code></td>
+              <td style="white-space: pre-wrap;">Any time you gain A, or F, you may gain one more<br>On Scheme start, you may decrease a Potency by -1</td>
+            </tr>
+          
+            <tr>
+              <td>Unshakable Empiricist</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains a key, they gain a tooth instead.<br>When the attached card is incinerated, this card is incinerated too.</td>
+            </tr>
+          
+            <tr>
+              <td>Glass-Eyed Alchemist</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">If you score nothing, gain A equal to your highest discarded Potency.<br>Spend 1A to uncommit 2 dice.</td>
+            </tr>
+          
+            <tr>
+              <td>Tongueless Traitor</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you swap a crystal or Potency, gain 2A<br>Once per round, spend 1 W to rotate a die to any face<br>(this does trigger another &#x27;on roll&#x27; to the new face)</td>
+            </tr>
+          
+            <tr>
+              <td>Persecuted Paranoiac</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you gain A, you may gain +1A.<br><br>Spend 1F to incinerate and redraw a villager in the Town Square.</td>
+            </tr>
+          
+            <tr>
+              <td>Flayed Flagellant</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>Once per round, spend 1 A to rotate a die to any face.</td>
+            </tr>
+          
+            <tr>
+              <td>Bodysnatcher</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you incinerate a card: gain 1A.<br><br>Spend 4A to claim the top card of the discard pile.</td>
+            </tr>
+          
+            <tr>
+              <td>Mummy Grinder</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you score an &#x27;x of a color&#x27;: bury 2A on this card<br>On Swig start, you may spend 1 buried A<br>to rotate and commit a die.<br>On losing a tooth, if this card has 6 or more buried A:<br>Do not lose the tooth and Incinerate this card.</td>
+            </tr>
+          
+            <tr>
+              <td>Reliquary Larcenist</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you score Four of a Color: gain 3A<br>Whenever you score Five of a Color: gain 6A</td>
+            </tr>
+          
+            <tr>
+              <td>Footnoted Scholar</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">On scoring a set with F, choose one:<br>* You gain 1 F<br>* An opponent loses 3 tokens of their choice</td>
+            </tr>
+          
+            <tr>
+              <td>Shuar Headshrinker</td>
+              <td><code>shrinker</code></td>
+              <td style="white-space: pre-wrap;">Relinquish this card, attaching it to an opponent&#x27;s card.<br>On Scheme start, that opponent loses 1 tooth.<br>When the attached card is incinerated, this card is incinerated too.</td>
+            </tr>
+          
+            <tr>
+              <td>Mercurial Monomaniac</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever you incinerate a card, bury 1 F on this card.<br>If you have 5F on this card, incinerate it, and gain a key.<br>Spend 1 buried F on this card to rotate a die to any face</td>
+            </tr>
+          
+            <tr>
+              <td>Driveling Chemist</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">On scheme start, if you have the fewest keys, gain an E, W, F and A</td>
+            </tr>
+          
+            <tr>
+              <td>Autoerotic Anesthetist</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">When performing an italic section of any card,<br>you may substitute it with incinerate Autoerotic Anesthetist</td>
+            </tr>
+          
+            <tr>
+              <td>Placenta Purloiner</td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;">Whenever another player loses a tooth, bury 1Q here.<br>On Scheme start, spend 2 buried Q to regain a tooth.</td>
+            </tr>
+          
+            <tr>
+              <td>Dubious Demonologist</td>
+              <td><code>gagged</code></td>
+              <td style="white-space: pre-wrap;">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;"></td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><code></code></td>
+              <td style="white-space: pre-wrap;"></td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><code>Extra Art</code></td>
+              <td style="white-space: pre-wrap;"></td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><code>coins</code></td>
+              <td style="white-space: pre-wrap;"></td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><code>sword boy</code></td>
+              <td style="white-space: pre-wrap;"></td>
+            </tr>
+          
+        </tbody>
+      </table>
+    
+  </body>
+</html>

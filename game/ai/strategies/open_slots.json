@@ -1,0 +1,13 @@
+{
+ "name": "open_slots",
+ "doc": "Keeps a small cadre: Hollowhead, Promethean Pyro, Faustian Scholar.",
+ "features": {
+  "open_slots": 1.2,
+  "keys": 0.6,
+  "burn_cost": 0.3
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 2
+}

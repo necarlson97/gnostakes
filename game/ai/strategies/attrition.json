@@ -1,0 +1,14 @@
+{
+ "name": "attrition",
+ "doc": "Gets ahead, then burns teeth to end the game (Putrescence) while leading.",
+ "features": {
+  "keys": 0.8,
+  "aggro": 0.6,
+  "teeth": -0.3,
+  "teeth_payoff": 0.5
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 0.4,
+ "cadre": 4
+}

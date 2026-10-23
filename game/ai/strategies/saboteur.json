@@ -1,0 +1,14 @@
+{
+ "name": "saboteur",
+ "doc": "Hurts opponents: relinquished curses and tooth attacks.",
+ "features": {
+  "aggro": 1.0,
+  "relinquish": 0.8,
+  "teeth_guard": 0.4,
+  "keys": 0.3
+ },
+ "sets": {},
+ "tokens": {},
+ "teeth": 0.7,
+ "cadre": 4
+}

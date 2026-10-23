@@ -1,0 +1,1699 @@
+[
+ {
+  "id": "major_00",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Fool",
+  "name": "Hollowhead",
+  "rule": "When you gain a key:\nif you have only 2 other active cards: gain an additional key.",
+  "inv_name": "God-Struck Fool",
+  "inv_rule": "While this is active, you get a bonus die that is all 1s.\nOn Scry, if you did not score any Potency dice: incinerate this card.",
+  "features": {
+   "top": {
+    "keys": 1.0,
+    "open_slots": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "nothing": -1.0
+   }
+  }
+ },
+ {
+  "id": "major_01",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Magician",
+  "name": "Knower of True Names",
+  "rule": "Any time you score a set without F: bury a W on this card.\nOn Scheme start, if there is W buried:\nyou must swap in a W crystal, then unbury all W on this card.",
+  "inv_name": "Lockpicking Archon",
+  "inv_rule": "Relinquish this card, attaching it to any players card.\nWhen the attached card is incinerated, this card is incinerated too.\nThat player cannot lose teeth, and cannot gain keys.",
+  "features": {
+   "top": {
+    "crystal_F": -1.0,
+    "dice_control": 1.0,
+    "gain_W": 2.0
+   },
+   "inv": {
+    "aggro": 1,
+    "relinquish": 1.0,
+    "teeth_guard": 0.5
+   }
+  }
+ },
+ {
+  "id": "major_02",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The High Priestess",
+  "name": "Mooncalf Mother",
+  "rule": "Once per roll, you may discard a die to rotate a die to any face.",
+  "inv_name": "Carrier of the Droplet",
+  "inv_rule": "At any time, you may spend 3W to invert a card.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "discard_payoff": 1.0
+   },
+   "inv": {
+    "use_W": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_03",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Empress",
+  "name": "Gargoyle Mother",
+  "rule": "While this is active, you only need to commit/discard 4 dice per roll.",
+  "inv_name": "Famed Freemason",
+  "inv_rule": "While this is active, you get a bonus Potency die.\nYou cannot score:\nThree Straight, Two Color-Pairs, Triplet, Four of a Color.",
+  "features": {
+   "top": {
+    "dice_control": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "color": -0.5,
+    "kind": -0.5,
+    "pairs": -0.5,
+    "straight": -0.5
+   }
+  }
+ },
+ {
+  "id": "major_04",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Emperor",
+  "name": "Incorruptible Judge",
+  "rule": "While this is active, you get a bonus die that is all E\nAny time you score a set without E:\nconvert all of a non-E token to E\nIf you get 0 non-E tokens: lose a tooth",
+  "inv_name": "Hardnosed Idealist",
+  "inv_rule": "On Scheme start, incinerate this card to:\nchoose a die, swap all its crystals for a single color of your choice.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0,
+    "gain_E": 3.0,
+    "teeth": -1.0
+   },
+   "inv": {
+    "dice_control": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_05",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Priest",
+  "name": "Plate-Plundering Deacon",
+  "rule": "Whenever you claim a card, you may spend 2Q to claim any other.\n(this claim automatically loses against wagers)",
+  "inv_name": "Pious Parishioner",
+  "inv_rule": "If you incinerate two cards in a single round:\ngain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "use_Q": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_06",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Lovers",
+  "name": "Doomed Romantic",
+  "rule": "When you incinerate this card:\nswap tooth count with another player then lose 1 tooth",
+  "inv_name": "Kismet Syzygyst",
+  "inv_rule": "On Scheme start: incinerate this card to:\npermanently gain another elemental die, starting with only F faces",
+  "features": {
+   "top": {
+    "teeth_cost": -1
+   },
+   "inv": {
+    "bonus_die": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_07",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Chariot",
+  "name": "Promising Pugilist",
+  "rule": "Choose one of the following scoring sets:\nQuadruplet (bury E), Five Straight (bury W),\nFive of a Color(bury F),  Four Air (bury A)\nWhen you score that set:\ngain a key and if you have >1 tooth lose a tooth",
+  "inv_name": "Bruised Boxer",
+  "inv_rule": "Whenever you would lose a tooth, instead you may:\nspend all tokens of 1 type and incinerate two other cards",
+  "features": {
+   "top": {
+    "color": 0.5,
+    "crystal_A": 0.5,
+    "keys": 1.0,
+    "kind": 0.5,
+    "straight": 0.5,
+    "teeth": -1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "teeth_guard": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_08",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Strength",
+  "name": "Hard-Weathered Quarryman",
+  "rule": "On Scheme start, you may spend 1A to swap in a 6 for any Potency",
+  "inv_name": "Stonefaced Stoic",
+  "inv_rule": "Whenever you would lose a tooth,\nbury it on this card instead.\nIf 3 teeth are buried here, incinerate this and lose all 3.\nIf this card is incinerated by another card, you get them all back.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "potency": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "teeth": 1.0,
+    "teeth_guard": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_09",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Hermit",
+  "name": "Pillar-top Hermit",
+  "rule": "While this is active, you get a bonus die that is all 6s.\nWhenever you would gain tokens, gain 1 less",
+  "inv_name": "Bird-Fouled Hagia",
+  "inv_rule": "On Scheme Start, bury 1Q here.\nWhenever you gain Q from anything else, gain all Q buried here.\nIf 5 or more Q are buried here, incinerate this card and gain 1 key.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0
+   },
+   "inv": {
+    "gain_Q": 3.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_10",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Wheel of Fortune",
+  "name": "Barefoot Pilgrim",
+  "rule": "On Scheme start: incinerate this card to:\npermanently gain another elemental die, starting with only W faces",
+  "inv_name": "Marooned Wanderer",
+  "inv_rule": "Whenever you incinerate a card, you may:\nspend 1Q to draw and claim the top card.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "use_Q": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_11",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Justice",
+  "name": "Clamp-Turning Examiner",
+  "rule": "Relinquish this card, attaching it to an opponent's card.\nWhen the attached card is incinerated, this card is incinerated too.\nWhenever they gain a new card, you may choose to incinerate\nthe new card and Clamp-Turning Examiner.",
+  "inv_name": "Confessional Magistrate",
+  "inv_rule": "On Scheme start, you may swap any two faces on your dice.",
+  "features": {
+   "top": {
+    "relinquish": 1.0
+   },
+   "inv": {
+    "dice_control": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_12",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Hanged Man",
+  "name": "Self-Sacrificant",
+  "rule": "Whenever you are allowed to make a swap, you may instead:\npay 3 of any one token color to gain 1 key",
+  "inv_name": "Post-Fate Oblate",
+  "inv_rule": "You can now score Four Air with four fire faces",
+  "features": {
+   "top": {
+    "keys": 1.0
+   },
+   "inv": {
+    "color": 1.0,
+    "crystal_A": 1.0,
+    "crystal_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_13",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Death",
+  "name": "Toothless Grinner",
+  "rule": "When a card reads \"or\", you may spend 2Q to substitute \"and\"",
+  "inv_name": "Corpse-Like Pauper",
+  "inv_rule": "On Scheme start, you may replace a 1 with a 9 on a Potency die",
+  "features": {
+   "top": {
+    "use_Q": 1.0
+   },
+   "inv": {
+    "potency": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_14",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Temperance",
+  "name": "Binger",
+  "rule": "You can now score straights with a one gap of 1\n(E.g., 1,2,4 scores as a Three Straight)",
+  "inv_name": "Purger",
+  "inv_rule": "On Scheme start, you may decrease a Potency by -1\nWhenever an opponent claims a card, you may:\nlose a tooth and incinerate this card\nto claim that card yourself instead",
+  "features": {
+   "top": {
+    "straight": 1.0
+   },
+   "inv": {
+    "potency": 1.0,
+    "teeth_cost": -1.0
+   }
+  }
+ },
+ {
+  "id": "major_15",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Devil",
+  "name": "Pact Proctor",
+  "rule": "Spend 2Q and lose one tooth to resurrect any incinerated card",
+  "inv_name": "Wrathful Sovern",
+  "inv_rule": "Whenever an opponent loses a tooth,\nyou may spend 3F to gain a key",
+  "features": {
+   "top": {
+    "teeth_cost": -1.0,
+    "use_Q": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "keys": 1.0,
+    "use_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_16",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Power",
+  "name": "Faustian Scholar",
+  "rule": "Spend 1 tooth to lay this card upside down:\nit permanently becomes a new empty card slot",
+  "inv_name": "Tumorous Magi",
+  "inv_rule": "Spend 1Q and lose a tooth and incinerate this card\nto permanently gain another Potency die.",
+  "features": {
+   "top": {
+    "open_slots": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "teeth_cost": -1.0,
+    "use_Q": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_17",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Star",
+  "name": "Silent Companion",
+  "rule": "On Scheme start: you may spend 2Q to\nreplace an elemental face with Q - which can be counted as any color",
+  "inv_name": "Patient Confidant",
+  "inv_rule": "On rolling an E, you may rotate it to a W\nOn rolling a W, you may rotate it to an E",
+  "features": {
+   "top": {
+    "dice_control": 1,
+    "use_Q": 1
+   },
+   "inv": {
+    "crystal_E": 2.0,
+    "crystal_W": 2.0,
+    "dice_control": 2.0
+   }
+  }
+ },
+ {
+  "id": "major_18",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Moon",
+  "name": "Sane Sorrowful",
+  "rule": "While this is active, you get a bonus die of all W\nAny time you commit one or more W dice: discard 1 die",
+  "inv_name": "Insane Incandescent",
+  "inv_rule": "While you have this active, you get a bonus die that starts empty.\n(empty faces don't really score - but can be committed, discarded, etc)\n\nAll players now require one extra key to win.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_19",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The Sun",
+  "name": "Reservoir of Sunshine",
+  "rule": "You may discard a die and spend 1Q to bury any token on any card",
+  "inv_name": "Beloved Homunculus",
+  "inv_rule": "On Scheme start, choose one of your dice:\nswap all its crystals for a single number of your choice\nand incinerate this card.",
+  "features": {
+   "top": {
+    "use_Q": 1.0
+   },
+   "inv": {
+    "dice_control": 1.0,
+    "potency": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_20",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "Judgment",
+  "name": "Wailing Confessor",
+  "rule": "While this is active, you get a bonus die of all A\nAny time you score a set without A:\nif you have more teeth than discarded dice, lose a tooth",
+  "inv_name": "Voiceless Accused",
+  "inv_rule": "While this is active, you get a bonus die of all E\nYou cannot score a set with fewer than 5 dice.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0,
+    "crystal_A": 2.0,
+    "teeth": -1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "crystal_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "major_21",
+  "suit": "Major Arcana",
+  "element": "Major Arcana",
+  "rank": "The World",
+  "name": "Mocking Recluse",
+  "rule": "When you incinerate this, gain a face of any color.\nDuring Scheme, you may swap it in.",
+  "inv_name": "Jar Dweller",
+  "inv_rule": "On rolling an F, you may rotate it to an A\nOn rolling an A, you may rotate it to an F",
+  "features": {
+   "top": {
+    "bonus_die": 1.0
+   },
+   "inv": {
+    "crystal_A": 2.0,
+    "crystal_F": 2.0,
+    "dice_control": 2.0
+   }
+  }
+ },
+ {
+  "id": "earth_01",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Ace",
+  "name": "Primed Pomologist",
+  "rule": "On Scry start, look at the highest Potency among discarded dice:\ngain that many E.\nIf it is 6+, you may instead gain 2Q.",
+  "inv_name": "Charitable Ciderist",
+  "inv_rule": "Any time you gain E, or W, you may gain one more\n\nOn scoring four earth: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "gain_E": 1.0,
+    "gain_Q": 1.0
+   },
+   "inv": {
+    "color": 0.5,
+    "crystal_E": 1.0,
+    "gain_E": 1.0,
+    "gain_W": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_02",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Two",
+  "name": "Passive Puffer",
+  "rule": "Whenever you commit 5 or more dice at once,\nyou may uncommit another die.\n\nOn Scheme start, you may increase a Potency by +1",
+  "inv_name": "Active Assistant",
+  "inv_rule": "You may now spend 2 of any token to get 1Q\n\nOn scoring a triplet: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "gain_Q": 1.0,
+    "keys": 1.0,
+    "kind": 0.5
+   }
+  }
+ },
+ {
+  "id": "earth_03",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Three",
+  "name": "Alembic Servitor",
+  "rule": "While this is active, you get a bonus die that must remain empty,\n(can't really score - but it can be committed, discarded, etc)",
+  "inv_name": "Burn-Scarred Glasswright",
+  "inv_rule": "Whenever you have 5 dice scoring the same set: gain 1 E.\n\nSpend 2E to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "bonus_die": 1.0
+   },
+   "inv": {
+    "gain_E": 1.0,
+    "keys": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_04",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Four",
+  "name": "Bezoar Seeker",
+  "rule": "On rolling an E, you may discard a Potency die to gain E equal to that Potency.\n\nOn rolling a W, F or A, you may spend 1 E\nto rotate a ready die one face over in either direction.",
+  "inv_name": "Sadistic Shepherd",
+  "inv_rule": "Incinerate a card to bury 1E on this card.\nOn Scheme start, spend 5 buried E to gain an E face.\n\nSpend 2E to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "crystal_A": 1.0,
+    "crystal_E": 1.0,
+    "crystal_F": 1.0,
+    "crystal_W": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_E": 1.0,
+    "use_E": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "burn_cost": 1.0,
+    "gain_E": 2.0,
+    "keys": 1.0,
+    "use_E": 2.0
+   }
+  }
+ },
+ {
+  "id": "earth_05",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Five",
+  "name": "Reeking Husk",
+  "rule": "On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency\n\nOn rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency",
+  "inv_name": "Discarded Follower",
+  "inv_rule": "Whenever you commit a triplet or quadruplet,\nrotate and commit a ready die.\n\nSpend 7 of any one token type to gain 1 key.",
+  "features": {
+   "top": {
+    "crystal_A": 1.0,
+    "crystal_E": 1.0,
+    "discard_payoff": 2.0,
+    "gain_A": 1.0,
+    "gain_E": 2.0
+   },
+   "inv": {
+    "dice_control": 1.0,
+    "keys": 1.0,
+    "kind": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_06",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Six",
+  "name": "Shrewd Quaker",
+  "rule": "On Scheme start, you may decrease a Potency by -1\nWhenever you score Two Color-Pairs or Four Pairs,\nyou may spend 3E to get 2F or 2A",
+  "inv_name": "Hard-Tack Baker",
+  "inv_rule": "You can now score Triplets as Quadruples.\nYou cannot score any straights.",
+  "features": {
+   "top": {
+    "gain_A": 1.0,
+    "gain_F": 1.0,
+    "pairs": 1.0,
+    "potency": 1.0,
+    "use_E": 1.0
+   },
+   "inv": {
+    "kind": 1.0,
+    "straight": -1.0
+   }
+  }
+ },
+ {
+  "id": "earth_07",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Seven",
+  "name": "Perennial Pruner",
+  "rule": "On Swig start, you may spend 2E to rotate and commit a ready die.\n\nWhenever you win a wager, gain a tooth.",
+  "inv_name": "Haphazard Herbalist",
+  "inv_rule": "Whenever you score a Two Color-Pairs, Triplet, or Quadruplet, choose:\nspend 8E or lose 1 key to regain 2 teeth",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "teeth": 1.0,
+    "use_E": 1.0
+   },
+   "inv": {
+    "keys": -0.5,
+    "kind": 1.0,
+    "pairs": 1.0,
+    "teeth": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_08",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Eight",
+  "name": "Venomous Vessel",
+  "rule": "Whenever you roll an E, discard that die to bury 1E on this card\nWhenever you roll two As, discard those dice to double the E on this card\nWhenever you roll a W, discard that die to gain the E buried on this card",
+  "inv_name": "Sinuous Acolyte",
+  "inv_rule": "Whenever you roll an E, discard that die to bury 1E on this card\n\nOn Swig start, spend 1 buried E to rotate and commit a ready die.",
+  "features": {
+   "top": {
+    "crystal_E": 1.0,
+    "crystal_W": 1.0,
+    "discard_payoff": 2.0,
+    "gain_E": 2.0
+   },
+   "inv": {
+    "crystal_E": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_E": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_09",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Nine",
+  "name": "Oathbreaker",
+  "rule": "Whenever you would lose a tooth, instead you may:\nspend 5E or incinerate this card",
+  "inv_name": "Oathkeeper",
+  "inv_rule": "Whenever you score a Triplet, or Quadruplet: gain 1Q\nWhenever you score a straight: incinerate this card",
+  "features": {
+   "top": {
+    "teeth_guard": 1.0,
+    "use_E": 1.0
+   },
+   "inv": {
+    "gain_Q": 1.0,
+    "kind": 1.0,
+    "straight": -1.0
+   }
+  }
+ },
+ {
+  "id": "earth_10",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Ten",
+  "name": "Solifactory Smith",
+  "rule": "Whenever you incinerate a card: gain 1E\n\nIf you score a set of all E, or a set of all >= 4: gain 1Q",
+  "inv_name": "Brawny Striker",
+  "inv_rule": "On Scheme Start:\nlose 2 teeth or spend 8E or spend 4Q or incinerate two cards\nto gain 1 key",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "gain_E": 1.0,
+    "gain_Q": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "keys": 1.0,
+    "teeth_cost": -1.0,
+    "use_E": 1.0,
+    "use_Q": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_princess",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Princess",
+  "name": "Hopeful Sower",
+  "rule": "Whenever you score Two Color-Pairs, Triplet, or Quadruplet, choose one:\n* gain 2E\n* bury one of any token type on any card",
+  "inv_name": "Grain Hoarder",
+  "inv_rule": "On Scheme start, you may replace any crystal with an E",
+  "features": {
+   "top": {
+    "gain_E": 1.0,
+    "kind": 1.0,
+    "pairs": 1.0
+   },
+   "inv": {
+    "crystal_E": 1.0,
+    "dice_control": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_prince",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Prince",
+  "name": "The Tallyman",
+  "rule": "Bury a Potency die on The Tallyman, starting on 1.\nWhenever you incinerate a card, increment that die.\nWhen the die reaches 6 - you get that die as a bonus Potency die,\nas long as Tallyman remains active.",
+  "inv_name": "Dreaded Abacist",
+  "inv_rule": "On Scheme start, you may increase a Potency by +1\nOn Scheme start, you may decrease a Potency by -1",
+  "features": {
+   "top": {
+    "bonus_die": 1.0,
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0
+   },
+   "inv": {
+    "potency": 2.0
+   }
+  }
+ },
+ {
+  "id": "earth_queen",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "Queen",
+  "name": "Spagyric Physician",
+  "rule": "Whenever you discard an Elemental die, bury 1 token matching its face's element on this card.\nWhenever you score Triplet or Quadruplet gain this card's buried tokens.",
+  "inv_name": "Arsenic Apothecary",
+  "inv_rule": "When you incinerate this, gain an E face.\nDuring Scheme, you may swap it in.",
+  "features": {
+   "top": {
+    "discard_payoff": 1.0,
+    "kind": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "gain_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "earth_king",
+  "suit": "Disks",
+  "element": "Earth",
+  "rank": "King",
+  "name": "Iatrochemist",
+  "rule": "If you commit 7 dice at once, you may bury an E on this card.\nSpend 1E buried on this card to rotate a committed die to any face.",
+  "inv_name": "Mercury-Blooded",
+  "inv_rule": "Anytime you lose a tooth: bury 4E on this card\nSpend 1E buried on this card to rotate a committed die to any face.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_E": 1.0,
+    "use_E": 1.0
+   },
+   "inv": {
+    "dice_control": 1.0,
+    "gain_E": 1.0,
+    "teeth_payoff": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_01",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Ace",
+  "name": "Lead Drinker",
+  "rule": "On committing two W, you may discard a Potency die\nto gain W equal to that Potency.\n\nSpend 1W to take a discarded die, undiscard it and reroll.\nIf that die rolls 1: lose a tooth",
+  "inv_name": "Bacchus Host",
+  "inv_rule": "You win all wagers.\n\nOn scoring four water: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "crystal_W": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_W": 1.0,
+    "teeth": -1.0,
+    "use_W": 1.0
+   },
+   "inv": {
+    "color": 0.5,
+    "crystal_W": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_02",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Two",
+  "name": "Noble Ghostwriter",
+  "rule": "Whenever you incinerate a card: gain 1W\nOnce per round, spend W to rotate a die one face over in either direction\n(this does trigger another 'on roll' to the new face)",
+  "inv_name": "Pilfered Penname",
+  "inv_rule": "On Scheme start, you may look at the top card of the draw deck.\nYou may incinerate Pilfered Penname to take it.\n\nOn scoring a straight: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "dice_control": 1.0,
+    "gain_W": 1.0,
+    "use_W": 1.0
+   },
+   "inv": {
+    "keys": 1.0,
+    "straight": 0.5
+   }
+  }
+ },
+ {
+  "id": "water_03",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Three",
+  "name": "Gin-Soaked Gutter-Sweeper",
+  "rule": "Whenever you gain W, you may gain +1W\nOnce per round, spend W to rotate 1 die to match another face that was rolled\n(this does trigger another 'on roll' to the new face)",
+  "inv_name": "Dependable Tosspot",
+  "inv_rule": "If you score nothing: gain 3W.\n\nSpend 2W to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_W": 2.0,
+    "use_W": 1.0
+   },
+   "inv": {
+    "gain_W": 1.0,
+    "keys": 1.0,
+    "nothing": 1.0,
+    "use_W": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_04",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Four",
+  "name": "Hollow-Bellied Saint",
+  "rule": "On rolling a W, you may discard a Potency die to gain W equal to that Potency.\nOn Scheme start, you may decrease a Potency by -1",
+  "inv_name": "Pot-Licking Friar",
+  "inv_rule": "Whenever you discard a die, gain 1W.\n\nSpend 2W to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "crystal_W": 1.0,
+    "discard_payoff": 1.0,
+    "gain_W": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "discard_payoff": 1.0,
+    "gain_W": 1.0,
+    "keys": 1.0,
+    "use_W": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_05",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Five",
+  "name": "Enthralling Eulogist",
+  "rule": "On rolling a W, you may discard a Potency die to gain W equal to that Potency.\nOn Scheme start, you may decrease a Potency by -1",
+  "inv_name": "Paid Mourner",
+  "inv_rule": "Once per Scry, spend 2W to score a set again.\n(Retriggers on-score, and allows you to make another villager request)\n\nSpend 6 W to gain 1 key",
+  "features": {
+   "top": {
+    "crystal_W": 1.0,
+    "discard_payoff": 1.0,
+    "gain_W": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "keys": 1.0,
+    "use_W": 2.0
+   }
+  }
+ },
+ {
+  "id": "water_06",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Six",
+  "name": "Twofold Widow",
+  "rule": "Whenever you score a straight: bury 1E on this card\nDuring Scheme, you may spend 1E on this card\nto swap in an E for any face",
+  "inv_name": "Lethean Elder",
+  "inv_rule": "On scoring nothing:\nincinerate all your cards, including this, to gain 2 keys.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_E": 1.0,
+    "straight": 1.0,
+    "use_E": 2.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_07",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Seven",
+  "name": "Worm-Brained Absinthard",
+  "rule": "Whenever you score a straight:\n* Bury 2 W on this card\nWhenever you score a non-straight or nothing:\n* Remove 1 W from this card",
+  "inv_name": "Fairy-Chaser",
+  "inv_rule": "Gain all W buried on this card.\nIf W is exactly 5: gain a tooth and incinerate this card",
+  "features": {
+   "top": {
+    "gain_W": 1.0,
+    "straight": 1.5
+   },
+   "inv": {
+    "gain_W": 1.0,
+    "teeth": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_08",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Eight",
+  "name": "Hairshirt Bearer",
+  "rule": "When scoring, spend 1 A to:\nscore a straight with 1 fewer dice than normal.\nE.g.: 1,2 could score as Three straight",
+  "inv_name": "Fleabitten Penitent",
+  "inv_rule": "Whenever you score a Five Straight: gain 1 key\nWhenever you score anything else, or score nothing:\nlose 1 tooth",
+  "features": {
+   "top": {
+    "straight": 1,
+    "use_A": 1.0
+   },
+   "inv": {
+    "keys": 1.0,
+    "nothing": -1.0,
+    "straight": 1.0,
+    "teeth": -1.0
+   }
+  }
+ },
+ {
+  "id": "water_09",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Nine",
+  "name": "Epicurean Gourmand",
+  "rule": "After scoring a set with one or more W, you must:\n* incinerate a card\n* and gain 2Q.",
+  "inv_name": "Gout-Ridden Glutton",
+  "inv_rule": "On Scry start, If you have no discarded dice, choose 1:\n* gain 2W\n* lose all W and E tokens, incinerate this card, and gain 1 key",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "crystal_W": 1.0,
+    "gain_Q": 1.0
+   },
+   "inv": {
+    "gain_W": 2.0,
+    "keys": 1
+   }
+  }
+ },
+ {
+  "id": "water_10",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Ten",
+  "name": "Leech Catcher",
+  "rule": "On Swig start, you may incinerate a card. If you do:\n* Bury 3 F on this card\n* During this Swig, you may expend buried F to undiscard dice\n(or save it to expend next round)",
+  "inv_name": "Bloodless Somnambulist",
+  "inv_rule": "When you incinerate this, gain a W face.\nDuring Scheme, you may swap it in.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "dice_control": 1.0,
+    "gain_F": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "gain_W": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_princess",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Princess",
+  "name": "Nubile Nymph",
+  "rule": "Whenever you could score a Four or Five Straight, you may instead:\n* Uncommit a die\n* Bury 1W on this card\nIf you have 3W on this card: incinerate it and gain 1 key",
+  "inv_name": "Virgin Pure",
+  "inv_rule": "When you incinerate this, gain a W face.\nDuring Scheme, you may swap it in.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_W": 1.0,
+    "keys": 1.0,
+    "straight": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "gain_W": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_prince",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Prince",
+  "name": "Orgasmic Musician",
+  "rule": "On Scheme start, you may increase a Potency by +1\nWhenever you score Two Color-Pairs or Four Pairs,\nbury a W on this card.\nSpend 1 buried W to uncommit a die.",
+  "inv_name": "Brooding Composer",
+  "inv_rule": "Relinquish this card, attaching it to an opponent's card.\nWhenever that opponent gains an E or W, you gain one as well.\nWhen the attached card is incinerated, this card is incinerated too.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_W": 1.0,
+    "pairs": 1.0,
+    "potency": 1.0,
+    "use_W": 1.0
+   },
+   "inv": {
+    "gain_E": 1.0,
+    "gain_W": 1.0,
+    "relinquish": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_queen",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "Queen",
+  "name": "Broken Martyr",
+  "rule": "On Scry start: lose a tooth, then, gain a tooth\nOn Scheme start, you may increase a Potency by +1",
+  "inv_name": "Tarred Prophet",
+  "inv_rule": "Relinquish this card, attaching it to an opponent's card.\nWhenever that opponent gains a key, you gain one as well.\nWhen the attached card is incinerated, this card is incinerated too.",
+  "features": {
+   "top": {
+    "potency": 1.0
+   },
+   "inv": {
+    "relinquish": 1.0
+   }
+  }
+ },
+ {
+  "id": "water_king",
+  "suit": "Cups",
+  "element": "Water",
+  "rank": "King",
+  "name": "Sulfurous Sage",
+  "rule": "When you score All Colors, if you have 0 of any E,W,F or A:\ngain 1 of each E,W,F and A",
+  "inv_name": "Socratic Self-Slayer",
+  "inv_rule": "Lose two teeth and incinerate this card\nto take a key from the player with the most keys.",
+  "features": {
+   "top": {
+    "color": 1.0,
+    "gain_A": 1.0,
+    "gain_E": 1.0,
+    "gain_F": 1.0,
+    "gain_W": 1.0
+   },
+   "inv": {
+    "keys": 1.0,
+    "teeth_cost": -1.0
+   }
+  }
+ },
+ {
+  "id": "fire_01",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Ace",
+  "name": "Promethean Pyro",
+  "rule": "On rolling an A:\n* If you have 1 empty card slot, gain W\n* If you have 2 empty card slots, gain W and E\n* If you have 3 empty card slots, gain W, E and F",
+  "inv_name": "Doomed Pandorite",
+  "inv_rule": "On Scheme start: incinerate the top card of the village deck and gain 1F.\n\nOn scoring four fire: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "crystal_A": 1.0,
+    "gain_E": 2.0,
+    "gain_F": 1.0,
+    "gain_W": 3.0,
+    "open_slots": 1.0
+   },
+   "inv": {
+    "color": 0.5,
+    "crystal_F": 1.0,
+    "gain_F": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_02",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Two",
+  "name": "Branded Protégé",
+  "rule": "Whenever you discard a die, gain 1F.\n\nYou may now spend 2F to get 1Q.",
+  "inv_name": "Expendable Assistant",
+  "inv_rule": "When you lose a tooth, or lose a wager: gain 1Q.\n\nOn scoring four fire: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "discard_payoff": 1.0,
+    "gain_F": 1.0,
+    "gain_Q": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "color": 0.5,
+    "crystal_F": 1.0,
+    "gain_Q": 1.0,
+    "keys": 1.0,
+    "teeth_payoff": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_03",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Three",
+  "name": "Academic Artillerist",
+  "rule": "Any time you gain F, you may gain +1F.\nWhen scoring, you always choose before other players.",
+  "inv_name": "Craven Cannoneer",
+  "inv_rule": "Opponents cannot make you lose teeth.\n\nSpend 2F to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "gain_F": 2.0
+   },
+   "inv": {
+    "keys": 1.0,
+    "teeth_guard": 1.0,
+    "use_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_04",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Four",
+  "name": "Fire-Drake",
+  "rule": "On rolling an F, you may discard a Potency die to gain F equal to that Potency.\nWhenever a player incinerates a card, you may spend 2F to claim that card instead",
+  "inv_name": "Powder Miller",
+  "inv_rule": "On Scry start: gain 1F.\n\nSpend 2F to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "burn_payoff": 1.0,
+    "crystal_F": 1.0,
+    "discard_payoff": 1.0,
+    "gain_F": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "gain_F": 1.0,
+    "keys": 1.0,
+    "use_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_05",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Five",
+  "name": "Fingerless Sapper",
+  "rule": "On rolling an F, you may discard a Potency die to gain F equal to that Potency.\nOnce per round, you may spend 2F to undiscard all discarded dice",
+  "inv_name": "Powder Monkey",
+  "inv_rule": "Incinerate this card to force all opponents to lose a tooth.\n\nSpend 5F to gain 1 key.",
+  "features": {
+   "top": {
+    "crystal_F": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_F": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "keys": 1.0,
+    "use_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_06",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Six",
+  "name": "Short-Lived Brute",
+  "rule": "On rolling a W, you may bury a W on this card.\nOn rolling a F, you may bury a F on this card.\nIncinerate this card: Gain E equal to whichever is lower: this card's W or F.\n('None' is indeed 'lower')",
+  "inv_name": "Timeless Warrior-Poet",
+  "inv_rule": "Whenever you incinerate a card: gain 1F\nSpend 1F to uncommit a die",
+  "features": {
+   "top": {
+    "crystal_F": 1.0,
+    "crystal_W": 1.0,
+    "gain_E": 1.0,
+    "gain_F": 1.0,
+    "gain_W": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "dice_control": 1.0,
+    "gain_F": 1.0,
+    "use_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_07",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Seven",
+  "name": "Witch Drowner",
+  "rule": "Whenever you incinerate a card: gain 1Q\nOn Scheme start, you may decrease a Potency by -1",
+  "inv_name": "Corrupted Inquisitor",
+  "inv_rule": "At the end of a round, if you incinerated 2 or more cards:\n* gain 1 key",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "gain_Q": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "burn_payoff": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_08",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Eight",
+  "name": "Furnace Keeper",
+  "rule": "On rolling an F, you may incinerate a card to gain 3 F\nOn Scheme start, you may increase a Potency by +1",
+  "inv_name": "Staunch Stoker",
+  "inv_rule": "Spend 1Q to resurrect and gain the most recently incinerated card.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "crystal_F": 1.0,
+    "gain_F": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "use_Q": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_09",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Nine",
+  "name": "Shunned Executioner",
+  "rule": "On Scheme start: incinerate a card and gain 1Q",
+  "inv_name": "Bloodstained Recluse",
+  "inv_rule": "On scoring Four of Fire:\nincinerate all your cards, including this, to gain 2 keys.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "gain_Q": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "color": 1.0,
+    "crystal_F": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_10",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Ten",
+  "name": "Covert Degenerate",
+  "rule": "Spend 1F to: Uncommit a die\nSpend 2E to: Rotate a die to any face, once per round\nOn Scheme start, you may increase a Potency by +1",
+  "inv_name": "Esteemed Burgher",
+  "inv_rule": "Place 1 tooth upon a Town Square slot.\nWhen players request this slot, they must pay you 2 of any token.\nThe next time you lose a tooth, lose this reserving tooth.",
+  "features": {
+   "top": {
+    "dice_control": 2.0,
+    "potency": 1.0,
+    "use_E": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "aggro": 0.5,
+    "teeth_guard": 0.5
+   }
+  }
+ },
+ {
+  "id": "fire_princess",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Princess",
+  "name": "Closeted Apostate",
+  "rule": "Whenever you perform an italicized section of a card, gain 1F\nOn Scheme start, you may decrease a Potency by -1",
+  "inv_name": "Flaming Heretic",
+  "inv_rule": "When you incinerate this, gain a F face.\nDuring Scheme, you may swap it in.",
+  "features": {
+   "top": {
+    "gain_F": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "gain_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_prince",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Prince",
+  "name": "Strawman",
+  "rule": "While this is active, replace all italicized sections on your cards with:\nspend 1A - if you cannot, lose two teeth",
+  "inv_name": "Burnt Effigy",
+  "inv_rule": "When you incinerate this, gain a F face.\nDuring Scheme, you may swap it in.",
+  "features": {
+   "top": {
+    "teeth": -1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "bonus_die": 1.0,
+    "gain_F": 1.0
+   }
+  }
+ },
+ {
+  "id": "fire_queen",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "Queen",
+  "name": "Epileptic Metallurgist",
+  "rule": "Any time you gain A, or F, you may gain one more\nOn Scheme start, you may decrease a Potency by -1",
+  "inv_name": "Lithiated Assayer",
+  "inv_rule": "Whenever you:\nincinerate a card OR discard a die OR lose a tooth\nbury an F on this card.\nWhenever you like, you can gain F off of this card.\nIf you have 10F on this card, incinerate it, and gain 1 key.",
+  "features": {
+   "top": {
+    "gain_A": 1.0,
+    "gain_F": 1.0,
+    "potency": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "gain_F": 2.0,
+    "keys": 1.0,
+    "teeth_payoff": 1
+   }
+  }
+ },
+ {
+  "id": "fire_king",
+  "suit": "Wands",
+  "element": "Fire",
+  "rank": "King",
+  "name": "Unshakable Empiricist",
+  "rule": "Relinquish this card, attaching it to an opponent's card.\nWhenever that opponent gains a key, they gain a tooth instead.\nWhen the attached card is incinerated, this card is incinerated too.",
+  "inv_name": "Vivisectionist",
+  "inv_rule": "Whenever you gain a key, you must instead choose one of your dice to roll:\n1-2 = you get 0 keys\n3-5 = you get 1 key\n6+ = you get 2 keys",
+  "features": {
+   "top": {
+    "relinquish": 1.0,
+    "teeth": 1.0
+   },
+   "inv": {
+    "keys": 0.5
+   }
+  }
+ },
+ {
+  "id": "air_01",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Ace",
+  "name": "Glass-Eyed Alchemist",
+  "rule": "If you score nothing, gain A equal to your highest discarded Potency.\nSpend 1A to uncommit 2 dice.",
+  "inv_name": "Sun-Blinded Prismist",
+  "inv_rule": "If all your dice are committed and show either A or 6: you win.\n\nOn scoring a set with an A: gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_A": 1.0,
+    "nothing": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "crystal_A": 1.5,
+    "keys": 1.0,
+    "win": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_02",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Two",
+  "name": "Tongueless Traitor",
+  "rule": "Whenever you swap a crystal or Potency, gain 2A\nOnce per round, spend 1 W to rotate a die to any face\n(this does trigger another 'on roll' to the new face)",
+  "inv_name": "Candid Jester",
+  "inv_rule": "On scoring five A dice or five F dice:\nforce a player to lose a tooth\n\nOn scoring Four Air: you may incinerate this card to gain 1 key.",
+  "features": {
+   "top": {
+    "dice_control": 1.0,
+    "gain_A": 1.0,
+    "use_W": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "color": 2.0,
+    "crystal_A": 1.0,
+    "keys": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_03",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Three",
+  "name": "Persecuted Paranoiac",
+  "rule": "Whenever you gain A, you may gain +1A.\n\nSpend 1F to incinerate and redraw a villager in the Town Square.",
+  "inv_name": "Psychotic Christ",
+  "inv_rule": "On scoring a set with an F:\nlose a tooth to force an opponent to lose a tooth\n\nSpend 2A to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "gain_A": 2.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "crystal_F": 1.0,
+    "keys": 1.0,
+    "use_A": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_04",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Four",
+  "name": "Flayed Flagellant",
+  "rule": "On rolling an A, you may discard a Potency die to gain A equal to that Potency.\nOnce per round, spend 1 A to rotate a die to any face.",
+  "inv_name": "Lash-Blessed Monk",
+  "inv_rule": "Whenever another player gains a key, you may incinerate this card to gain a key.\n\nSpend 2A to gain 1 key and incinerate this card.",
+  "features": {
+   "top": {
+    "crystal_A": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_A": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "keys": 2.0,
+    "use_A": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_05",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Five",
+  "name": "Bodysnatcher",
+  "rule": "Whenever you incinerate a card: gain 1A.\n\nSpend 4A to claim the top card of the discard pile.",
+  "inv_name": "Overworked Gravedigger",
+  "inv_rule": "At the start of a Swig, name a set and gain 1A.\nYou can only score that set this Swig / Scry.\n\nSpend 5A to gain 1 key.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "gain_A": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "gain_A": 1.0,
+    "keys": 1.0,
+    "use_A": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_06",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Six",
+  "name": "Mummy Grinder",
+  "rule": "Whenever you score an 'x of a color': bury 2A on this card\nOn Swig start, you may spend 1 buried A\nto rotate and commit a die.\nOn losing a tooth, if this card has 6 or more buried A:\nDo not lose the tooth and Incinerate this card.",
+  "inv_name": "Intrepid Archaeologist",
+  "inv_rule": "When you gain W or F, convert all your A to E.\nWhenever you would lose a tooth, you may instead pay 4 E",
+  "features": {
+   "top": {
+    "color": 1.0,
+    "dice_control": 1.0,
+    "gain_A": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {
+    "gain_A": 1.0,
+    "gain_E": 1.0,
+    "gain_F": 1.0,
+    "gain_W": 1.0,
+    "teeth_guard": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_07",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Seven",
+  "name": "Reliquary Larcenist",
+  "rule": "Whenever you score Four of a Color: gain 3A\nWhenever you score Five of a Color: gain 6A",
+  "inv_name": "Finger-Bone Forager",
+  "inv_rule": "Spend 2Q to gain 1 key and incinerate this card.\nDuring Scheming, you may spend 3A to replace a crystal face with Q\n(can be counted as any crystal color)",
+  "features": {
+   "top": {
+    "color": 2.0,
+    "gain_A": 2.0
+   },
+   "inv": {
+    "dice_control": 1.0,
+    "keys": 1.0,
+    "use_A": 1.0,
+    "use_Q": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_08",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Eight",
+  "name": "Footnoted Scholar",
+  "rule": "On scoring a set with F, choose one:\n* You gain 1 F\n* An opponent loses 3 tokens of their choice",
+  "inv_name": "Pedantic Pedagogue",
+  "inv_rule": "Relinquish this card, attaching it to an opponent's card.\nWhen they invert a card, they lose 1 tooth.\nAfter the attached card is incinerated, this card is incinerated too.",
+  "features": {
+   "top": {
+    "aggro": 1.0,
+    "crystal_F": 1.0,
+    "gain_F": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "relinquish": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_09",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Nine",
+  "name": "Shuar Headshrinker",
+  "rule": "Relinquish this card, attaching it to an opponent's card.\nOn Scheme start, that opponent loses 1 tooth.\nWhen the attached card is incinerated, this card is incinerated too.",
+  "inv_name": "Ayahuascite",
+  "inv_rule": "Every time you manually rotate a die, bury 1A on this card.\nWhenever you score nothing, you must gain all A buried on this card.\nIf you gain 5A, incinerate this card, and gain a key.",
+  "features": {
+   "top": {
+    "aggro": 1.0,
+    "relinquish": 1.0
+   },
+   "inv": {
+    "dice_control": 1.0,
+    "gain_A": 3.0,
+    "keys": 1.0,
+    "nothing": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_10",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Ten",
+  "name": "Mercurial Monomaniac",
+  "rule": "Whenever you incinerate a card, bury 1 F on this card.\nIf you have 5F on this card, incinerate it, and gain a key.\nSpend 1 buried F on this card to rotate a die to any face",
+  "inv_name": "Haunted Mind",
+  "inv_rule": "Relinquish this card, attaching it to an opponent's card.\nWhenever that opponent incinerates a card,\nthey must incinerate an additional card.\nAfter the attached card is incinerated, this card is incinerated too.",
+  "features": {
+   "top": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "dice_control": 1.0,
+    "gain_F": 1.0,
+    "keys": 1.0,
+    "use_F": 1.0
+   },
+   "inv": {
+    "aggro": 1.0,
+    "relinquish": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_princess",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Princess",
+  "name": "Driveling Chemist",
+  "rule": "On scheme start, if you have the fewest keys, gain an E, W, F and A",
+  "inv_name": "Feverish Scribe",
+  "inv_rule": "Discard two dice to bury 1A on this card.\nIf >10 A buried, 'X keys' enlightenment threshold to end the game\nbecomes equal to the A on this card.",
+  "features": {
+   "top": {
+    "gain_A": 1.0,
+    "gain_E": 1.0,
+    "gain_F": 1.0,
+    "gain_W": 1.0
+   },
+   "inv": {
+    "discard_payoff": 1.0,
+    "gain_A": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_prince",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Prince",
+  "name": "Autoerotic Anesthetist",
+  "rule": "When performing an italic section of any card,\nyou may substitute it with incinerate Autoerotic Anesthetist",
+  "inv_name": "Back-Alley Butcher",
+  "inv_rule": "Whenever you gain a key:\n* if you have tokens, you must lose them all, and gain an additional key\n* if you do not, you must lose a tooth, and gain an additional key",
+  "features": {
+   "top": {
+    "burn_cost": 0.5,
+    "teeth_guard": 0.5
+   },
+   "inv": {
+    "keys": 1.0,
+    "teeth": -1.0
+   }
+  }
+ },
+ {
+  "id": "air_queen",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "Queen",
+  "name": "Placenta Purloiner",
+  "rule": "Whenever another player loses a tooth, bury 1Q here.\nOn Scheme start, spend 2 buried Q to regain a tooth.",
+  "inv_name": "Viscera Monger",
+  "inv_rule": "Whenever you incinerate a card,\nyou may spend 4E to get 4A",
+  "features": {
+   "top": {
+    "gain_Q": 1.0,
+    "teeth": 1.0,
+    "use_Q": 1.0
+   },
+   "inv": {
+    "burn_cost": 1.0,
+    "burn_payoff": 1.0,
+    "gain_A": 1.0,
+    "use_E": 1.0
+   }
+  }
+ },
+ {
+  "id": "air_king",
+  "suit": "Swords",
+  "element": "Air",
+  "rank": "King",
+  "name": "Dubious Demonologist",
+  "rule": "On rolling an A, you may discard a Potency die to gain A equal to that Potency.\nDuring Scheming, you may spend 3A to replace a crystal face with Q\n(can be counted as any crystal color)",
+  "inv_name": "Failed Exorcist",
+  "inv_rule": "This card copies the ability of the card to the left.",
+  "features": {
+   "top": {
+    "crystal_A": 1.0,
+    "dice_control": 1.0,
+    "discard_payoff": 1.0,
+    "gain_A": 1.0,
+    "use_A": 1.0
+   },
+   "inv": {}
+  }
+ }
+]

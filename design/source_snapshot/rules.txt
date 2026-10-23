@@ -1,0 +1,106 @@
+Gnostakes
+Drink deeply, alchemist. Perhaps enlightenment rests with the dregs of this noxious flask.
+In Gnostakes, you play a medieval mystic sojourner, imbibing vials full of chemicals and crystals.
+Prep
+Each player gets:
+5 Potency dice with the faces: 1, 2, 3, 4, 5, 6
+5 Elemental dice with the faces:Earth, Earth, Water, Water, Fire, Air
+a flat area for rolling dice - your laboratory
+an area for committing dice - your glassworks
+and an area for keeping active cards -your cadre of followers and fiends
+10 starting teeth (and 0 starting keys)
+
+Take the deck of villager cards, shuffle, and place the deck (face down) in the middle of the table.Have a space for the incinerated pyre of discarded villager cards next to it.
+
+In the center of the table is the Town Square sheet where you recruit new villagers to your cadre.
+This sheet has 4 places to lay out cards, and descriptions for the types of scoring hands that will let your claim them.
+
+Draw and lay out 4 villager cards for the 4 slots in the Town Square.
+Swig Phase
+Concoct strange potions, and drink them down:
+roll and commit dice.
+
+On swig start, all of your dice are "ready to be rolled".Roll them, and for each die, chose to:
+Commit: face is kept to be scored during Scry
+Discard: set aside, not counted during scoring
+Leave Ready: to be rolled again this Swig
+
+From your pool of rolled dice, choose at least 5 to commit or discard.Note some villagers can manipulate die face values, allow them to be uncommitted, etc.
+Take all uncommitted dice, and roll them again. Again, you must choose at least 5 to commit or discard. Or all, if there were < 5 remaining.
+
+You keep rolling, committing/discarding some, and rolling again - until you have no more ready dice.
+Scry Phase
+Access the depths, and spill your prophecy to recruit new followers: score your hand, buy new cards.
+
+View the villager cards on offer in the Town Square.View your committed dice, and arrange your dice into the sets that they score.
+
+You can score multiple sets, but each die can only belong to one set. E.g.: WWW and 123 are two scoring sets.But 11123 is not 'Triplet and Three Straight'- you'd have to choose one.
+
+There are 4 villagers on offer:
+Requested with Three Straight or 3 Tokens
+Requested with Two Color-Pairs or 3 Tokens
+Requested with Triplet or 3 Tokens
+Requested with Four of a Color or 3 Tokens
+More powerful sets allow you to request any one of the 4:Four Straight, Three Ones, All Colors, Four Pairs
+And the most powerful allow you request two of the 4:Five Straight, Quadruplet, Four Air, Five of a Color
+
+If only you requested that villager, you take the card, and add them to your cadre.
+Any time you take a card, replace it with a new draw.
+
+However, if players are requesting the same villager, you can wager an amount of tokens:
+Grab some amount of your tokens, holding them in your fist. Cover/hide your other tokens.
+Simultaneously open to reveal your wager.
+Winner is whomever wagered the most.Raw total, ignoring element types.
+Winner spends those tokens, and wins the card.The loser(s) keeps their wager.If there is a tie, you both edit your wager, adding or removing, then reveal again. If players tie with all tokens wagered, roll for it.
+
+Instead of requesting the same villager, you may allow your opponent to take the card, then see if you want to take whatever new villager replaces them.
+
+Once players have all taken their villagers:
+Move all villager cards one slot to the left. The leftmost card is incinerated, the rightmost card is a new draw.
+
+Incinerated villagers are discarded, placed face down in the center of the table.
+They are not redrawn in the town square.
+If the village deck is ever empty, the game is over.
+Scheme Phase
+Lord over your followers, tinker in your laboratory, prepare the next brew: Flip cards, swap die faces.
+
+Look at your villagers, and for each, decide which ability is activated (rightside-up) and which is deactivated (upside-down).
+You (usually) only invert cards during Scheme.
+
+You can (by default) only have 4 villagers - if you acquired more, incinerate down to 4.
+
+Some villagers will allow you to open up and edit the faces on your dice - now is the time to do so.
+When all players are ready, proceed to the next Swig Phase. Repeat, until a winner is enlightened.
+Enlightenment
+Keys are, well, key to winning. They are acquired with villager abilities - pay special attention to villagers that grant them.
+
+There are 3 conditions that end the game:
+Edification: any player garners 10 keys
+Putrescence: any player loses all their teeth
+Conflagration: the Village Deck has run out
+Once one of these conditions have been met, the game is over at the end of the next Scheme Phase.
+
+Any players with no teeth die in ruined bodies.Among those still living - the player with the most keys is enlightened, and wins the game!
+
+It is possible to trigger Putrescence, but gain teeth during the final turn and win the game.
+Question Solvers
+When you invert a villager card, you do keep any buried tokens, the newly active ability may even allow you to spend them.
+
+Relinquished cards that get attached to opponents - those are no longer yours: you cannot invert them, they do not count against your max villager total, etc.Typically, the opponent removes them by incinerating their attached card (e.g, by having a full cadre and requesting a new villager).
+
+When you manually "rotate a die to any face" - this does retrigger on-roll. E.g., if you want to trigger a villagers "On rolling an F…" - you can do that by manually rotating a die to an F.
+
+If a card says "spend all tokens of 1 type" - you cannot 'spend' a token you have 0 of.
+
+During Scry, if your committed dice satisfy a set - you have "scored" that set, like it or not. So if you don't want to trigger an ability that says "On scoring four fire…" - be careful not to commit dice that satisfy 'four fire' - or to specifically score those dice as conflicting sets.E.g.: you could roll: ◆◆◆◆◆◆but score it as Two Color-Pairs: ◆◆◆◆instead of Four of a Kind (fire).Keep that in mind for "If you score nothing…".
+Just because you scored a set, doesn't mean you need to request a villager, it is fine to request nothing.
+
+'An additional' indicates that the gain/loss does not retrigger itself infinitely. E.g.:"When you incinerate a card… incinerate an additional card" or "When you gain a key: … gain an additional key." - those do not infinitely loop forever.
+
+"Incinerate a card" or "Invert a card" means one of your own cards, a card in your cadre - not an opponentsunless explicitly stated.
+
+'Undiscard' is like a type of reroll - you can discard dice you don't like to meet the "choose at least 5 to commit or discard" limit - then undiscard them to immediately have them ready to roll again. 
+
+A die has to be in a scoring set to be considered "scored'. I.e.: a committed die that doesn't end up part of any set is not "scored".
+
+You can't gain more than 10 teeth.

@@ -1,0 +1,16 @@
+{
+ "name": "fire",
+ "doc": "Token economy: gain and spend fire.",
+ "features": {
+  "gain_F": 0.8,
+  "use_F": 0.8,
+  "crystal_F": 0.4,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "F": 1.6
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

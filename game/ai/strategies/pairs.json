@@ -1,0 +1,17 @@
+{
+ "name": "pairs",
+ "doc": "Loves pair sets: Two Color-Pairs and Four Pairs.",
+ "features": {
+  "pairs": 1.0,
+  "color": 0.3,
+  "dice_control": 0.3,
+  "keys": 0.4
+ },
+ "sets": {
+  "pairs": 1.8,
+  "color": 1.1
+ },
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}

@@ -27,6 +27,10 @@ ENV/
 
 # Secrets / local config
 secrets.yml
+# Google Cloud service account keys
+my-claude-*.json
+*-sa.json
+service-account*.json
 
 # Project outputs
 # Atomic download temps (e.g. .venus.png.tmp.1712345678)

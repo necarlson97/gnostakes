@@ -1,0 +1,16 @@
+{
+ "name": "air",
+ "doc": "Token economy: gain and spend air.",
+ "features": {
+  "gain_A": 0.8,
+  "use_A": 0.8,
+  "crystal_A": 0.4,
+  "keys": 0.4
+ },
+ "sets": {},
+ "tokens": {
+  "A": 1.6
+ },
+ "teeth": 1.0,
+ "cadre": 4
+}

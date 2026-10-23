@@ -1,0 +1,18 @@
+{
+ "name": "kinds",
+ "doc": "Loves triplets and quadruplets.",
+ "features": {
+  "kind": 1.0,
+  "potency": 0.4,
+  "dice_control": 0.3,
+  "straight": -0.3,
+  "keys": 0.4
+ },
+ "sets": {
+  "kind": 1.6,
+  "straight": 0.6
+ },
+ "tokens": {},
+ "teeth": 1.0,
+ "cadre": 4
+}
