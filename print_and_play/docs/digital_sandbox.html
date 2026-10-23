@@ -122,6 +122,12 @@
     display: block;
   }
 
+  /* Art drawn upside-down vs Name / Inverted Name ("Flip Art" column).
+     Uses the standalone rotate property so it composes with any transform. */
+  img.art.flip-art {
+    rotate: 180deg;
+  }
+
   .game-card {
     position: relative;
     justify-content: space-between;

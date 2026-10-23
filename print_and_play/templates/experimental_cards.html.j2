@@ -1,0 +1,174 @@
+{% from "partials/cards_macros.html.j2" import card_css, experimental_css, experimental_card, name_font_head %}
+{% set named_cards = cards | selectattr("name") | list %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gnostakes - experimental cards</title>
+    {{ name_font_head("Metamorphous") }}
+    {{ card_css() }}
+    {{ experimental_css() }}
+  </head>
+  <body>
+    <header>
+      <h1 style="margin:0;">experimental cards</h1>
+      <a class="muted" href="./index.html">back to index</a>
+      <span class="muted">cards: {{ named_cards|length }}</span>
+      <div class="exp-controls">
+        <label>art side
+          <select id="art-side">
+            <option value="right" selected>right</option>
+            <option value="left">left</option>
+          </select>
+        </label>
+        <label><input id="contour" type="checkbox" checked /> wrap text around art</label>
+        <label><input id="flip" type="checkbox" /> flip cards 180&deg;</label>
+        <span class="muted" id="fit-status"></span>
+      </div>
+    </header>
+
+    <div class="deck exp-deck">
+      {% for card in named_cards %}
+        {{ experimental_card(card) }}
+      {% endfor %}
+    </div>
+
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const artSide = document.getElementById("art-side");
+        const contour = document.getElementById("contour");
+        const flip = document.getElementById("flip");
+        const status = document.getElementById("fit-status");
+        const cards = [...document.querySelectorAll(".exp-card")];
+        const MIN_RULE_PT = 4.5;
+        const MIN_NAME_PT = 6;
+        const STEP_PT = 0.25;
+        const INK_LUM = 200; // darker than this (0-255) counts as ink
+
+        // shape-outside uses a mask image at its natural pixel size (it isn't
+        // scaled to the float), so build masks at the float's CSS-pixel size.
+        const probe = document.createElement("div");
+        probe.style.cssText = "position:absolute;visibility:hidden;width:var(--exp-art-full-w);height:var(--card-h)";
+        document.body.appendChild(probe);
+        const MASK_W = Math.round(probe.getBoundingClientRect().width);
+        const MASK_H = Math.round(probe.getBoundingClientRect().height);
+        probe.remove();
+
+        // True if the half's last line of text runs past its bottom padding.
+        // Uses layout offsets, which ignore the bottom half's 180deg rotation.
+        function overflows(half) {
+          const last = half.querySelector(".line:last-of-type");
+          if (!last) return false;
+          const padBottom = parseFloat(getComputedStyle(half).paddingBottom) || 0;
+          return last.offsetTop + last.offsetHeight > half.clientHeight - padBottom + 0.5;
+        }
+
+        // Shrink names whose longest word doesn't fit the available width, then
+        // shrink each half's rules text until it fits; flag any that still overflow.
+        function fitAll() {
+          const css = getComputedStyle(root);
+          const base = parseFloat(css.getPropertyValue("--exp-rule-size")) || 7;
+          const nameBase = parseFloat(css.getPropertyValue("--exp-name-size")) || 10;
+          let shrunk = 0, overflow = 0;
+          cards.forEach((card) => {
+            let cardShrunk = false, cardOverflow = false;
+            card.querySelectorAll(".exp-half").forEach((half) => {
+              const name = half.querySelector(".line.name");
+              if (name) name.style.fontSize = "";
+              let nameSize = nameBase;
+              while (name && name.scrollWidth > name.clientWidth && nameSize > MIN_NAME_PT) {
+                nameSize -= STEP_PT;
+                name.style.fontSize = nameSize + "pt";
+                cardShrunk = true;
+              }
+              if (name && name.scrollWidth > name.clientWidth) cardOverflow = true;
+
+              const rule = half.querySelector(".line.rule");
+              if (rule) rule.style.fontSize = "";
+              let size = base;
+              while (rule && overflows(half) && size > MIN_RULE_PT) {
+                size -= STEP_PT;
+                rule.style.fontSize = size + "pt";
+                cardShrunk = true;
+              }
+              if (overflows(half)) cardOverflow = true;
+            });
+            card.style.outline = cardOverflow ? "2px solid red" : "";
+            card.style.outlineOffset = "-2px";
+            shrunk += cardShrunk;
+            overflow += cardOverflow;
+          });
+          status.textContent = `shrunk to fit: ${shrunk} · still overflowing: ${overflow}`;
+        }
+
+        // Turn the art's dark pixels into an opaque mask (white -> transparent),
+        // optionally rotated 180deg, as a data URL for shape-outside.
+        const maskCache = new Map();
+        function inkMask(img, rotated) {
+          const key = img.src + (rotated ? "#r" : "");
+          if (maskCache.has(key)) return maskCache.get(key);
+          const canvas = document.createElement("canvas");
+          canvas.width = MASK_W;
+          canvas.height = MASK_H;
+          const ctx = canvas.getContext("2d", { willReadFrequently: true });
+          if (rotated) {
+            ctx.translate(MASK_W, MASK_H);
+            ctx.rotate(Math.PI);
+          }
+          ctx.drawImage(img, 0, 0, MASK_W, MASK_H);
+          const data = ctx.getImageData(0, 0, MASK_W, MASK_H);
+          const px = data.data;
+          for (let i = 0; i < px.length; i += 4) {
+            const ink = px[i + 3] > 128 && (px[i] + px[i + 1] + px[i + 2]) / 3 < INK_LUM;
+            px[i] = px[i + 1] = px[i + 2] = 0;
+            px[i + 3] = ink ? 255 : 0;
+          }
+          ctx.putImageData(data, 0, 0);
+          const url = `url(${canvas.toDataURL("image/png")})`;
+          maskCache.set(key, url);
+          return url;
+        }
+
+        async function applyMasks() {
+          await Promise.all(cards.map(async (card) => {
+            const img = card.querySelector("img.art");
+            if (!img) return;
+            try { await img.decode(); } catch { return; }
+            const flipped = img.classList.contains("flip-art");
+            card.querySelector(".exp-half.top .exp-shape").style.shapeOutside = inkMask(img, flipped);
+            card.querySelector(".exp-half.bottom .exp-shape").style.shapeOutside = inkMask(img, !flipped);
+            card.querySelectorAll(".exp-shape").forEach((s) => s.classList.add("has-mask"));
+          }));
+        }
+
+        // The top half's float sits on the art's side; the rotated bottom half's
+        // float sits on the opposite side of its own (flipped) box.
+        function applyLayout() {
+          const artRight = artSide.value === "right";
+          cards.forEach((card) => {
+            card.classList.toggle("art-left", !artRight);
+            card.classList.toggle("contour", contour.checked);
+            card.querySelectorAll(".exp-shape").forEach((s) => {
+              const right = s.closest(".exp-half").classList.contains("top") ? artRight : !artRight;
+              s.classList.toggle("right", right);
+              s.classList.toggle("left", !right);
+            });
+          });
+          fitAll();
+        }
+
+        artSide.addEventListener("change", applyLayout);
+        flip.addEventListener("change", () =>
+          document.querySelector(".exp-deck").classList.toggle("flipped", flip.checked));
+        contour.addEventListener("change", applyLayout);
+        window.addEventListener("load", async () => {
+          await document.fonts.ready;
+          await applyMasks();
+          applyLayout();
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -80,6 +80,8 @@ def canonicalize_cards(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         inv_rule = _get_ci(r, "Inverted Rule", "InvertedRule", "Rule Inverted")
         on_pickup = _get_ci(r, "On Pickup", "OnPickup", "Pickup", "Pickup Rule")
         art = _get_ci(r, "Art?", "Art", "Artwork", "Image")
+        # Art drawn upside-down relative to Name / Inverted Name.
+        flip_art = _get_ci(r, "Flip Art", "FlipArt").lower() in ("y", "yes", "true", "x", "1")
 
         cards.append(
             {
@@ -97,6 +99,7 @@ def canonicalize_cards(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "on_pickup_html": _get_ci_html(r, "On Pickup", "OnPickup", "Pickup", "Pickup Rule"),
                 "art": art,
                 "art_filename": _art_filename(art),
+                "flip_art": flip_art,
                 "is_finished": bool(name and inv_name and rule and inv_rule and on_pickup),
                 "raw": r,
             }
@@ -156,6 +159,10 @@ def build_site(
     )
     (out_dir / "game_cards.html").write_text(
         env.get_template("game_cards.html.j2").render(cards=cards),
+        encoding="utf-8",
+    )
+    (out_dir / "experimental_cards.html").write_text(
+        env.get_template("experimental_cards.html.j2").render(cards=cards),
         encoding="utf-8",
     )
     finished_cards = [c for c in cards if c.get("is_finished")]

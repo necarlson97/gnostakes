@@ -119,6 +119,12 @@
     display: block;
   }
 
+  /* Art drawn upside-down vs Name / Inverted Name ("Flip Art" column).
+     Uses the standalone rotate property so it composes with any transform. */
+  img.art.flip-art {
+    rotate: 180deg;
+  }
+
   .game-card {
     position: relative;
     justify-content: space-between;
@@ -159,7 +165,7 @@
 
   <div class="art-area">
     {% if card.art_filename %}
-      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+      <img class="art{{ ' flip-art' if card.flip_art else '' }}" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
     {% endif %}
   </div>
 
@@ -180,7 +186,7 @@
 
   <div class="art-area">
     {% if card.art_filename %}
-      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+      <img class="art{{ ' flip-art' if card.flip_art else '' }}" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
     {% endif %}
   </div>
 
@@ -188,6 +194,220 @@
     <div class="line name">{{ card.inverted_name_html|safe }}</div>
     {% if card.inverted_rule %}
       <div class="line rule">{{ card.inverted_rule_html|safe }}</div>
+    {% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro experimental_css() -%}
+<style>
+  :root {
+    --card-w: 88mm;
+    --card-h: 88mm;
+    --exp-art-crop: 0.85;
+    --exp-art-full-w: calc(var(--card-h) * 1500 / 2100);
+    --exp-art-overhang: calc(var(--exp-art-full-w) * (1 - var(--exp-art-crop)) / 2);
+    --exp-pad-top: 2mm;
+    --exp-pad-x: 1.2mm;
+    --exp-shape-margin: 2mm;
+    --exp-name-size: 12pt;
+    --exp-rule-size: 10pt;
+    --exp-cut-color: #c4c4c4;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  /* 3 x 88mm fits a landscape A4/Letter page. Cut lines are real borders
+     (the deck draws top/left, each card its right/bottom) rather than the
+     base deck's background-through-gaps, which can vanish at fractional
+     pixel positions. */
+  .exp-deck {
+    grid-template-columns: repeat(3, var(--card-w));
+    gap: 0;
+    padding: 0;
+    background: none;
+    border-top: 1px solid var(--exp-cut-color);
+    border-left: 1px solid var(--exp-cut-color);
+  }
+
+  .exp-card {
+    flex-direction: row;
+    break-inside: avoid;
+    border-right: 1px solid var(--exp-cut-color);
+    border-bottom: 1px solid var(--exp-cut-color);
+  }
+
+  /* Viewing aid: spin every card to read the inverted halves upright. */
+  .exp-deck.flipped .exp-card {
+    transform: rotate(180deg);
+  }
+
+  .exp-card.art-left {
+    flex-direction: row-reverse;
+  }
+
+  .exp-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-half {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: var(--exp-pad-top) var(--exp-pad-x) 1mm;
+  }
+
+  .exp-half.bottom {
+    transform: rotate(180deg);
+    border-top: 0.3mm dashed #bbb;
+  }
+
+  .exp-card .line {
+    text-align: left;
+  }
+
+  .exp-card .line.name {
+    font-size: var(--exp-name-size);
+  }
+
+  .exp-card .line.rule {
+    font-size: var(--exp-rule-size);
+  }
+
+  /* The art column takes --exp-art-crop of the art's width; the full-width,
+     full-height image is centred on it, so its overhang shows behind the text
+     on the inner side and is clipped by the card on the outer edge. Aspect is
+     based on the art files (1500x2100) so cards without art keep the same
+     text width. */
+  .exp-art {
+    flex: none;
+    position: relative;
+    z-index: 0;
+    height: 100%;
+    aspect-ratio: calc(1500 * var(--exp-art-crop)) / 2100;
+  }
+
+  .exp-art img.art {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0; /* not transform: it would be applied after flip-art's rotate */
+    height: 100%;
+    width: auto;
+    max-width: none;
+    display: block;
+  }
+
+  .exp-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .exp-card {
+    position: relative;
+  }
+
+  /* Contour mode: the text layer spans the whole card and wraps around an
+     invisible float per half whose shape-outside is an ink mask of the art
+     (built in JS; the bottom half uses the mask rotated 180deg). The float
+     lines up exactly with the visible art, including its overhang. */
+  .exp-shape {
+    display: none;
+  }
+
+  .exp-card.contour {
+    justify-content: flex-end;
+  }
+
+  .exp-card.contour .exp-text {
+    position: absolute;
+    inset: 0;
+  }
+
+  .exp-card.contour .exp-half.bottom {
+    border-top: none;
+  }
+
+  .exp-card.contour .exp-shape.has-mask {
+    display: block;
+    width: var(--exp-art-full-w);
+    height: var(--card-h);
+    margin-top: calc(-1 * var(--exp-pad-top));
+    shape-margin: var(--exp-shape-margin);
+    shape-image-threshold: 0.5;
+  }
+
+  .exp-shape.right {
+    float: right;
+    margin-right: calc(-1 * (var(--exp-pad-x) + var(--exp-art-overhang)));
+  }
+
+  .exp-shape.left {
+    float: left;
+    margin-left: calc(-1 * (var(--exp-pad-x) + var(--exp-art-overhang)));
+  }
+
+  /* Align text to the card's flat (art-free) edge: when the art float is on
+     the left of a half's own box (e.g. the rotated bottom half), right-align. */
+  .exp-shape.left ~ .line {
+    text-align: right;
+  }
+
+  .exp-controls {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .exp-controls label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  @page {
+    size: landscape;
+    margin: 8mm;
+  }
+
+  @media print {
+    header { display: none; }
+    body { margin: 0; }
+  }
+</style>
+{%- endmacro %}
+
+{% macro experimental_card(card) -%}
+<div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">{{ card.name_html|safe }}</div>
+      {% if card.rule %}
+        <div class="line rule">{{ card.rule_html|safe }}</div>
+      {% endif %}
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">{{ card.inverted_name_html|safe }}</div>
+      {% if card.inverted_rule %}
+        <div class="line rule">{{ card.inverted_rule_html|safe }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="exp-art">
+    {% if card.art_filename %}
+      <img class="art{{ ' flip-art' if card.flip_art else '' }}" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
     {% endif %}
   </div>
 </div>
@@ -204,7 +424,7 @@
 
   <div class="art-area">
     {% if card.art_filename %}
-      <img class="art" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
+      <img class="art{{ ' flip-art' if card.flip_art else '' }}" alt="{{ card.name|e }}" src="assets/images/{{ card.art_filename|e }}" />
     {% endif %}
   </div>
 

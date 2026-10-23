@@ -12,7 +12,8 @@
     "Race": "Black",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "jester"
+    "Art?": "jester",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Magician",
@@ -27,7 +28,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "magician"
+    "Art?": "magician",
+    "Flip Art": ""
   },
   {
     "Gill Word": "High Priestess",
@@ -42,7 +44,8 @@
     "Race": "Black",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "mother"
+    "Art?": "mother",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Empress",
@@ -57,7 +60,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "gargoyle"
+    "Art?": "gargoyle",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Emperor",
@@ -72,7 +76,8 @@
     "Race": "Black",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "judge"
+    "Art?": "judge",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Priest",
@@ -87,7 +92,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "deacon"
+    "Art?": "deacon",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Lovers",
@@ -102,7 +108,8 @@
     "Race": "Hispanic",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "skele"
+    "Art?": "skele",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Chariot",
@@ -117,7 +124,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "boxer"
+    "Art?": "boxer",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Strength",
@@ -132,7 +140,8 @@
     "Race": "Native",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "quarryman"
+    "Art?": "quarryman",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Hermit",
@@ -147,7 +156,8 @@
     "Race": "Native",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "pillar"
+    "Art?": "pillar",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Wheel of Fortune",
@@ -162,7 +172,8 @@
     "Race": "Hispanic",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "marooned"
+    "Art?": "marooned",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Justice",
@@ -177,7 +188,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "inquisitor"
+    "Art?": "inquisitor",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Hanged Man",
@@ -192,7 +204,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "hanged"
+    "Art?": "hanged",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Death",
@@ -207,7 +220,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "pauper"
+    "Art?": "pauper",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Temperance",
@@ -216,13 +230,14 @@
     "": "",
     "Rank": "Temperance",
     "Name": "Binger",
-    "Rule": "You can now score straights with a one gap of 1\n(E.g., 1,2,4 scores as a Three Straight)",
+    "Rule": "You can now score straights with one gap of 1\n(E.g., 1,2,4 scores as a Three Straight)",
     "Inverted Name": "Purger",
     "Inverted Rule": "On Scheme start, you may decrease a Potency by -1\nWhenever an opponent claims a card, you may:\nlose a tooth and incinerate this card\nto claim that card yourself instead",
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "binge"
+    "Art?": "binge",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Devil",
@@ -237,7 +252,8 @@
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "devil"
+    "Art?": "devil",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Power",
@@ -252,7 +268,8 @@
     "Race": "Indian",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "faust"
+    "Art?": "faust",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Star",
@@ -267,7 +284,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "nun"
+    "Art?": "nun",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Moon",
@@ -282,7 +300,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "insane"
+    "Art?": "insane",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Sun",
@@ -297,7 +316,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "homunculus"
+    "Art?": "homunculus",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Judgment",
@@ -312,7 +332,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "accused"
+    "Art?": "accused",
+    "Flip Art": ""
   },
   {
     "Gill Word": "World",
@@ -327,7 +348,8 @@
     "Race": "Hispanic",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "jar"
+    "Art?": "jar",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Wealth",
@@ -342,7 +364,8 @@
     "Race": "Asian",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "cider"
+    "Art?": "cider",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Unity",
@@ -357,7 +380,8 @@
     "Race": "Black",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "glassblower"
+    "Art?": "glassblower",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Gain",
@@ -372,7 +396,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "burner"
+    "Art?": "burner",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Order",
@@ -387,7 +412,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "shepard"
+    "Art?": "shepard",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Adaptation",
@@ -402,7 +428,8 @@
     "Race": "Asian",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "leper"
+    "Art?": "leper",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Well-Being",
@@ -417,7 +444,8 @@
     "Race": "Black",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "quaker"
+    "Art?": "quaker",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Delay",
@@ -432,7 +460,8 @@
     "Race": "Asian",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "venus fly"
+    "Art?": "venus fly",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Skill",
@@ -447,7 +476,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "snake"
+    "Art?": "snake",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Prudence",
@@ -462,7 +492,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "oath"
+    "Art?": "oath",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Prosperity",
@@ -477,7 +508,8 @@
     "Race": "Black",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "blacksmith"
+    "Art?": "blacksmith",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Growth",
@@ -492,7 +524,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "grain"
+    "Art?": "grain",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Construction",
@@ -507,7 +540,8 @@
     "Race": "Hispanic",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "abacus"
+    "Art?": "abacus",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Nurture",
@@ -522,7 +556,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "arsnice"
+    "Art?": "arsnice",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Conception",
@@ -537,7 +572,8 @@
     "Race": "Hispanic",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "powder"
+    "Art?": "powder",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Beauty",
@@ -552,7 +588,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "wine"
+    "Art?": "wine",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Love",
@@ -567,7 +604,8 @@
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "ghostwriter"
+    "Art?": "ghostwriter",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Joy",
@@ -582,7 +620,8 @@
     "Race": "Hispanic",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "gin"
+    "Art?": "gin",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Satiety",
@@ -597,7 +636,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "soup"
+    "Art?": "soup",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Regret",
@@ -612,7 +652,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "mourn"
+    "Art?": "mourn",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Satisfaction",
@@ -627,7 +668,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "veil"
+    "Art?": "veil",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Imagination",
@@ -642,7 +684,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "fairy"
+    "Art?": "fairy",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Instability",
@@ -657,7 +700,8 @@
     "Race": "Asian",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "hairshirt"
+    "Art?": "hairshirt",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Content",
@@ -672,7 +716,8 @@
     "Race": "Indian",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": "gout"
+    "Art?": "gout",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Success",
@@ -687,7 +732,8 @@
     "Race": "Black",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "leech"
+    "Art?": "leech",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Evolution",
@@ -702,7 +748,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "virgin"
+    "Art?": "virgin",
+    "Flip Art": "y"
   },
   {
     "Gill Word": "Creativity",
@@ -717,7 +764,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "music"
+    "Art?": "music",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Contemplation",
@@ -732,7 +780,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "tar"
+    "Art?": "tar",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Inspiration",
@@ -747,7 +796,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "socratic"
+    "Art?": "socratic",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Potency",
@@ -762,7 +812,8 @@
     "Race": "Black",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "pyro"
+    "Art?": "pyro",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Dominion",
@@ -777,7 +828,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "branded"
+    "Art?": "branded",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Enterprise",
@@ -792,7 +844,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "cannonneer"
+    "Art?": "cannonneer",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Completion",
@@ -807,7 +860,8 @@
     "Race": "Black",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": "miller"
+    "Art?": "miller",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Endeavor",
@@ -822,7 +876,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "sapper"
+    "Art?": "sapper",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Victory",
@@ -837,7 +892,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": "warrior"
+    "Art?": "warrior",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Valor",
@@ -852,7 +908,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Speed",
@@ -867,7 +924,8 @@
     "Race": "Black",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Preparation",
@@ -882,7 +940,8 @@
     "Race": "Hispanic",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Oppression",
@@ -897,7 +956,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Transformation",
@@ -912,7 +972,8 @@
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Aspiration",
@@ -927,7 +988,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Reflection",
@@ -942,7 +1004,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": "assayer"
+    "Art?": "assayer",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Innovation",
@@ -957,7 +1020,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Energy",
@@ -972,7 +1036,8 @@
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Peace",
@@ -987,7 +1052,8 @@
     "Race": "Hispanic",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Sorrow",
@@ -1002,7 +1068,8 @@
     "Race": "Black",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Rest",
@@ -1017,7 +1084,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Loss",
@@ -1032,7 +1100,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Change",
@@ -1047,7 +1116,8 @@
     "Race": "White",
     "Age": "Old",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Uncertainty",
@@ -1062,7 +1132,8 @@
     "Race": "Asian",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Conflict",
@@ -1077,7 +1148,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Despair",
@@ -1092,7 +1164,8 @@
     "Race": "Native",
     "Age": "Old",
     "Gender": "Male",
-    "Art?": "shrinker"
+    "Art?": "shrinker",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Desolation",
@@ -1107,7 +1180,8 @@
     "Race": "Hispanic",
     "Age": "Middle",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Control",
@@ -1122,7 +1196,8 @@
     "Race": "White",
     "Age": "Middle",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Action",
@@ -1137,7 +1212,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Reason",
@@ -1152,7 +1228,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Female",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "Intuition",
@@ -1167,7 +1244,8 @@
     "Race": "White",
     "Age": "Young",
     "Gender": "Male",
-    "Art?": "gagged"
+    "Art?": "gagged",
+    "Flip Art": ""
   },
   {
     "Gill Word": "",
@@ -1182,7 +1260,8 @@
     "Race": "",
     "Age": "Male",
     "Gender": "39",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "",
@@ -1197,7 +1276,8 @@
     "Race": "",
     "Age": "Female",
     "Gender": "39",
-    "Art?": ""
+    "Art?": "",
+    "Flip Art": ""
   },
   {
     "Gill Word": "",
@@ -1212,7 +1292,8 @@
     "Race": "",
     "Age": "",
     "Gender": "",
-    "Art?": "Extra Art"
+    "Art?": "Extra Art",
+    "Flip Art": ""
   },
   {
     "Gill Word": "",
@@ -1227,7 +1308,8 @@
     "Race": "",
     "Age": "",
     "Gender": "",
-    "Art?": "coins"
+    "Art?": "coins",
+    "Flip Art": ""
   },
   {
     "Gill Word": "",
@@ -1242,6 +1324,7 @@
     "Race": "",
     "Age": "",
     "Gender": "",
-    "Art?": "sword boy"
+    "Art?": "sword boy",
+    "Flip Art": ""
   }
 ]

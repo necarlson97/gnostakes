@@ -37,3 +37,6 @@ service-account*.json
 *.tmp.[0-9]*
 data/cache/
 assets/cache/
+
+# Generated card PNG exports (print_and_play/tools/export_pngs.py)
+print_and_play/export/
