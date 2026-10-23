@@ -1,6 +1,6 @@
-# Gnostakes: Godot engine (headless core)
+# Gnostakes: Godot engine (headless core) and 3D table
 
-Godot 4.2, pure GDScript, with no scenes and no Node dependencies in `core/`. The same `Game` object runs bot simulations and will run behind the GUI.
+Godot 4.2, pure GDScript, with no scenes and no Node dependencies in `core/`. The same `Game` object runs bot simulations and runs behind the 3D table (`gui/`, the project's main scene).
 
 ```
 core/
@@ -17,6 +17,8 @@ core/
   game.gd        Game: state + rules + hook dispatch
 cards/<id>.gd    one file per tarot card: inner classes Top and Inv
 data/cards.json  generated from the sheet snapshot by tools/sync_cards.py
+gui/             the diegetic 3D table (see "3D table" below)
+assets/          STLs (print files), models/*.obj and cards/*.png made from them by tools/convert_assets.py
 tests/           headless tests
 sim/             batch simulations
 ```
@@ -38,6 +40,38 @@ python game/tools/sync_cards.py
 ```
 That regenerates `data/cards.json` (text plus parsed features) and `design/card_features.md`.
 Run that last one after re-pulling the sheet into `design/source_snapshot/`. On this machine `godot` is `F:\godot\Godot_v4.2.1-stable_win64.exe\Godot_v4.2.1-stable_win64_console.exe`. Use the `_console` build, or nothing prints. Run `godot --headless --path game --editor --quit` once after adding a new `class_name` script, so the class cache is rebuilt.
+
+## 3D table (`gui/`)
+
+```bash
+game/run.sh gui
+```
+```bash
+game/run.sh guitest
+```
+The first opens the table: you against three `AdaptiveBot`s. The second plays your seat through synthetic mouse input (clicks and drags on real objects) at 4× speed, and fails on any script error or if no game finishes. Add `games=N` or `seed=N` to either. `autoplay` seats a bot in your chair as well. `shot=<png> shot_after=S shots=N` saves screenshots, which is handy for checking layout without watching.
+
+You sit at head height over your seat. In front of you are your cadre, a dice tray, the commit row nearest you, and the discard pile on the left. Your teeth and keys are on the left, and your token piles on the right. The Town Square mat is in the middle, with the village deck on its right and the pyre on its left. Opponents sit left, across and right. Units are centimetres (gravity is set to 981).
+
+| Phase | What you do |
+|---|---|
+| Swig | Drag upward and release (or press Space) to throw your dice. Click a die to commit it and right-click to discard it, or drag it to the commit row or the discard pile. The sets you could form are ringed in colour, listed on the left and lit on the mat. Click a listed set to commit its dice. **Advise me** asks the AdaptiveBot's dice solver. |
+| Scry | Your committed dice are laid out in their scoring groups. Drag dice between groups, or to the back row to leave them out, or browse the legal arrangements with ◀ ▶. |
+| Requests | Town Square cards you may request glow. Drag one to your cadre, or click it. Right-click to choose between a set right and paying tokens. |
+| Wagers | Drag tokens into the brass dish (click one to take it back). |
+| Scheme | Click your villagers to spin them, then confirm. |
+| Abilities | A villager glows when its ability can be used now. Click it. |
+| Other choices | Card and die targets glow when they're on the table. Everything else is a pop-up list; hover a card name to inspect it. |
+
+Hovering any face-up card shows it large, with both faces' text. Right-drag looks around, the wheel leans in, 1–4 look at a seat, and holding Tab fast-forwards.
+
+How it hooks into the engine (the engine itself is untouched apart from one hook):
+- **Your seat** is a `Controller.Async`. `Interaction` turns each `Choice` (by `kind` and `tag`) into a table mode, and the result goes back through `submit()`.
+- **Bots** are wrapped in `PacedController`, which waits a beat before any answer that does something, so you can follow along.
+- **Dice:** `Game.roller` is the one engine hook. When it's set, `Game.toss()` (used by `roll()` and Vivisectionist) awaits it instead of `rng`. `DiceRoller` throws the physical vials, waits for them to settle (cocked dice get nudged), and reads the face pointing up. Headless sims never set it, so seeds and replays are unchanged. A GUI game can't be replayed from its seed, because the faces came from physics. While fast-forwarding (Tab, or `fast=4` and up), bots' dice land without physics. Your own dice are always thrown.
+- **Views follow state.** Each engine event marks the table dirty. `Table._sync()` then works out where every card, die, token, tooth and key belongs and glides it there. No view changes game state.
+
+`tools/convert_assets.py` turns the STLs into OBJ meshes (mm → cm, recentred into die space) and copies `print_and_play/export/game_cards` into `assets/cards/<tarot id>.png`. Re-run it after re-exporting cards or editing the STLs, then let Godot re-import (open the editor, or `godot --headless --path game --editor --quit`).
 
 ## Design
 

@@ -4,7 +4,24 @@ config_version=5
 [application]
 config/name="Gnostakes"
 config/features=PackedStringArray("4.2")
+run/main_scene="res://gui/main.tscn"
 
 [debug]
 gdscript/warnings/redundant_await=0
 gdscript/warnings/untyped_declaration=0
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+
+[physics]
+
+3d/default_gravity=981.0
+common/physics_ticks_per_second=120
+3d/sleep_threshold_linear=1.0
+3d/solver/solver_iterations=24
+
+[rendering]
+
+anti_aliasing/quality/msaa_3d=2

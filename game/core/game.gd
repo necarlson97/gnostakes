@@ -35,6 +35,10 @@ var log: Array = []                 # every emitted event (Dictionary)
 var answers: Array = []             # [seat, encoded answer] for replay
 var invalid_answers := 0            # controller answers that failed validation (should stay 0)
 var keep_log := true
+## Optional face generator for physical dice (the 3D GUI). Called as
+## `await roller.call(game, player, dice)` and must set `d.up` on every die. Unset, the
+## engine rolls with `rng`, so headless sims and replays are unaffected.
+var roller := Callable()
 var trace = null                    # set to {} to count "<card title>.<hook>" calls (coverage)
 var _depth := 0
 var _running := {}                 # hooks currently on the stack (no self-retrigger)
@@ -137,7 +141,7 @@ func swig(p: Player) -> void:
 
 func roll(p: Player, dice: Array) -> void:
 	roll_no += 1
-	for d in dice: d.up = rng.randi_range(0, d.faces.size() - 1)
+	await toss(p, dice)
 	await emit(&"rolled", {player = p, dice = dice})
 	for d in dice:
 		if d.ready(): await emit(&"roll", {player = p, die = d, face = d.face(), manual = false})
@@ -158,6 +162,12 @@ func discard(p: Player, d: Die, src: Ability = null) -> void:
 func undiscard(p: Player, d: Die, src: Ability = null) -> void:
 	d.zone = GK.Zone.READY
 	await emit(&"undiscard", {player = p, die = d, src = src})
+
+## Randomise the faces of `dice` (no events): physical dice when a `roller` is set.
+func toss(p: Player, dice: Array) -> void:
+	if roller.is_valid(): await roller.call(self, p, dice)
+	else:
+		for d in dice: d.up = rng.randi_range(0, d.faces.size() - 1)
 
 ## Manually rotate a die to a face index. This retriggers "on rolling" (per the rules).
 func rotate(p: Player, d: Die, face_idx: int, src: Ability = null) -> void:

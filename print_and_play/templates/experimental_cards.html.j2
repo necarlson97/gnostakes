@@ -1,18 +1,19 @@
 {% from "partials/cards_macros.html.j2" import card_css, experimental_css, experimental_card, name_font_head %}
 {% set named_cards = cards | selectattr("name") | list %}
+{% set page_title = page_title | default("experimental cards") %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>gnostakes - experimental cards</title>
+    <title>gnostakes - {{ page_title }}</title>
     {{ name_font_head("Metamorphous") }}
     {{ card_css() }}
     {{ experimental_css() }}
   </head>
   <body>
     <header>
-      <h1 style="margin:0;">experimental cards</h1>
+      <h1 style="margin:0;">{{ page_title }}</h1>
       <a class="muted" href="./index.html">back to index</a>
       <span class="muted">cards: {{ named_cards|length }}</span>
       <div class="exp-controls">

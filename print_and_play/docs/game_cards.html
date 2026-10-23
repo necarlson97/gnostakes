@@ -1,4 +1,8 @@
 
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
   rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Metamorphous&display=swap"
 />
     <style>
   :root {
@@ -158,1780 +162,2260 @@
     z-index: 1;
   }
 </style>
+    <style>
+  :root {
+    --card-w: 88mm;
+    --card-h: 88mm;
+    --exp-art-crop: 0.85;
+    --exp-art-full-w: calc(var(--card-h) * 1500 / 2100);
+    --exp-art-overhang: calc(var(--exp-art-full-w) * (1 - var(--exp-art-crop)) / 2);
+    --exp-pad-top: 2mm;
+    --exp-pad-x: 1.2mm;
+    --exp-shape-margin: 2mm;
+    --exp-name-size: 12pt;
+    --exp-rule-size: 10pt;
+    --exp-cut-color: #c4c4c4;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  /* 3 x 88mm fits a landscape A4/Letter page. Cut lines are real borders
+     (the deck draws top/left, each card its right/bottom) rather than the
+     base deck's background-through-gaps, which can vanish at fractional
+     pixel positions. */
+  .exp-deck {
+    grid-template-columns: repeat(3, var(--card-w));
+    gap: 0;
+    padding: 0;
+    background: none;
+    border-top: 1px solid var(--exp-cut-color);
+    border-left: 1px solid var(--exp-cut-color);
+  }
+
+  .exp-card {
+    flex-direction: row;
+    break-inside: avoid;
+    border-right: 1px solid var(--exp-cut-color);
+    border-bottom: 1px solid var(--exp-cut-color);
+  }
+
+  /* Viewing aid: spin every card to read the inverted halves upright. */
+  .exp-deck.flipped .exp-card {
+    transform: rotate(180deg);
+  }
+
+  .exp-card.art-left {
+    flex-direction: row-reverse;
+  }
+
+  .exp-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-half {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: var(--exp-pad-top) var(--exp-pad-x) 1mm;
+  }
+
+  .exp-half.bottom {
+    transform: rotate(180deg);
+    border-top: 0.3mm dashed #bbb;
+  }
+
+  .exp-card .line {
+    text-align: left;
+  }
+
+  .exp-card .line.name {
+    font-size: var(--exp-name-size);
+  }
+
+  .exp-card .line.rule {
+    font-size: var(--exp-rule-size);
+  }
+
+  /* The art column takes --exp-art-crop of the art's width; the full-width,
+     full-height image is centred on it, so its overhang shows behind the text
+     on the inner side and is clipped by the card on the outer edge. Aspect is
+     based on the art files (1500x2100) so cards without art keep the same
+     text width. */
+  .exp-art {
+    flex: none;
+    position: relative;
+    z-index: 0;
+    height: 100%;
+    aspect-ratio: calc(1500 * var(--exp-art-crop)) / 2100;
+  }
+
+  .exp-art img.art {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0; /* not transform: it would be applied after flip-art's rotate */
+    height: 100%;
+    width: auto;
+    max-width: none;
+    display: block;
+  }
+
+  .exp-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .exp-card {
+    position: relative;
+  }
+
+  /* Contour mode: the text layer spans the whole card and wraps around an
+     invisible float per half whose shape-outside is an ink mask of the art
+     (built in JS; the bottom half uses the mask rotated 180deg). The float
+     lines up exactly with the visible art, including its overhang. */
+  .exp-shape {
+    display: none;
+  }
+
+  .exp-card.contour {
+    justify-content: flex-end;
+  }
+
+  .exp-card.contour .exp-text {
+    position: absolute;
+    inset: 0;
+  }
+
+  .exp-card.contour .exp-half.bottom {
+    border-top: none;
+  }
+
+  .exp-card.contour .exp-shape.has-mask {
+    display: block;
+    width: var(--exp-art-full-w);
+    height: var(--card-h);
+    margin-top: calc(-1 * var(--exp-pad-top));
+    shape-margin: var(--exp-shape-margin);
+    shape-image-threshold: 0.5;
+  }
+
+  .exp-shape.right {
+    float: right;
+    margin-right: calc(-1 * (var(--exp-pad-x) + var(--exp-art-overhang)));
+  }
+
+  .exp-shape.left {
+    float: left;
+    margin-left: calc(-1 * (var(--exp-pad-x) + var(--exp-art-overhang)));
+  }
+
+  /* Align text to the card's flat (art-free) edge: when the art float is on
+     the left of a half's own box (e.g. the rotated bottom half), right-align. */
+  .exp-shape.left ~ .line {
+    text-align: right;
+  }
+
+  .exp-controls {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .exp-controls label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  @page {
+    size: landscape;
+    margin: 8mm;
+  }
+
+  @media print {
+    header { display: none; }
+    body { margin: 0; }
+  }
+</style>
   </head>
   <body>
     <header>
       <h1 style="margin:0;">game cards</h1>
       <a class="muted" href="./index.html">back to index</a>
-      <span class="muted">cards: 83</span>
+      <span class="muted">cards: 78</span>
+      <div class="exp-controls">
+        <label>art side
+          <select id="art-side">
+            <option value="right" selected>right</option>
+            <option value="left">left</option>
+          </select>
+        </label>
+        <label><input id="contour" type="checkbox" checked /> wrap text around art</label>
+        <label><input id="flip" type="checkbox" /> flip cards 180&deg;</label>
+        <span class="muted" id="fit-status"></span>
+      </div>
     </header>
 
-    <div class="deck">
+    <div class="deck exp-deck">
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Hollowhead</div>
-    
-      <div class="line rule">When you gain a key:<br>if you have only 2 other active cards: gain an additional key.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Hollowhead</div>
+      
+        <div class="line rule">When you gain a key:<br>if you have only 2 other active cards: gain an additional key.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">God-Struck Fool</div>
+      
+        <div class="line rule">While this is active, you get a bonus die that is all 1s.<br>On Scry, if you did not score any Potency dice: incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Hollowhead" src="assets/images/jester.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">God-Struck Fool</div>
-    
-      <div class="line rule">While this is active, you get a bonus die that is all 1s.<br>On Scry, if you did not score any Potency dice: incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Knower of True Names</div>
-    
-      <div class="line rule">Any time you score a set without F: bury a W on this card.<br>On Scheme start, if there is W buried:<br>you must swap in a W crystal, then unbury all W on this card.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Knower of True Names</div>
+      
+        <div class="line rule">Any time you score a set without F: bury a W on this card.<br>On Scheme start, if there is W buried:<br>you must swap in a W crystal, then unbury all W on this card.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Lockpicking Archon</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to any players card.<br>When the attached card is incinerated, this card is incinerated too.<br>That player cannot lose teeth, and cannot gain keys.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Knower of True Names" src="assets/images/magician.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Lockpicking Archon</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to any players card.<br>When the attached card is incinerated, this card is incinerated too.<br>That player cannot lose teeth, and cannot gain keys.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Mooncalf Mother</div>
-    
-      <div class="line rule">Once per roll, you may discard a die to rotate a die to any face.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Mooncalf Mother</div>
+      
+        <div class="line rule">Once per roll, you may discard a die to rotate a die to any face.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Carrier of the Droplet</div>
+      
+        <div class="line rule">At any time, you may spend 3W to invert a card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Mooncalf Mother" src="assets/images/mother.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Carrier of the Droplet</div>
-    
-      <div class="line rule">At any time, you may spend 3W to invert a card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Gargoyle Mother</div>
-    
-      <div class="line rule">While this is active, you only need to commit/discard 4 dice per roll.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Gargoyle Mother</div>
+      
+        <div class="line rule">While this is active, you only need to commit/discard 4 dice per roll.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Famed Freemason</div>
+      
+        <div class="line rule">While this is active, you get a bonus Potency die.<br>You cannot score:<br>Three Straight, Two Color-Pairs, Triplet, Four of a Color.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Gargoyle Mother" src="assets/images/gargoyle.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Famed Freemason</div>
-    
-      <div class="line rule">While this is active, you get a bonus Potency die.<br>You cannot score:<br>Three Straight, Two Color-Pairs, Triplet, Four of a Color.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Incorruptible Judge</div>
-    
-      <div class="line rule">While this is active, you get a bonus die that is all E<br>Any time you score a set without E:<br>convert all of a non-E token to E<br>If you get 0 non-E tokens: lose a tooth</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Incorruptible Judge</div>
+      
+        <div class="line rule">While this is active, you get a bonus die that is all E<br>Any time you score a set without E:<br>convert all of a non-E token to E<br>If you get 0 non-E tokens: lose a tooth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Hardnosed Idealist</div>
+      
+        <div class="line rule">On Scheme start, incinerate this card to:<br>choose a die, swap all its crystals for a single color of your choice.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Incorruptible Judge" src="assets/images/judge.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Hardnosed Idealist</div>
-    
-      <div class="line rule">On Scheme start, incinerate this card to:<br>choose a die, swap all its crystals for a single color of your choice.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Plate-Plundering Deacon</div>
-    
-      <div class="line rule">Whenever you claim a card, you may spend 2Q to claim any other.<br>(this claim automatically loses against wagers)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Plate-Plundering Deacon</div>
+      
+        <div class="line rule">Whenever you claim a card, you may spend 2Q to claim any other.<br>(this claim automatically loses against wagers)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Pious Parishioner</div>
+      
+        <div class="line rule">If you incinerate two cards in a single round:<br>gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Plate-Plundering Deacon" src="assets/images/deacon.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Pious Parishioner</div>
-    
-      <div class="line rule">If you incinerate two cards in a single round:<br>gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Doomed Romantic</div>
-    
-      <div class="line rule">When you incinerate this card:<br>swap tooth count with another player then lose 1 tooth</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Doomed Romantic</div>
+      
+        <div class="line rule">When you incinerate this card:<br>swap tooth count with another player then lose 1 tooth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Kismet Syzygyst</div>
+      
+        <div class="line rule">On Scheme start: incinerate this card to:<br>permanently gain another elemental die, starting with only F faces</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Doomed Romantic" src="assets/images/skele.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Kismet Syzygyst</div>
-    
-      <div class="line rule">On Scheme start: incinerate this card to:<br>permanently gain another elemental die, starting with only F faces</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Promising Pugilist</div>
-    
-      <div class="line rule">Choose one of the following scoring sets:<br>Quadruplet (bury E), Five Straight (bury W),<br>Five of a Color(bury F),  Four Air (bury A)<br>When you score that set:<br>gain a key and if you have &gt;1 tooth lose a tooth</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Promising Pugilist</div>
+      
+        <div class="line rule">Choose one of the following scoring sets:<br>Quadruplet (bury E), Five Straight (bury W),<br>Five of a Color(bury F),  Four Air (bury A)<br>When you score that set:<br>gain a key and if you have &gt;1 tooth lose a tooth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Bruised Boxer</div>
+      
+        <div class="line rule">Whenever you would lose a tooth, instead you may:<br>spend all tokens of 1 type and incinerate two other cards</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Promising Pugilist" src="assets/images/boxer.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Bruised Boxer</div>
-    
-      <div class="line rule">Whenever you would lose a tooth, instead you may:<br>spend all tokens of 1 type and incinerate two other cards</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Hard-Weathered Quarryman</div>
-    
-      <div class="line rule">On Scheme start, you may spend 1A to swap in a 6 for any Potency</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Hard-Weathered Quarryman</div>
+      
+        <div class="line rule">On Scheme start, you may spend 1A to swap in a 6 for any Potency</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Stonefaced Stoic</div>
+      
+        <div class="line rule">Whenever you would lose a tooth,<br>bury it on this card instead.<br>If 3 teeth are buried here, incinerate this and lose all 3.<br>If this card is incinerated by another card, you get them all back.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Hard-Weathered Quarryman" src="assets/images/quarryman.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Stonefaced Stoic</div>
-    
-      <div class="line rule">Whenever you would lose a tooth,<br>bury it on this card instead.<br>If 3 teeth are buried here, incinerate this and lose all 3.<br>If this card is incinerated by another card, you get them all back.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Pillar-top Hermit</div>
-    
-      <div class="line rule">While this is active, you get a bonus die that is all 6s.<br>Whenever you would gain tokens, gain 1 less</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Pillar-top Hermit</div>
+      
+        <div class="line rule">While this is active, you get a bonus die that is all 6s.<br>Whenever you would gain tokens, gain 1 less</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Bird-Fouled Hagia</div>
+      
+        <div class="line rule">On Scheme Start, bury 1Q here.<br>Whenever you gain Q from anything else, gain all Q buried here.<br>If 5 or more Q are buried here, incinerate this card and gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Pillar-top Hermit" src="assets/images/pillar.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Bird-Fouled Hagia</div>
-    
-      <div class="line rule">On Scheme Start, bury 1Q here.<br>Whenever you gain Q from anything else, gain all Q buried here.<br>If 5 or more Q are buried here, incinerate this card and gain 1 key.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Barefoot Pilgrim</div>
-    
-      <div class="line rule">On Scheme start: incinerate this card to:<br>permanently gain another elemental die, starting with only W faces</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Barefoot Pilgrim</div>
+      
+        <div class="line rule">On Scheme start: incinerate this card to:<br>permanently gain another elemental die, starting with only W faces</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Marooned Wanderer</div>
+      
+        <div class="line rule">Whenever you incinerate a card, you may:<br>spend 1Q to draw and claim the top card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Barefoot Pilgrim" src="assets/images/marooned.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Marooned Wanderer</div>
-    
-      <div class="line rule">Whenever you incinerate a card, you may:<br>spend 1Q to draw and claim the top card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Clamp-Turning Examiner</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>When the attached card is incinerated, this card is incinerated too.<br>Whenever they gain a new card, you may choose to incinerate<br>the new card and Clamp-Turning Examiner.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Clamp-Turning Examiner</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>When the attached card is incinerated, this card is incinerated too.<br>Whenever they gain a new card, you may choose to incinerate<br>the new card and Clamp-Turning Examiner.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Confessional Magistrate</div>
+      
+        <div class="line rule">On Scheme start, you may swap any two faces on your dice.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Clamp-Turning Examiner" src="assets/images/inquisitor.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Confessional Magistrate</div>
-    
-      <div class="line rule">On Scheme start, you may swap any two faces on your dice.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Self-Sacrificant</div>
-    
-      <div class="line rule">Whenever you are allowed to make a swap, you may instead:<br>pay 3 of any one token color to gain 1 key</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Self-Sacrificant</div>
+      
+        <div class="line rule">Whenever you are allowed to make a swap, you may instead:<br>pay 3 of any one token color to gain 1 key</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Post-Fate Oblate</div>
+      
+        <div class="line rule">You can now score Four Air with four fire faces</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Self-Sacrificant" src="assets/images/hanged.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Post-Fate Oblate</div>
-    
-      <div class="line rule">You can now score Four Air with four fire faces</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Toothless Grinner</div>
-    
-      <div class="line rule">When a card reads &quot;or&quot;, you may spend 2Q to substitute &quot;and&quot;</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Toothless Grinner</div>
+      
+        <div class="line rule">When a card reads &quot;or&quot;, you may spend 2Q to substitute &quot;and&quot;</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Corpse-Like Pauper</div>
+      
+        <div class="line rule">On Scheme start, you may replace a 1 with a 9 on a Potency die</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Toothless Grinner" src="assets/images/pauper.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Corpse-Like Pauper</div>
-    
-      <div class="line rule">On Scheme start, you may replace a 1 with a 9 on a Potency die</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Binger</div>
-    
-      <div class="line rule">You can now score straights with one gap of 1<br>(E.g., 1,2,4 scores as a Three Straight)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Binger</div>
+      
+        <div class="line rule">You can now score straights with one gap of 1<br>(E.g., 1,2,4 scores as a Three Straight)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Purger</div>
+      
+        <div class="line rule">On Scheme start, you may decrease a Potency by -1<br>Whenever an opponent claims a card, you may:<br>lose a tooth and incinerate this card<br>to claim that card yourself instead</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Binger" src="assets/images/binge.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Purger</div>
-    
-      <div class="line rule">On Scheme start, you may decrease a Potency by -1<br>Whenever an opponent claims a card, you may:<br>lose a tooth and incinerate this card<br>to claim that card yourself instead</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Pact Proctor</div>
-    
-      <div class="line rule">Spend 2Q and lose one tooth to resurrect any incinerated card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Pact Proctor</div>
+      
+        <div class="line rule">Spend 2Q and lose one tooth to resurrect any incinerated card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Wrathful Sovern</div>
+      
+        <div class="line rule">Whenever an opponent loses a tooth,<br>you may spend 3F to gain a key</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Pact Proctor" src="assets/images/devil.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Wrathful Sovern</div>
-    
-      <div class="line rule">Whenever an opponent loses a tooth,<br>you may spend 3F to gain a key</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Faustian Scholar</div>
-    
-      <div class="line rule">Spend 1 tooth to lay this card upside down:<br>it permanently becomes a new empty card slot</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Faustian Scholar</div>
+      
+        <div class="line rule">Spend 1 tooth to lay this card upside down:<br>it permanently becomes a new empty card slot</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Tumorous Magi</div>
+      
+        <div class="line rule">Spend 1Q and lose a tooth and incinerate this card<br>to permanently gain another Potency die.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Faustian Scholar" src="assets/images/faust.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Tumorous Magi</div>
-    
-      <div class="line rule">Spend 1Q and lose a tooth and incinerate this card<br>to permanently gain another Potency die.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Silent Companion</div>
-    
-      <div class="line rule">On Scheme start: you may spend 2Q to<br>replace an elemental face with Q - which can be counted as any color</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Silent Companion</div>
+      
+        <div class="line rule">On Scheme start: you may spend 2Q to<br>replace an elemental face with Q - which can be counted as any color</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Patient Confidant</div>
+      
+        <div class="line rule">On rolling an E, you may rotate it to a W<br>On rolling a W, you may rotate it to an E</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Silent Companion" src="assets/images/nun.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Patient Confidant</div>
-    
-      <div class="line rule">On rolling an E, you may rotate it to a W<br>On rolling a W, you may rotate it to an E</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Sane Sorrowful</div>
-    
-      <div class="line rule">While this is active, you get a bonus die of all W<br>Any time you commit one or more W dice: discard 1 die</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Sane Sorrowful</div>
+      
+        <div class="line rule">While this is active, you get a bonus die of all W<br>Any time you commit one or more W dice: discard 1 die</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Insane Incandescent</div>
+      
+        <div class="line rule">While you have this active, you get a bonus die that starts empty.<br>(empty faces don&#x27;t really score - but can be committed, discarded, etc)<br><br>All players now require one extra key to win.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Sane Sorrowful" src="assets/images/insane.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Insane Incandescent</div>
-    
-      <div class="line rule">While you have this active, you get a bonus die that starts empty.<br>(empty faces don&#x27;t really score - but can be committed, discarded, etc)<br><br>All players now require one extra key to win.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Reservoir of Sunshine</div>
-    
-      <div class="line rule">You may discard a die and spend 1Q to bury any token on any card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Reservoir of Sunshine</div>
+      
+        <div class="line rule">You may discard a die and spend 1Q to bury any token on any card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Beloved Homunculus</div>
+      
+        <div class="line rule">On Scheme start, choose one of your dice:<br>swap all its crystals for a single number of your choice<br>and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Reservoir of Sunshine" src="assets/images/homunculus.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Beloved Homunculus</div>
-    
-      <div class="line rule">On Scheme start, choose one of your dice:<br>swap all its crystals for a single number of your choice<br>and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Wailing Confessor</div>
-    
-      <div class="line rule">While this is active, you get a bonus die of all A<br>Any time you score a set without A:<br>if you have more teeth than discarded dice, lose a tooth</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Wailing Confessor</div>
+      
+        <div class="line rule">While this is active, you get a bonus die of all A<br>Any time you score a set without A:<br>if you have more teeth than discarded dice, lose a tooth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Voiceless Accused</div>
+      
+        <div class="line rule">While this is active, you get a bonus die of all E<br>You cannot score a set with fewer than 5 dice.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Wailing Confessor" src="assets/images/accused.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Voiceless Accused</div>
-    
-      <div class="line rule">While this is active, you get a bonus die of all E<br>You cannot score a set with fewer than 5 dice.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Mocking Recluse</div>
-    
-      <div class="line rule">When you incinerate this, gain a face of any color.<br>During Scheme, you may swap it in.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Mocking Recluse</div>
+      
+        <div class="line rule">When you incinerate this, gain a face of any color.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Jar Dweller</div>
+      
+        <div class="line rule">On rolling an F, you may rotate it to an A<br>On rolling an A, you may rotate it to an F</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Mocking Recluse" src="assets/images/jar.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Jar Dweller</div>
-    
-      <div class="line rule">On rolling an F, you may rotate it to an A<br>On rolling an A, you may rotate it to an F</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Primed Pomologist</div>
-    
-      <div class="line rule">On Scry start, look at the highest Potency among discarded dice:<br>gain that many E.<br>If it is 6+, you may instead gain 2Q.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Primed Pomologist</div>
+      
+        <div class="line rule">On Scry start, look at the highest Potency among discarded dice:<br>gain that many E.<br>If it is 6+, you may instead gain 2Q.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Charitable Ciderist</div>
+      
+        <div class="line rule">Any time you gain E, or W, you may gain one more<br><br>On scoring four earth: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Primed Pomologist" src="assets/images/cider.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Charitable Ciderist</div>
-    
-      <div class="line rule">Any time you gain E, or W, you may gain one more<br><br>On scoring four earth: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Passive Puffer</div>
-    
-      <div class="line rule">Whenever you commit 5 or more dice at once,<br>you may uncommit another die.<br><br>On Scheme start, you may increase a Potency by +1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Passive Puffer</div>
+      
+        <div class="line rule">Whenever you commit 5 or more dice at once,<br>you may uncommit another die.<br><br>On Scheme start, you may increase a Potency by +1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Active Assistant</div>
+      
+        <div class="line rule">You may now spend 2 of any token to get 1Q<br><br>On scoring a triplet: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Passive Puffer" src="assets/images/glassblower.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Active Assistant</div>
-    
-      <div class="line rule">You may now spend 2 of any token to get 1Q<br><br>On scoring a triplet: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Alembic Servitor</div>
-    
-      <div class="line rule">While this is active, you get a bonus die that must remain empty,<br>(can&#x27;t really score - but it can be committed, discarded, etc)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Alembic Servitor</div>
+      
+        <div class="line rule">While this is active, you get a bonus die that must remain empty,<br>(can&#x27;t really score - but it can be committed, discarded, etc)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Burn-Scarred Glasswright</div>
+      
+        <div class="line rule">Whenever you have 5 dice scoring the same set: gain 1 E.<br><br>Spend 2E to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Alembic Servitor" src="assets/images/burner.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Burn-Scarred Glasswright</div>
-    
-      <div class="line rule">Whenever you have 5 dice scoring the same set: gain 1 E.<br><br>Spend 2E to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Bezoar Seeker</div>
-    
-      <div class="line rule">On rolling an E, you may discard a Potency die to gain E equal to that Potency.<br><br>On rolling a W, F or A, you may spend 1 E<br>to rotate a ready die one face over in either direction.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Bezoar Seeker</div>
+      
+        <div class="line rule">On rolling an E, you may discard a Potency die to gain E equal to that Potency.<br><br>On rolling a W, F or A, you may spend 1 E<br>to rotate a ready die one face over in either direction.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Sadistic Shepherd</div>
+      
+        <div class="line rule">Incinerate a card to bury 1E on this card.<br>On Scheme start, spend 5 buried E to gain an E face.<br><br>Spend 2E to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Bezoar Seeker" src="assets/images/shepard.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Sadistic Shepherd</div>
-    
-      <div class="line rule">Incinerate a card to bury 1E on this card.<br>On Scheme start, spend 5 buried E to gain an E face.<br><br>Spend 2E to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Reeking Husk</div>
-    
-      <div class="line rule">On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency<br><br>On rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Reeking Husk</div>
+      
+        <div class="line rule">On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency<br><br>On rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Discarded Follower</div>
+      
+        <div class="line rule">Whenever you commit a triplet or quadruplet,<br>rotate and commit a ready die.<br><br>Spend 7 of any one token type to gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Reeking Husk" src="assets/images/leper.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Discarded Follower</div>
-    
-      <div class="line rule">Whenever you commit a triplet or quadruplet,<br>rotate and commit a ready die.<br><br>Spend 7 of any one token type to gain 1 key.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Shrewd Quaker</div>
-    
-      <div class="line rule">On Scheme start, you may decrease a Potency by -1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>you may spend 3E to get 2F or 2A</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Shrewd Quaker</div>
+      
+        <div class="line rule">On Scheme start, you may decrease a Potency by -1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>you may spend 3E to get 2F or 2A</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Hard-Tack Baker</div>
+      
+        <div class="line rule">You can now score Triplets as Quadruples.<br>You cannot score any straights.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Shrewd Quaker" src="assets/images/quaker.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Hard-Tack Baker</div>
-    
-      <div class="line rule">You can now score Triplets as Quadruples.<br>You cannot score any straights.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Perennial Pruner</div>
-    
-      <div class="line rule">On Swig start, you may spend 2E to rotate and commit a ready die.<br><br>Whenever you win a wager, gain a tooth.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Perennial Pruner</div>
+      
+        <div class="line rule">On Swig start, you may spend 2E to rotate and commit a ready die.<br><br>Whenever you win a wager, gain a tooth.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Haphazard Herbalist</div>
+      
+        <div class="line rule">Whenever you score a Two Color-Pairs, Triplet, or Quadruplet, choose:<br>spend 8E or lose 1 key to regain 2 teeth</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Perennial Pruner" src="assets/images/venus fly.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Haphazard Herbalist</div>
-    
-      <div class="line rule">Whenever you score a Two Color-Pairs, Triplet, or Quadruplet, choose:<br>spend 8E or lose 1 key to regain 2 teeth</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Venomous Vessel</div>
-    
-      <div class="line rule">Whenever you roll an E, discard that die to bury 1E on this card<br>Whenever you roll two As, discard those dice to double the E on this card<br>Whenever you roll a W, discard that die to gain the E buried on this card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Venomous Vessel</div>
+      
+        <div class="line rule">Whenever you roll an E, discard that die to bury 1E on this card<br>Whenever you roll two As, discard those dice to double the E on this card<br>Whenever you roll a W, discard that die to gain the E buried on this card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Sinuous Acolyte</div>
+      
+        <div class="line rule">Whenever you roll an E, discard that die to bury 1E on this card<br><br>On Swig start, spend 1 buried E to rotate and commit a ready die.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Venomous Vessel" src="assets/images/snake.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Sinuous Acolyte</div>
-    
-      <div class="line rule">Whenever you roll an E, discard that die to bury 1E on this card<br><br>On Swig start, spend 1 buried E to rotate and commit a ready die.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Oathbreaker</div>
-    
-      <div class="line rule">Whenever you would lose a tooth, instead you may:<br>spend 5E or incinerate this card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Oathbreaker</div>
+      
+        <div class="line rule">Whenever you would lose a tooth, instead you may:<br>spend 5E or incinerate this card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Oathkeeper</div>
+      
+        <div class="line rule">Whenever you score a Triplet, or Quadruplet: gain 1Q<br>Whenever you score a straight: incinerate this card</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Oathbreaker" src="assets/images/oath.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Oathkeeper</div>
-    
-      <div class="line rule">Whenever you score a Triplet, or Quadruplet: gain 1Q<br>Whenever you score a straight: incinerate this card</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Solifactory Smith</div>
-    
-      <div class="line rule">Whenever you incinerate a card: gain 1E<br><br>If you score a set of all E, or a set of all &gt;= 4: gain 1Q</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Solifactory Smith</div>
+      
+        <div class="line rule">Whenever you incinerate a card: gain 1E<br><br>If you score a set of all E, or a set of all &gt;= 4: gain 1Q</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Brawny Striker</div>
+      
+        <div class="line rule">On Scheme Start:<br>lose 2 teeth or spend 8E or spend 4Q or incinerate two cards<br>to gain 1 key</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Solifactory Smith" src="assets/images/blacksmith.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Brawny Striker</div>
-    
-      <div class="line rule">On Scheme Start:<br>lose 2 teeth or spend 8E or spend 4Q or incinerate two cards<br>to gain 1 key</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Hopeful Sower</div>
-    
-      <div class="line rule">Whenever you score Two Color-Pairs, Triplet, or Quadruplet, choose one:<br>* gain 2E<br>* bury one of any token type on any card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Hopeful Sower</div>
+      
+        <div class="line rule">Whenever you score Two Color-Pairs, Triplet, or Quadruplet, choose one:<br>* gain 2E<br>* bury one of any token type on any card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Grain Hoarder</div>
+      
+        <div class="line rule">On Scheme start, you may replace any crystal with an E</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Hopeful Sower" src="assets/images/grain.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Grain Hoarder</div>
-    
-      <div class="line rule">On Scheme start, you may replace any crystal with an E</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">The Tallyman</div>
-    
-      <div class="line rule">Bury a Potency die on The Tallyman, starting on 1.<br>Whenever you incinerate a card, increment that die.<br>When the die reaches 6 - you get that die as a bonus Potency die,<br>as long as Tallyman remains active.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">The Tallyman</div>
+      
+        <div class="line rule">Bury a Potency die on The Tallyman, starting on 1.<br>Whenever you incinerate a card, increment that die.<br>When the die reaches 6 - you get that die as a bonus Potency die,<br>as long as Tallyman remains active.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Dreaded Abacist</div>
+      
+        <div class="line rule">On Scheme start, you may increase a Potency by +1<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="The Tallyman" src="assets/images/abacus.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Dreaded Abacist</div>
-    
-      <div class="line rule">On Scheme start, you may increase a Potency by +1<br>On Scheme start, you may decrease a Potency by -1</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Spagyric Physician</div>
-    
-      <div class="line rule">Whenever you discard an Elemental die, bury 1 token matching its face&#x27;s element on this card.<br>Whenever you score Triplet or Quadruplet gain this card&#x27;s buried tokens.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Spagyric Physician</div>
+      
+        <div class="line rule">Whenever you discard an Elemental die, bury 1 token matching its face&#x27;s element on this card.<br>Whenever you score Triplet or Quadruplet gain this card&#x27;s buried tokens.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Arsenic Apothecary</div>
+      
+        <div class="line rule">When you incinerate this, gain an E face.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Spagyric Physician" src="assets/images/arsnice.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Arsenic Apothecary</div>
-    
-      <div class="line rule">When you incinerate this, gain an E face.<br>During Scheme, you may swap it in.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Iatrochemist</div>
-    
-      <div class="line rule">If you commit 7 dice at once, you may bury an E on this card.<br>Spend 1E buried on this card to rotate a committed die to any face.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Iatrochemist</div>
+      
+        <div class="line rule">If you commit 7 dice at once, you may bury an E on this card.<br>Spend 1E buried on this card to rotate a committed die to any face.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Mercury-Blooded</div>
+      
+        <div class="line rule">Anytime you lose a tooth: bury 4E on this card<br>Spend 1E buried on this card to rotate a committed die to any face.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Iatrochemist" src="assets/images/powder.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Mercury-Blooded</div>
-    
-      <div class="line rule">Anytime you lose a tooth: bury 4E on this card<br>Spend 1E buried on this card to rotate a committed die to any face.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Lead Drinker</div>
-    
-      <div class="line rule">On committing two W, you may discard a Potency die<br>to gain W equal to that Potency.<br><br>Spend 1W to take a discarded die, undiscard it and reroll.<br>If that die rolls 1: lose a tooth</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Lead Drinker</div>
+      
+        <div class="line rule">On committing two W, you may discard a Potency die<br>to gain W equal to that Potency.<br><br>Spend 1W to take a discarded die, undiscard it and reroll.<br>If that die rolls 1: lose a tooth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Bacchus Host</div>
+      
+        <div class="line rule">You win all wagers.<br><br>On scoring four water: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Lead Drinker" src="assets/images/wine.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Bacchus Host</div>
-    
-      <div class="line rule">You win all wagers.<br><br>On scoring four water: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Noble Ghostwriter</div>
-    
-      <div class="line rule">Whenever you incinerate a card: gain 1W<br>Once per round, spend W to rotate a die one face over in either direction<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Noble Ghostwriter</div>
+      
+        <div class="line rule">Whenever you incinerate a card: gain 1W<br>Once per round, spend W to rotate a die one face over in either direction<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Pilfered Penname</div>
+      
+        <div class="line rule">On Scheme start, you may look at the top card of the draw deck.<br>You may incinerate Pilfered Penname to take it.<br><br>On scoring a straight: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Noble Ghostwriter" src="assets/images/ghostwriter.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Pilfered Penname</div>
-    
-      <div class="line rule">On Scheme start, you may look at the top card of the draw deck.<br>You may incinerate Pilfered Penname to take it.<br><br>On scoring a straight: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Gin-Soaked Gutter-Sweeper</div>
-    
-      <div class="line rule">Whenever you gain W, you may gain +1W<br>Once per round, spend W to rotate 1 die to match another face that was rolled<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Gin-Soaked Gutter-Sweeper</div>
+      
+        <div class="line rule">Whenever you gain W, you may gain +1W<br>Once per round, spend W to rotate 1 die to match another face that was rolled<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Dependable Tosspot</div>
+      
+        <div class="line rule">If you score nothing: gain 3W.<br><br>Spend 2W to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Gin-Soaked Gutter-Sweeper" src="assets/images/gin.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Dependable Tosspot</div>
-    
-      <div class="line rule">If you score nothing: gain 3W.<br><br>Spend 2W to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Hollow-Bellied Saint</div>
-    
-      <div class="line rule">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Hollow-Bellied Saint</div>
+      
+        <div class="line rule">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Pot-Licking Friar</div>
+      
+        <div class="line rule">Whenever you discard a die, gain 1W.<br><br>Spend 2W to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Hollow-Bellied Saint" src="assets/images/soup.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Pot-Licking Friar</div>
-    
-      <div class="line rule">Whenever you discard a die, gain 1W.<br><br>Spend 2W to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Enthralling Eulogist</div>
-    
-      <div class="line rule">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Enthralling Eulogist</div>
+      
+        <div class="line rule">On rolling a W, you may discard a Potency die to gain W equal to that Potency.<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Paid Mourner</div>
+      
+        <div class="line rule">Once per Scry, spend 2W to score a set again.<br>(Retriggers on-score, and allows you to make another villager request)<br><br>Spend 6 W to gain 1 key</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Enthralling Eulogist" src="assets/images/mourn.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Paid Mourner</div>
-    
-      <div class="line rule">Once per Scry, spend 2W to score a set again.<br>(Retriggers on-score, and allows you to make another villager request)<br><br>Spend 6 W to gain 1 key</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Twofold Widow</div>
-    
-      <div class="line rule">Whenever you score a straight: bury 1E on this card<br>During Scheme, you may spend 1E on this card<br>to swap in an E for any face</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Twofold Widow</div>
+      
+        <div class="line rule">Whenever you score a straight: bury 1E on this card<br>During Scheme, you may spend 1E on this card<br>to swap in an E for any face</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Lethean Elder</div>
+      
+        <div class="line rule">On scoring nothing:<br>incinerate all your cards, including this, to gain 2 keys.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Twofold Widow" src="assets/images/veil.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Lethean Elder</div>
-    
-      <div class="line rule">On scoring nothing:<br>incinerate all your cards, including this, to gain 2 keys.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Worm-Brained Absinthard</div>
-    
-      <div class="line rule">Whenever you score a straight:<br>* Bury 2 W on this card<br>Whenever you score a non-straight or nothing:<br>* Remove 1 W from this card</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Worm-Brained Absinthard</div>
+      
+        <div class="line rule">Whenever you score a straight:<br>* Bury 2 W on this card<br>Whenever you score a non-straight or nothing:<br>* Remove 1 W from this card</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Fairy-Chaser</div>
+      
+        <div class="line rule">Gain all W buried on this card.<br>If W is exactly 5: gain a tooth and incinerate this card</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Worm-Brained Absinthard" src="assets/images/fairy.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Fairy-Chaser</div>
-    
-      <div class="line rule">Gain all W buried on this card.<br>If W is exactly 5: gain a tooth and incinerate this card</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Hairshirt Bearer</div>
-    
-      <div class="line rule">When scoring, spend 1 A to:<br>score a straight with 1 fewer dice than normal.<br>E.g.: 1,2 could score as Three straight</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Hairshirt Bearer</div>
+      
+        <div class="line rule">When scoring, spend 1 A to:<br>score a straight with 1 fewer dice than normal.<br>E.g.: 1,2 could score as Three straight</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Fleabitten Penitent</div>
+      
+        <div class="line rule">Whenever you score a Five Straight: gain 1 key<br>Whenever you score anything else, or score nothing:<br>lose 1 tooth</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Hairshirt Bearer" src="assets/images/hairshirt.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Fleabitten Penitent</div>
-    
-      <div class="line rule">Whenever you score a Five Straight: gain 1 key<br>Whenever you score anything else, or score nothing:<br>lose 1 tooth</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Epicurean Gourmand</div>
-    
-      <div class="line rule">After scoring a set with one or more W, you must:<br>* incinerate a card<br>* and gain 2Q.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Epicurean Gourmand</div>
+      
+        <div class="line rule">After scoring a set with one or more W, you must:<br>* incinerate a card<br>* and gain 2Q.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Gout-Ridden Glutton</div>
+      
+        <div class="line rule">On Scry start, If you have no discarded dice, choose 1:<br>* gain 2W<br>* lose all W and E tokens, incinerate this card, and gain 1 key</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Epicurean Gourmand" src="assets/images/gout.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Gout-Ridden Glutton</div>
-    
-      <div class="line rule">On Scry start, If you have no discarded dice, choose 1:<br>* gain 2W<br>* lose all W and E tokens, incinerate this card, and gain 1 key</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Leech Catcher</div>
-    
-      <div class="line rule">On Swig start, you may incinerate a card. If you do:<br>* Bury 3 F on this card<br>* During this Swig, you may expend buried F to undiscard dice<br>(or save it to expend next round)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Leech Catcher</div>
+      
+        <div class="line rule">On Swig start, you may incinerate a card. If you do:<br>* Bury 3 F on this card<br>* During this Swig, you may expend buried F to undiscard dice<br>(or save it to expend next round)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Bloodless Somnambulist</div>
+      
+        <div class="line rule">When you incinerate this, gain a W face.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Leech Catcher" src="assets/images/leech.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Bloodless Somnambulist</div>
-    
-      <div class="line rule">When you incinerate this, gain a W face.<br>During Scheme, you may swap it in.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Nubile Nymph</div>
-    
-      <div class="line rule">Whenever you could score a Four or Five Straight, you may instead:<br>* Uncommit a die<br>* Bury 1W on this card<br>If you have 3W on this card: incinerate it and gain 1 key</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Nubile Nymph</div>
+      
+        <div class="line rule">Whenever you could score a Four or Five Straight, you may instead:<br>* Uncommit a die<br>* Bury 1W on this card<br>If you have 3W on this card: incinerate it and gain 1 key</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Virgin Pure</div>
+      
+        <div class="line rule">When you incinerate this, gain a W face.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art flip-art" alt="Nubile Nymph" src="assets/images/virgin.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Virgin Pure</div>
-    
-      <div class="line rule">When you incinerate this, gain a W face.<br>During Scheme, you may swap it in.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Orgasmic Musician</div>
-    
-      <div class="line rule">On Scheme start, you may increase a Potency by +1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>bury a W on this card.<br>Spend 1 buried W to uncommit a die.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Orgasmic Musician</div>
+      
+        <div class="line rule">On Scheme start, you may increase a Potency by +1<br>Whenever you score Two Color-Pairs or Four Pairs,<br>bury a W on this card.<br>Spend 1 buried W to uncommit a die.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Brooding Composer</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains an E or W, you gain one as well.<br>When the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Orgasmic Musician" src="assets/images/music.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Brooding Composer</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains an E or W, you gain one as well.<br>When the attached card is incinerated, this card is incinerated too.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Broken Martyr</div>
-    
-      <div class="line rule">On Scry start: lose a tooth, then, gain a tooth<br>On Scheme start, you may increase a Potency by +1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Broken Martyr</div>
+      
+        <div class="line rule">On Scry start: lose a tooth, then, gain a tooth<br>On Scheme start, you may increase a Potency by +1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Tarred Prophet</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains a key, you gain one as well.<br>When the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Broken Martyr" src="assets/images/tar.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Tarred Prophet</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains a key, you gain one as well.<br>When the attached card is incinerated, this card is incinerated too.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Sulfurous Sage</div>
-    
-      <div class="line rule">When you score All Colors, if you have 0 of any E,W,F or A:<br>gain 1 of each E,W,F and A</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Sulfurous Sage</div>
+      
+        <div class="line rule">When you score All Colors, if you have 0 of any E,W,F or A:<br>gain 1 of each E,W,F and A</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Socratic Self-Slayer</div>
+      
+        <div class="line rule">Lose two teeth and incinerate this card<br>to take a key from the player with the most keys.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Sulfurous Sage" src="assets/images/socratic.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Socratic Self-Slayer</div>
-    
-      <div class="line rule">Lose two teeth and incinerate this card<br>to take a key from the player with the most keys.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Promethean Pyro</div>
-    
-      <div class="line rule">On rolling an A:<br>* If you have 1 empty card slot, gain W<br>* If you have 2 empty card slots, gain W and E<br>* If you have 3 empty card slots, gain W, E and F</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Promethean Pyro</div>
+      
+        <div class="line rule">On rolling an A:<br>* If you have 1 empty card slot, gain W<br>* If you have 2 empty card slots, gain W and E<br>* If you have 3 empty card slots, gain W, E and F</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Doomed Pandorite</div>
+      
+        <div class="line rule">On Scheme start: incinerate the top card of the village deck and gain 1F.<br><br>On scoring four fire: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Promethean Pyro" src="assets/images/pyro.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Doomed Pandorite</div>
-    
-      <div class="line rule">On Scheme start: incinerate the top card of the village deck and gain 1F.<br><br>On scoring four fire: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Branded Protégé</div>
-    
-      <div class="line rule">Whenever you discard a die, gain 1F.<br><br>You may now spend 2F to get 1Q.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Branded Protégé</div>
+      
+        <div class="line rule">Whenever you discard a die, gain 1F.<br><br>You may now spend 2F to get 1Q.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Expendable Assistant</div>
+      
+        <div class="line rule">When you lose a tooth, or lose a wager: gain 1Q.<br><br>On scoring four fire: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Branded Protégé" src="assets/images/branded.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Expendable Assistant</div>
-    
-      <div class="line rule">When you lose a tooth, or lose a wager: gain 1Q.<br><br>On scoring four fire: gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Academic Artillerist</div>
-    
-      <div class="line rule">Any time you gain F, you may gain +1F.<br>When scoring, you always choose before other players.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Academic Artillerist</div>
+      
+        <div class="line rule">Any time you gain F, you may gain +1F.<br>When scoring, you always choose before other players.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Craven Cannoneer</div>
+      
+        <div class="line rule">Opponents cannot make you lose teeth.<br><br>Spend 2F to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Academic Artillerist" src="assets/images/cannonneer.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Craven Cannoneer</div>
-    
-      <div class="line rule">Opponents cannot make you lose teeth.<br><br>Spend 2F to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Fire-Drake</div>
-    
-      <div class="line rule">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Whenever a player incinerates a card, you may spend 2F to claim that card instead</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Fire-Drake</div>
+      
+        <div class="line rule">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Whenever a player incinerates a card, you may spend 2F to claim that card instead</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Powder Miller</div>
+      
+        <div class="line rule">On Scry start: gain 1F.<br><br>Spend 2F to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Fire-Drake" src="assets/images/miller.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Powder Miller</div>
-    
-      <div class="line rule">On Scry start: gain 1F.<br><br>Spend 2F to gain 1 key and incinerate this card.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Fingerless Sapper</div>
-    
-      <div class="line rule">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Once per round, you may spend 2F to undiscard all discarded dice</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Fingerless Sapper</div>
+      
+        <div class="line rule">On rolling an F, you may discard a Potency die to gain F equal to that Potency.<br>Once per round, you may spend 2F to undiscard all discarded dice</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Powder Monkey</div>
+      
+        <div class="line rule">Incinerate this card to force all opponents to lose a tooth.<br><br>Spend 5F to gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Fingerless Sapper" src="assets/images/sapper.png" />
     
   </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Powder Monkey</div>
-    
-      <div class="line rule">Incinerate this card to force all opponents to lose a tooth.<br><br>Spend 5F to gain 1 key.</div>
-    
-  </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Short-Lived Brute</div>
-    
-      <div class="line rule">On rolling a W, you may bury a W on this card.<br>On rolling a F, you may bury a F on this card. <br>Incinerate this card: Gain E equal to whichever is lower: this card&#x27;s W or F.<br>(&#x27;None&#x27; is indeed &#x27;lower&#x27;)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Short-Lived Brute</div>
+      
+        <div class="line rule">On rolling a W, you may bury a W on this card.<br>On rolling a F, you may bury a F on this card. <br>Incinerate this card: Gain E equal to whichever is lower: this card&#x27;s W or F.<br>(&#x27;None&#x27; is indeed &#x27;lower&#x27;)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Timeless Warrior-Poet</div>
+      
+        <div class="line rule">Whenever you incinerate a card: gain 1F<br>Spend 1F to uncommit a die</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Short-Lived Brute" src="assets/images/warrior.png" />
     
   </div>
+</div>
+      
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Witch Drowner</div>
+      
+        <div class="line rule">Whenever you incinerate a card: gain 1Q<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Corrupted Inquisitor</div>
+      
+        <div class="line rule">At the end of a round, if you incinerated 2 or more cards:<br>* gain 1 key</div>
+      
+    </div>
+  </div>
 
-  <div class="text-block bottom">
-    <div class="line name">Timeless Warrior-Poet</div>
-    
-      <div class="line rule">Whenever you incinerate a card: gain 1F<br>Spend 1F to uncommit a die</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Witch Drowner</div>
-    
-      <div class="line rule">Whenever you incinerate a card: gain 1Q<br>On Scheme start, you may decrease a Potency by -1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Furnace Keeper</div>
+      
+        <div class="line rule">On rolling an F, you may incinerate a card to gain 2 F<br>On Scheme start, you may increase a Potency by +1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Staunch Stoker</div>
+      
+        <div class="line rule">Spend 1Q to resurrect and gain the most recently incinerated card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Corrupted Inquisitor</div>
-    
-      <div class="line rule">At the end of a round, if you incinerated 2 or more cards:<br>* gain 1 key</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Furnace Keeper</div>
-    
-      <div class="line rule">On rolling an F, you may incinerate a card to gain 2 F<br>On Scheme start, you may increase a Potency by +1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Shunned Executioner</div>
+      
+        <div class="line rule">On Scheme start: incinerate a card and gain 1Q</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Bloodstained Recluse</div>
+      
+        <div class="line rule">On scoring Four of Fire:<br>incinerate all your cards, including this, to gain 2 keys.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Staunch Stoker</div>
-    
-      <div class="line rule">Spend 1Q to resurrect and gain the most recently incinerated card.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Shunned Executioner</div>
-    
-      <div class="line rule">On Scheme start: incinerate a card and gain 1Q</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Covert Degenerate</div>
+      
+        <div class="line rule">Spend 1F to: Uncommit a die<br>Spend 2E to: Rotate a die to any face, once per round<br>On Scheme start, you may increase a Potency by +1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Esteemed Burgher</div>
+      
+        <div class="line rule">Place 1 tooth upon a Town Square slot.<br>When players request this slot, they must pay you 2 of any token.<br>The next time you lose a tooth, lose this reserving tooth.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Bloodstained Recluse</div>
-    
-      <div class="line rule">On scoring Four of Fire:<br>incinerate all your cards, including this, to gain 2 keys.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Covert Degenerate</div>
-    
-      <div class="line rule">Spend 1F to: Uncommit a die<br>Spend 2E to: Rotate a die to any face, once per round<br>On Scheme start, you may increase a Potency by +1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Closeted Apostate</div>
+      
+        <div class="line rule">Whenever you perform an italicized section of a card, gain 1F<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Flaming Heretic</div>
+      
+        <div class="line rule">When you incinerate this, gain a F face.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Esteemed Burgher</div>
-    
-      <div class="line rule">Place 1 tooth upon a Town Square slot.<br>When players request this slot, they must pay you 2 of any token.<br>The next time you lose a tooth, lose this reserving tooth.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Closeted Apostate</div>
-    
-      <div class="line rule">Whenever you perform an italicized section of a card, gain 1F<br>On Scheme start, you may decrease a Potency by -1</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Strawman</div>
+      
+        <div class="line rule">While this is active, replace all italicized sections on your cards with:<br>spend 1A - if you cannot, lose two teeth</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Burnt Effigy</div>
+      
+        <div class="line rule">When you incinerate this, gain a F face.<br>During Scheme, you may swap it in.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Flaming Heretic</div>
-    
-      <div class="line rule">When you incinerate this, gain a F face.<br>During Scheme, you may swap it in.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Strawman</div>
-    
-      <div class="line rule">While this is active, replace all italicized sections on your cards with:<br>spend 1A - if you cannot, lose two teeth</div>
-    
-  </div>
-
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Burnt Effigy</div>
-    
-      <div class="line rule">When you incinerate this, gain a F face.<br>During Scheme, you may swap it in.</div>
-    
-  </div>
-</div>
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Epileptic Metallurgist</div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Epileptic Metallurgist</div>
-    
-      <div class="line rule">Any time you gain A, or F, you may gain one more<br>On Scheme start, you may decrease a Potency by -1</div>
-    
+        <div class="line rule">Any time you gain A, or F, you may gain one more<br>On Scheme start, you may decrease a Potency by -1</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Lithiated Assayer</div>
+      
+        <div class="line rule">Whenever you:<br>incinerate a card OR discard a die OR lose a tooth<br>bury an F on this card.<br>Whenever you like, you can gain F off of this card.<br>If you have 10F on this card, incinerate it, and gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Epileptic Metallurgist" src="assets/images/assayer.png" />
     
   </div>
+</div>
+      
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Unshakable Empiricist</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains a key, they gain a tooth instead.<br>When the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Vivisectionist</div>
+      
+        <div class="line rule">Whenever you gain a key, you must instead choose one of your dice to roll:<br>1-2 = you get 0 keys<br>3-5 = you get 1 key<br>6+ = you get 2 keys</div>
+      
+    </div>
+  </div>
 
-  <div class="text-block bottom">
-    <div class="line name">Lithiated Assayer</div>
-    
-      <div class="line rule">Whenever you:<br>incinerate a card OR discard a die OR lose a tooth<br>bury an F on this card.<br>Whenever you like, you can gain F off of this card.<br>If you have 10F on this card, incinerate it, and gain 1 key.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Unshakable Empiricist</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent gains a key, they gain a tooth instead.<br>When the attached card is incinerated, this card is incinerated too.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Glass-Eyed Alchemist</div>
+      
+        <div class="line rule">If you score nothing, gain A equal to your highest discarded Potency.<br>Spend 1A to uncommit 2 dice.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Sun-Blinded Prismist</div>
+      
+        <div class="line rule">If all your dice are committed and show either A or 6: you win.<br><br>On scoring a set with an A: gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Vivisectionist</div>
-    
-      <div class="line rule">Whenever you gain a key, you must instead choose one of your dice to roll:<br>1-2 = you get 0 keys<br>3-5 = you get 1 key<br>6+ = you get 2 keys</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Glass-Eyed Alchemist</div>
-    
-      <div class="line rule">If you score nothing, gain A equal to your highest discarded Potency.<br>Spend 1A to uncommit 2 dice.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Tongueless Traitor</div>
+      
+        <div class="line rule">Whenever you swap a crystal or Potency, gain 2A<br>Once per round, spend 1 W to rotate a die to any face<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Candid Jester</div>
+      
+        <div class="line rule">On scoring five A dice or five F dice:<br>force a player to lose a tooth<br><br>On scoring Four Air: you may incinerate this card to gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Sun-Blinded Prismist</div>
-    
-      <div class="line rule">If all your dice are committed and show either A or 6: you win.<br><br>On scoring a set with an A: gain 1 key and incinerate this card.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Tongueless Traitor</div>
-    
-      <div class="line rule">Whenever you swap a crystal or Potency, gain 2A<br>Once per round, spend 1 W to rotate a die to any face<br>(this does trigger another &#x27;on roll&#x27; to the new face)</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Persecuted Paranoiac</div>
+      
+        <div class="line rule">Whenever you gain A, you may gain +1A.<br><br>Spend 1F to incinerate and redraw a villager in the Town Square.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Psychotic Christ</div>
+      
+        <div class="line rule">On scoring a set with an F:<br>lose a tooth to force an opponent to lose a tooth<br><br>Spend 2A to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Candid Jester</div>
-    
-      <div class="line rule">On scoring five A dice or five F dice:<br>force a player to lose a tooth<br><br>On scoring Four Air: you may incinerate this card to gain 1 key.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Persecuted Paranoiac</div>
-    
-      <div class="line rule">Whenever you gain A, you may gain +1A.<br><br>Spend 1F to incinerate and redraw a villager in the Town Square.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Flayed Flagellant</div>
+      
+        <div class="line rule">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>Once per round, spend 1 A to rotate a die to any face.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Lash-Blessed Monk</div>
+      
+        <div class="line rule">Whenever another player gains a key, you may incinerate this card to gain a key.<br><br>Spend 2A to gain 1 key and incinerate this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Psychotic Christ</div>
-    
-      <div class="line rule">On scoring a set with an F:<br>lose a tooth to force an opponent to lose a tooth<br><br>Spend 2A to gain 1 key and incinerate this card.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Flayed Flagellant</div>
-    
-      <div class="line rule">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>Once per round, spend 1 A to rotate a die to any face.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Bodysnatcher</div>
+      
+        <div class="line rule">Whenever you incinerate a card: gain 1A.<br><br>Spend 4A to claim the top card of the discard pile.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Overworked Gravedigger</div>
+      
+        <div class="line rule">At the start of a Swig, name a set and gain 1A.<br>You can only score that set this Swig / Scry.<br><br>Spend 5A to gain 1 key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Lash-Blessed Monk</div>
-    
-      <div class="line rule">Whenever another player gains a key, you may incinerate this card to gain a key.<br><br>Spend 2A to gain 1 key and incinerate this card.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Bodysnatcher</div>
-    
-      <div class="line rule">Whenever you incinerate a card: gain 1A.<br><br>Spend 4A to claim the top card of the discard pile.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Mummy Grinder</div>
+      
+        <div class="line rule">Whenever you score an &#x27;x of a color&#x27;: bury 2A on this card<br>On Swig start, you may spend 1 buried A<br>to rotate and commit a die.<br>On losing a tooth, if this card has 6 or more buried A:<br>Do not lose the tooth and Incinerate this card.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Intrepid Archaeologist</div>
+      
+        <div class="line rule">When you gain W or F, convert all your A to E.<br>Whenever you would lose a tooth, you may instead pay 4 E</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Overworked Gravedigger</div>
-    
-      <div class="line rule">At the start of a Swig, name a set and gain 1A.<br>You can only score that set this Swig / Scry.<br><br>Spend 5A to gain 1 key.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Mummy Grinder</div>
-    
-      <div class="line rule">Whenever you score an &#x27;x of a color&#x27;: bury 2A on this card<br>On Swig start, you may spend 1 buried A<br>to rotate and commit a die.<br>On losing a tooth, if this card has 6 or more buried A:<br>Do not lose the tooth and Incinerate this card.</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Reliquary Larcenist</div>
+      
+        <div class="line rule">Whenever you score Four of a Color: gain 3A<br>Whenever you score Five of a Color: gain 6A</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Finger-Bone Forager</div>
+      
+        <div class="line rule">Spend 2Q to gain 1 key and incinerate this card.<br>During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Intrepid Archaeologist</div>
-    
-      <div class="line rule">When you gain W or F, convert all your A to E.<br>Whenever you would lose a tooth, you may instead pay 4 E</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Reliquary Larcenist</div>
-    
-      <div class="line rule">Whenever you score Four of a Color: gain 3A<br>Whenever you score Five of a Color: gain 6A</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Footnoted Scholar</div>
+      
+        <div class="line rule">On scoring a set with F, choose one:<br>* You gain 1 F<br>* An opponent loses 3 tokens of their choice</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Pedantic Pedagogue</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>When they invert a card, they lose 1 tooth.<br>After the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Finger-Bone Forager</div>
-    
-      <div class="line rule">Spend 2Q to gain 1 key and incinerate this card.<br>During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Footnoted Scholar</div>
-    
-      <div class="line rule">On scoring a set with F, choose one:<br>* You gain 1 F<br>* An opponent loses 3 tokens of their choice</div>
-    
-  </div>
-
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Pedantic Pedagogue</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>When they invert a card, they lose 1 tooth.<br>After the attached card is incinerated, this card is incinerated too.</div>
-    
-  </div>
-</div>
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Shuar Headshrinker</div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Shuar Headshrinker</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>On Scheme start, that opponent loses 1 tooth.<br>When the attached card is incinerated, this card is incinerated too.</div>
-    
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>On Scheme start, that opponent loses 1 tooth.<br>When the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Ayahuascite</div>
+      
+        <div class="line rule">Every time you manually rotate a die, bury 1A on this card.<br>Whenever you score nothing, you must gain all A buried on this card.<br>If you gain 5A, incinerate this card, and gain a key.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Shuar Headshrinker" src="assets/images/shrinker.png" />
     
   </div>
+</div>
+      
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Mercurial Monomaniac</div>
+      
+        <div class="line rule">Whenever you incinerate a card, bury 1 F on this card.<br>If you have 5F on this card, incinerate it, and gain a key.<br>Spend 1 buried F on this card to rotate a die to any face</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Haunted Mind</div>
+      
+        <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent incinerates a card,<br>they must incinerate an additional card.<br>After the attached card is incinerated, this card is incinerated too.</div>
+      
+    </div>
+  </div>
 
-  <div class="text-block bottom">
-    <div class="line name">Ayahuascite</div>
-    
-      <div class="line rule">Every time you manually rotate a die, bury 1A on this card.<br>Whenever you score nothing, you must gain all A buried on this card.<br>If you gain 5A, incinerate this card, and gain a key.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Mercurial Monomaniac</div>
-    
-      <div class="line rule">Whenever you incinerate a card, bury 1 F on this card.<br>If you have 5F on this card, incinerate it, and gain a key.<br>Spend 1 buried F on this card to rotate a die to any face</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Driveling Chemist</div>
+      
+        <div class="line rule">On scheme start, if you have the fewest keys, gain an E, W, F and A</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Feverish Scribe</div>
+      
+        <div class="line rule">Discard two dice to bury 1A on this card.<br>If &gt;7A buried, &#x27;X keys&#x27; enlightenment threshold to end the game<br>becomes equal to the A on this card.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Haunted Mind</div>
-    
-      <div class="line rule">Relinquish this card, attaching it to an opponent&#x27;s card.<br>Whenever that opponent incinerates a card,<br>they must incinerate an additional card.<br>After the attached card is incinerated, this card is incinerated too.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Driveling Chemist</div>
-    
-      <div class="line rule">On scheme start, if you have the fewest keys, gain an E, W, F and A</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Autoerotic Anesthetist</div>
+      
+        <div class="line rule">When performing an italic section of any card,<br>you may substitute it with incinerate Autoerotic Anesthetist</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Back-Alley Butcher</div>
+      
+        <div class="line rule">Whenever you gain a key:<br>* if you have tokens, you must lose them all, and gain an additional key<br>* if you do not, you must lose a tooth, and gain an additional key</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Feverish Scribe</div>
-    
-      <div class="line rule">Discard two dice to bury 1A on this card.<br>If &gt;7A buried, &#x27;X keys&#x27; enlightenment threshold to end the game<br>becomes equal to the A on this card.</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Autoerotic Anesthetist</div>
-    
-      <div class="line rule">When performing an italic section of any card,<br>you may substitute it with incinerate Autoerotic Anesthetist</div>
-    
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Placenta Purloiner</div>
+      
+        <div class="line rule">Whenever another player loses a tooth, bury 1Q here.<br>On Scheme start, spend 2 buried Q to regain a tooth.</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Viscera Monger</div>
+      
+        <div class="line rule">Whenever you incinerate a card,<br>you may spend 4E to get 4A</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Back-Alley Butcher</div>
-    
-      <div class="line rule">Whenever you gain a key:<br>* if you have tokens, you must lose them all, and gain an additional key<br>* if you do not, you must lose a tooth, and gain an additional key</div>
+  <div class="exp-art">
     
   </div>
 </div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Placenta Purloiner</div>
-    
-      <div class="line rule">Whenever another player loses a tooth, bury 1Q here.<br>On Scheme start, spend 2 buried Q to regain a tooth.</div>
-    
-  </div>
-
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Viscera Monger</div>
-    
-      <div class="line rule">Whenever you incinerate a card,<br>you may spend 4E to get 4A</div>
-    
-  </div>
-</div>
+        <div class="card exp-card">
+  <div class="exp-text">
+    <div class="exp-half top">
+      <div class="exp-shape"></div>
+      <div class="line name">Dubious Demonologist</div>
       
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name">Dubious Demonologist</div>
-    
-      <div class="line rule">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</div>
-    
+        <div class="line rule">On rolling an A, you may discard a Potency die to gain A equal to that Potency.<br>During Scheming, you may spend 3A to replace a crystal face with Q<br>(can be counted as any crystal color)</div>
+      
+    </div>
+    <div class="exp-half bottom">
+      <div class="exp-shape"></div>
+      <div class="line name">Failed Exorcist</div>
+      
+        <div class="line rule">This card copies the ability of the card to the left.</div>
+      
+    </div>
   </div>
 
-  <div class="art-area">
+  <div class="exp-art">
     
       <img class="art" alt="Dubious Demonologist" src="assets/images/gagged.png" />
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name">Failed Exorcist</div>
-    
-      <div class="line rule">This card copies the ability of the card to the left.</div>
-    
-  </div>
-</div>
-      
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name"></div>
-    
-  </div>
-
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name"></div>
-    
-  </div>
-</div>
-      
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name"></div>
-    
-  </div>
-
-  <div class="art-area">
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name"></div>
-    
-  </div>
-</div>
-      
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name"></div>
-    
-  </div>
-
-  <div class="art-area">
-    
-      <img class="art" alt="" src="assets/images/Extra Art.png" />
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name"></div>
-    
-  </div>
-</div>
-      
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name"></div>
-    
-  </div>
-
-  <div class="art-area">
-    
-      <img class="art" alt="" src="assets/images/coins.png" />
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name"></div>
-    
-  </div>
-</div>
-      
-        <div class="card game-card">
-  <div class="text-block top">
-    <div class="line name"></div>
-    
-  </div>
-
-  <div class="art-area">
-    
-      <img class="art" alt="" src="assets/images/sword boy.png" />
-    
-  </div>
-
-  <div class="text-block bottom">
-    <div class="line name"></div>
     
   </div>
 </div>
       
     </div>
+
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const artSide = document.getElementById("art-side");
+        const contour = document.getElementById("contour");
+        const flip = document.getElementById("flip");
+        const status = document.getElementById("fit-status");
+        const cards = [...document.querySelectorAll(".exp-card")];
+        const MIN_RULE_PT = 4.5;
+        const MIN_NAME_PT = 6;
+        const STEP_PT = 0.25;
+        const INK_LUM = 200; // darker than this (0-255) counts as ink
+
+        // shape-outside uses a mask image at its natural pixel size (it isn't
+        // scaled to the float), so build masks at the float's CSS-pixel size.
+        const probe = document.createElement("div");
+        probe.style.cssText = "position:absolute;visibility:hidden;width:var(--exp-art-full-w);height:var(--card-h)";
+        document.body.appendChild(probe);
+        const MASK_W = Math.round(probe.getBoundingClientRect().width);
+        const MASK_H = Math.round(probe.getBoundingClientRect().height);
+        probe.remove();
+
+        // True if the half's last line of text runs past its bottom padding.
+        // Uses layout offsets, which ignore the bottom half's 180deg rotation.
+        function overflows(half) {
+          const last = half.querySelector(".line:last-of-type");
+          if (!last) return false;
+          const padBottom = parseFloat(getComputedStyle(half).paddingBottom) || 0;
+          return last.offsetTop + last.offsetHeight > half.clientHeight - padBottom + 0.5;
+        }
+
+        // Shrink names whose longest word doesn't fit the available width, then
+        // shrink each half's rules text until it fits; flag any that still overflow.
+        function fitAll() {
+          const css = getComputedStyle(root);
+          const base = parseFloat(css.getPropertyValue("--exp-rule-size")) || 7;
+          const nameBase = parseFloat(css.getPropertyValue("--exp-name-size")) || 10;
+          let shrunk = 0, overflow = 0;
+          cards.forEach((card) => {
+            let cardShrunk = false, cardOverflow = false;
+            card.querySelectorAll(".exp-half").forEach((half) => {
+              const name = half.querySelector(".line.name");
+              if (name) name.style.fontSize = "";
+              let nameSize = nameBase;
+              while (name && name.scrollWidth > name.clientWidth && nameSize > MIN_NAME_PT) {
+                nameSize -= STEP_PT;
+                name.style.fontSize = nameSize + "pt";
+                cardShrunk = true;
+              }
+              if (name && name.scrollWidth > name.clientWidth) cardOverflow = true;
+
+              const rule = half.querySelector(".line.rule");
+              if (rule) rule.style.fontSize = "";
+              let size = base;
+              while (rule && overflows(half) && size > MIN_RULE_PT) {
+                size -= STEP_PT;
+                rule.style.fontSize = size + "pt";
+                cardShrunk = true;
+              }
+              if (overflows(half)) cardOverflow = true;
+            });
+            card.style.outline = cardOverflow ? "2px solid red" : "";
+            card.style.outlineOffset = "-2px";
+            shrunk += cardShrunk;
+            overflow += cardOverflow;
+          });
+          status.textContent = `shrunk to fit: ${shrunk} · still overflowing: ${overflow}`;
+        }
+
+        // Turn the art's dark pixels into an opaque mask (white -> transparent),
+        // optionally rotated 180deg, as a data URL for shape-outside.
+        const maskCache = new Map();
+        function inkMask(img, rotated) {
+          const key = img.src + (rotated ? "#r" : "");
+          if (maskCache.has(key)) return maskCache.get(key);
+          const canvas = document.createElement("canvas");
+          canvas.width = MASK_W;
+          canvas.height = MASK_H;
+          const ctx = canvas.getContext("2d", { willReadFrequently: true });
+          if (rotated) {
+            ctx.translate(MASK_W, MASK_H);
+            ctx.rotate(Math.PI);
+          }
+          ctx.drawImage(img, 0, 0, MASK_W, MASK_H);
+          const data = ctx.getImageData(0, 0, MASK_W, MASK_H);
+          const px = data.data;
+          for (let i = 0; i < px.length; i += 4) {
+            const ink = px[i + 3] > 128 && (px[i] + px[i + 1] + px[i + 2]) / 3 < INK_LUM;
+            px[i] = px[i + 1] = px[i + 2] = 0;
+            px[i + 3] = ink ? 255 : 0;
+          }
+          ctx.putImageData(data, 0, 0);
+          const url = `url(${canvas.toDataURL("image/png")})`;
+          maskCache.set(key, url);
+          return url;
+        }
+
+        async function applyMasks() {
+          await Promise.all(cards.map(async (card) => {
+            const img = card.querySelector("img.art");
+            if (!img) return;
+            try { await img.decode(); } catch { return; }
+            const flipped = img.classList.contains("flip-art");
+            card.querySelector(".exp-half.top .exp-shape").style.shapeOutside = inkMask(img, flipped);
+            card.querySelector(".exp-half.bottom .exp-shape").style.shapeOutside = inkMask(img, !flipped);
+            card.querySelectorAll(".exp-shape").forEach((s) => s.classList.add("has-mask"));
+          }));
+        }
+
+        // The top half's float sits on the art's side; the rotated bottom half's
+        // float sits on the opposite side of its own (flipped) box.
+        function applyLayout() {
+          const artRight = artSide.value === "right";
+          cards.forEach((card) => {
+            card.classList.toggle("art-left", !artRight);
+            card.classList.toggle("contour", contour.checked);
+            card.querySelectorAll(".exp-shape").forEach((s) => {
+              const right = s.closest(".exp-half").classList.contains("top") ? artRight : !artRight;
+              s.classList.toggle("right", right);
+              s.classList.toggle("left", !right);
+            });
+          });
+          fitAll();
+        }
+
+        artSide.addEventListener("change", applyLayout);
+        flip.addEventListener("change", () =>
+          document.querySelector(".exp-deck").classList.toggle("flipped", flip.checked));
+        contour.addEventListener("change", applyLayout);
+        window.addEventListener("load", async () => {
+          await document.fonts.ready;
+          await applyMasks();
+          applyLayout();
+        });
+      })();
+    </script>
   </body>
 </html>

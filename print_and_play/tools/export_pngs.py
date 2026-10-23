@@ -5,6 +5,7 @@ the output matches the browser layout exactly, including the JS text fitting
 and art-contour wrapping on the experimental page.
 
     ./env/Scripts/python -m tools.export_pngs              # experimental cards, 300 DPI
+    ./env/Scripts/python -m tools.export_pngs --page game_cards.html   # -> export/game_cards
     ./env/Scripts/python -m tools.export_pngs --dpi 600 --out export/hi-res
     ./env/Scripts/python -m tools.export_pngs --no-build    # use docs/ as already built
 """
@@ -132,7 +133,7 @@ def export_cards(page_name: str, out_dir: Path, dpi: int, site_dir: Path) -> lis
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--page", default="experimental_cards.html", help="page in docs/ to export")
-    ap.add_argument("--out", type=Path, default=Path("export/experimental_cards"))
+    ap.add_argument("--out", type=Path, help="output dir (default: export/<page name>)")
     ap.add_argument("--dpi", type=int, default=300)
     ap.add_argument("--no-build", action="store_true", help="skip rebuilding docs/ from the sheet")
     args = ap.parse_args()
@@ -142,7 +143,9 @@ def main() -> None:
         info = build_site(_ROOT / "templates", site_dir)
         print(f"[build] ok (cards={info['cards_count']}, source={info['source']})", flush=True)
 
-    out_dir = args.out if args.out.is_absolute() else _ROOT / args.out
+    out_dir = args.out or Path("export") / Path(args.page).stem
+    if not out_dir.is_absolute():
+        out_dir = _ROOT / out_dir
     written = export_cards(args.page, out_dir, args.dpi, site_dir)
     print(f"[export] wrote {len(written)} PNGs at {args.dpi} DPI to {out_dir}", flush=True)
 
