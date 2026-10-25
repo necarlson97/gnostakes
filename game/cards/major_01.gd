@@ -7,7 +7,7 @@ class Top extends Ability:  # Knower of True Names
 	func on_scheme_start(_ev):
 		if buried("W") == 0: return
 		await swap_face("W", func(d): return d.kind == GK.Kind.ELEMENTAL, func(f): return f is String and f != "W")
-		card.unbury("W")
+		unbury("W")
 
 class Inv extends Ability:  # Lockpicking Archon
 	# Attach to ANY player's card, including your own. While attached, that player

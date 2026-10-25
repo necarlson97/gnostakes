@@ -79,6 +79,7 @@ func new_game() -> void:
 	hud.end_panel.visible = false
 	inter.hovered = null
 	inter._reset()
+	inter.square_turned.clear()
 	game = Game.new()
 	var seed_ := int(args.get("seed", 0))
 	var ctrls := []
@@ -94,6 +95,7 @@ func new_game() -> void:
 	game.event.connect(_on_event)
 	game.asking.connect(_on_asking)
 	human.asked.connect(inter.begin)
+	hud.orientation_of = inter.shown_inverted
 	square = SquareView.new().setup(game)
 	views_root.add_child(square)
 	for i in n:
@@ -240,6 +242,7 @@ func _sync_cards(snap: bool) -> void:
 			GK.Loc.SQUARE:
 				var s := game.square.find(c)
 				tr = square.slot_tr(maxi(s, 0))
+				if inter.shown_inverted(c): tr.basis = Basis(Vector3.UP, PI)
 			GK.Loc.DECK:
 				var i := game.deck.find(c)
 				tr = Transform3D(Basis(Vector3.BACK, PI), square.deck_point() + Vector3(0, 0.07 * maxi(i, 0) + Look.CARD_T, 0))

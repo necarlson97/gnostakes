@@ -7,7 +7,7 @@ class Top extends Ability:  # Iatrochemist
 	func acts(): return {rotate = {label = "1 buried E: rotate a committed die to any face"}}
 	func can_rotate(): return buried("E") > 0 and not me.committed().is_empty()
 	func act_rotate():
-		card.unbury("E", 1)
+		unbury("E", 1)
 		await rotate_any(func(d): return d.committed())
 
 class Inv extends Ability:  # Mercury-Blooded
@@ -15,5 +15,5 @@ class Inv extends Ability:  # Mercury-Blooded
 	func acts(): return {rotate = {label = "1 buried E: rotate a committed die to any face"}}
 	func can_rotate(): return buried("E") > 0 and not me.committed().is_empty()
 	func act_rotate():
-		card.unbury("E", 1)
+		unbury("E", 1)
 		await rotate_any(func(d): return d.committed())

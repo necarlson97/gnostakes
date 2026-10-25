@@ -76,6 +76,39 @@ func test_flips_tooth_drain_when_low() -> void:
 	var o: Array = b.decide(g, Choice.new(p, &"many", "", [c], 0, 1, null, &"orient"))
 	check(not o.has(c), "at 2 teeth, keeps Fleabitten Penitent face-down (upright Hairshirt)")
 
+func test_engine_builds_then_flips() -> void:
+	var g := Game.new().setup([AdaptiveBot.new(), Bot.new()], 3)
+	var b: Bot = g.controllers[0]
+	var p := g.players[0]
+	var c := card(g, "fire_05")   # Fingerless Sapper / Powder Monkey (5F: key)
+	await g.claim(p, c)
+	var orient := func() -> bool:
+		b.valuer.begin()
+		return b.decide(g, Choice.new(p, &"many", "", [c], 0, 1, null, &"orient")).has(c)
+	check(not orient.call(), "with no F, keeps Fingerless Sapper up to farm")
+	check(b.valuer.token_price(g, p, "F") > Valuer.TOKEN, "Powder Monkey on the face that's down still prices F")
+	p.tokens.F = 5 * Valuer.ENGINE_BATCH
+	check(orient.call(), "with a batch of F, turns to Powder Monkey to cash in")
+	c.inverted = true
+	b.valuer.begin()
+	var blast = b.decide(g, Choice.new(p, &"pick", "", [null] + g.legal_acts(p, &"scheme"), 0, 1, null, &"act"))
+	check(blast != null and blast.id == &"key", "cashes F for keys instead of burning Monkey (got %s)" % [blast.id if blast else null])
+	p.tokens.F = 2
+	check(not orient.call(), "after cashing in, turns back to Sapper")
+
+func test_no_keys_while_locked() -> void:
+	var g := Game.new().setup([Bot.new(), Bot.new()], 3)
+	var b: Bot = g.controllers[0]
+	var p := g.players[0]
+	var mine := card(g, "fire_03")
+	await g.claim(p, mine)
+	var archon := card(g, "major_01")   # Lockpicking Archon, attached by the opponent
+	await g.claim(g.players[1], archon)
+	archon.inverted = true
+	await g.relinquish(archon, mine)
+	b.valuer.begin()
+	check(b.valuer.offer_value(g, p, {cost = {F = 2}, gain = {keys = 1}}) < 0, "won't pay for a key it can't gain")
+
 func test_adaptive_commits() -> void:
 	var g := Game.new().setup([AdaptiveBot.new(), Bot.new()], 3)
 	var b: AdaptiveBot = g.controllers[0]
@@ -152,3 +185,19 @@ func test_bot_games_answer_validly() -> void:
 		check(g.over(), "%s finished" % [spec])
 		check(g.invalid_answers == 0, "%s gave %d invalid answers" % [spec, g.invalid_answers])
 		g.dispose()
+
+## Winning a wager for a slot you're buying with tokens must not overdraw you (Q < 0).
+func test_tokens_never_negative() -> void:
+	var neg := []
+	for i in 12:
+		var bots := []
+		for j in 4: bots.append(Bots.make("adaptive", i * 10 + j + 1))
+		var g := Game.new().setup(bots, i + 1)
+		g.keep_log = false
+		g.event.connect(func(ev):
+			for p in g.players:
+				for t in p.tokens:
+					if p.tokens[t] < 0 and neg.size() < 3: neg.append("seed %d: %s %s=%d after %s" % [i + 1, p, t, p.tokens[t], ev.name]))
+		await g.play()
+		g.dispose()
+	check(neg.is_empty(), "no negative tokens (%s)" % [neg])

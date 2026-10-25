@@ -9,7 +9,7 @@ class Top extends Ability:  # Shuar Headshrinker
 class Inv extends Ability:  # Ayahuascite
 	func on_rotate(_ev): bury("A")
 	func on_score_nothing(_ev):
-		var n := card.unbury("A")
+		var n := unbury("A")
 		if n == 0: return
 		await gain({A = n})
 		if n >= 5:

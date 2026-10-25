@@ -4,6 +4,7 @@ extends RefCounted
 class Top extends Ability:  # Tongueless Traitor
 	func on_face_swap(_ev): await gain({A = 2})
 	func acts(): return {rotate = {when = "roll", per = &"round", cost = {W = 1}, label = "1W: rotate a die to any face"}}
+	func can_rotate(): return not live_dice().is_empty()
 	func act_rotate(): await rotate_any()
 
 class Inv extends Ability:  # Candid Jester

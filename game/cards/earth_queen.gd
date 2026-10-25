@@ -8,8 +8,8 @@ class Top extends Ability:  # Spagyric Physician
 		if not is_set(ev, [&"triplet", &"quadruplet"]): return
 		var tok := {}
 		for t in GK.TOKENS:
-			if buried(t) > 0: tok[t] = card.unbury(t)
+			if buried(t) > 0: tok[t] = unbury(t)
 		if tok: await gain(tok)
 
 class Inv extends Ability:  # Arsenic Apothecary
-	func on_leave(_ev): me.spare_faces.append("E")
+	func on_leave(_ev): gain_face("E")

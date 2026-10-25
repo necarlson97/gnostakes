@@ -6,4 +6,4 @@ class Top extends Ability:  # Closeted Apostate
 	func on_scheme_start(_ev): await adjust_potency(-1)
 
 class Inv extends Ability:  # Flaming Heretic
-	func on_leave(_ev): me.spare_faces.append("F")
+	func on_leave(_ev): gain_face("F")

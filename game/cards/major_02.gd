@@ -3,6 +3,7 @@ extends RefCounted
 
 class Top extends Ability:  # Mooncalf Mother
 	func acts(): return {rotate = {when = "roll", per = &"roll", cost = {discard = 1}, label = "Discard a die: rotate a die to any face"}}
+	func can_rotate(): return live_dice().size() >= 2   # one is discarded to pay
 	func act_rotate(): await rotate_any()
 
 class Inv extends Ability:  # Carrier of the Droplet

@@ -11,7 +11,7 @@ class Top extends Ability:  # Mercurial Monomaniac
 	func acts(): return {rotate = {when = "roll", label = "1 buried F: rotate a die to any face"}}
 	func can_rotate(): return buried("F") > 0
 	func act_rotate():
-		card.unbury("F", 1)
+		unbury("F", 1)
 		await rotate_any()
 
 class Inv extends Ability:  # Haunted Mind

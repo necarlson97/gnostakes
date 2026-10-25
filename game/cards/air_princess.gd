@@ -9,4 +9,4 @@ class Top extends Ability:  # Driveling Chemist
 class Inv extends Ability:  # Feverish Scribe
 	func acts(): return {scribble = {when = "roll", cost = {discard = 2}, label = "Discard two dice: bury 1A here"}}
 	func act_scribble(): bury("A")
-	func mod_win_keys(_p, v, _c): return buried("A") if buried("A") > 10 else v
+	func mod_win_keys(_p, v, _c): return buried("A") if buried("A") > 7 else v

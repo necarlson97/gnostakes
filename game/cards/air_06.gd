@@ -7,7 +7,7 @@ class Top extends Ability:  # Mummy Grinder
 		if is_set(ev, [&"four_of_a_color", &"five_of_a_color", &"four_air"]): bury("A", 2)
 	func on_swig_start(_ev):
 		if buried("A") > 0 and me.ready_dice() and await may("Mummy Grinder: spend 1 buried A to rotate and commit a die?", {cost = {A = 0.5}, gain = {control = 2}}):
-			card.unbury("A", 1)
+			unbury("A", 1)
 			await rotate_and_commit()
 	func replace_lose_tooth(ev):
 		if ev.player != me or buried("A") < 6: return false

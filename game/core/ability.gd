@@ -60,7 +60,20 @@ func gain(tok: Dictionary, additional := false) -> void: await g.gain(me, tok, s
 func gain_keys(n := 1, additional := false) -> void: await g.gain_keys(me, n, self, additional)
 func lose_teeth(n := 1) -> void: await g.lose_teeth(me, n, self)
 func incinerate_self() -> void: await g.incinerate(card, me, self)
-func bury(k: String, n := 1) -> void: card.bury(k, n)
+## Take buried tokens off this card (logged so the ability meter sees it); returns how many.
+func unbury(k: String, n := -1) -> int:
+	var took := card.unbury(k, n)
+	if took: g._log({name = &"unbury", player = me, card = card, token = k, amount = took, src = self})
+	return took
+
+## Gain a spare face of colour `t` (swapped onto a die at the next opportunity).
+func gain_face(t: String) -> void:
+	me.spare_faces.append(t)
+	g._log({name = &"face_gained", player = me, face = t, src = self})
+
+func bury(k: String, n := 1) -> void:
+	card.bury(k, n)
+	g._log({name = &"bury", player = me, card = card, token = k, amount = n, src = self})
 func buried(k: String) -> int: return card.buried_n(k)
 func opponents() -> Array: return g.players.filter(func(p): return p != me)
 func victim() -> Player: return card.holder()   # for relinquished cards
@@ -78,8 +91,10 @@ func with_die(p: Player, dice: Array, d: Die) -> Array:
 func potency_for(ev: Dictionary, tok: String) -> void:
 	if not ev.die.shows(tok): return
 	var pd := me.swig_dice.filter(func(d): return d.kind == GK.Kind.POTENCY and not d.discarded())
-	if pd.is_empty() or not await may("%s: discard a Potency die to gain %s?" % [title, tok]): return
-	var d: Die = await g.pick(me, "Discard which Potency die?", pd, self, &"die")
+	if pd.is_empty(): return
+	var most: int = pd.map(func(d): return d.pips()).max()
+	if not await may("%s: discard a Potency die to gain %s?" % [title, tok], {cost = {discard = 1, set = 0.5}, gain = {tok: most}}): return
+	var d: Die = await g.pick(me, "Discard which Potency die?", pd, self, &"potency_die")
 	await g.discard(me, d, self)
 	await gain({tok: d.pips()})
 
@@ -100,6 +115,13 @@ func act_relinquish() -> void:
 	for p in opponents(): targets.append_array(p.cadre)
 	await g.relinquish(card, await g.pick(me, "Attach %s to which card?" % title, targets, self, &"target"))
 func attached() -> bool: return card.loc == GK.Loc.ATTACHED
+
+## Dice still in play this Swig (not discarded): what "rotate a die" can act on.
+func live_dice() -> Array: return me.swig_dice.filter(func(d): return not d.discarded())
+
+## An Elemental die with a crystal face that isn't already Q ("replace a crystal face with Q").
+func can_quint() -> bool:
+	return me.dice.any(func(d): return d.kind == GK.Kind.ELEMENTAL and d.faces.any(func(f): return f is String and f != "" and f != "Q"))
 
 ## "Rotate a die to any face": pick a die (default: any not discarded), then a face.
 func rotate_any(filter: Callable = func(d): return not d.discarded()) -> Die:

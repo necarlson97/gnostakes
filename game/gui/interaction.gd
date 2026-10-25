@@ -39,6 +39,7 @@ var die_opts := {}         # Die -> option
 var source_card: Card = null
 var alert_card: Card = null
 var orient := {}           # Card -> inverted?
+var square_turned := {}    # Card -> true: turned around in the Town Square to read the other face (view only)
 var last_die: Die = null
 
 # mouse
@@ -408,7 +409,7 @@ func _begin_request() -> void:
 	var parts := []
 	for r in rights:
 		parts.append("slot %d" % (r[0] + 1) if r.size() == 1 else "any slot")
-	var txt := "Request a villager: drag a glowing card to your cadre, or click it."
+	var txt := "Request a villager: drag a glowing card to your cadre (click a card to turn it around)."
 	if parts: txt += " Your sets grant: %s." % ", ".join(parts)
 	if buys: txt += " You can also buy slot %s with tokens (right-click a card for options)." % ", ".join(buys.map(func(s): return str(s + 1)))
 	table.hud.prompt(txt, [{label = "Pass", cb = func(): submit(null), primary = true}])
@@ -475,7 +476,13 @@ func _begin_orient() -> void:
 		{label = "Done", cb = func(): submit(c.options.filter(func(x): return orient.get(x, false))), primary = true}])
 
 func shown_inverted(card: Card) -> bool:
+	if card.loc == GK.Loc.SQUARE: return square_turned.get(card, false)
 	return orient.get(card, card.inverted) if mode == &"orient" else card.inverted
+
+func _turn_square_card(card: Card) -> void:
+	square_turned[card] = not square_turned.get(card, false)
+	table.hud.inspect(card)
+	table.request_sync()
 
 func _begin_act() -> void:
 	mode = &"act"
@@ -769,14 +776,14 @@ func _click(o) -> void:
 	elif o is CardView:
 		var card: Card = o.card
 		match mode:
-			&"request": _request(card)
-			&"act": _act(card)
-			&"pick_card": if card_opts.has(card): submit(card)
-			&"orient":
-				if orient.has(card):
-					orient[card] = not orient[card]
-					table.hud.inspect(null)
-					table.request_sync()
+			&"act" when card_opts.has(card): _act(card)
+			&"pick_card" when card_opts.has(card): submit(card)
+			&"orient" when orient.has(card):
+				orient[card] = not orient[card]
+				table.hud.inspect(card)
+				table.request_sync()
+			_:
+				if card.loc == GK.Loc.SQUARE: _turn_square_card(card)
 	elif o is TokenView and mode == &"wager" and o.get_parent() == seat():
 		if o.in_dish: _token_from_dish(o)
 		else: _token_to_dish(o)

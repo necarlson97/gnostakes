@@ -286,7 +286,7 @@
   "element": "Major Arcana",
   "rank": "Temperance",
   "name": "Binger",
-  "rule": "You can now score straights with a one gap of 1\n(E.g., 1,2,4 scores as a Three Straight)",
+  "rule": "You can now score straights with one gap of 1\n(E.g., 1,2,4 scores as a Three Straight)",
   "inv_name": "Purger",
   "inv_rule": "On Scheme start, you may decrease a Potency by -1\nWhenever an opponent claims a card, you may:\nlose a tooth and incinerate this card\nto claim that card yourself instead",
   "features": {
@@ -1241,7 +1241,7 @@
   "element": "Fire",
   "rank": "Eight",
   "name": "Furnace Keeper",
-  "rule": "On rolling an F, you may incinerate a card to gain 3 F\nOn Scheme start, you may increase a Potency by +1",
+  "rule": "On rolling an F, you may incinerate a card to gain 2 F\nOn Scheme start, you may increase a Potency by +1",
   "inv_name": "Staunch Stoker",
   "inv_rule": "Spend 1Q to resurrect and gain the most recently incinerated card.",
   "features": {
@@ -1619,7 +1619,7 @@
   "name": "Driveling Chemist",
   "rule": "On scheme start, if you have the fewest keys, gain an E, W, F and A",
   "inv_name": "Feverish Scribe",
-  "inv_rule": "Discard two dice to bury 1A on this card.\nIf >10 A buried, 'X keys' enlightenment threshold to end the game\nbecomes equal to the A on this card.",
+  "inv_rule": "Discard two dice to bury 1A on this card.\nIf >7A buried, 'X keys' enlightenment threshold to end the game\nbecomes equal to the A on this card.",
   "features": {
    "top": {
     "gain_A": 1.0,

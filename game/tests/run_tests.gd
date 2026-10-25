@@ -87,7 +87,7 @@ func test_replacement_stoic() -> void:
 	var g := await game_with(["major_08:inv"])
 	var p := g.players[0]
 	await g.lose_teeth(p, 2)
-	check(p.teeth == 8 and p.cadre[0].buried_n("tooth") == 2, "two teeth buried on Stoic")
+	check(p.teeth == GK.DEFAULTS.start_teeth - 2 and p.cadre[0].buried_n("tooth") == 2, "two teeth buried on Stoic")
 	await g.lose_teeth(p, 1)
 	check(p.cadre.is_empty() and g.pyre.size() == 1, "third tooth burns Stoic")
 
@@ -123,7 +123,7 @@ func test_purger_steals_claim() -> void:
 	var g := await game_with(["major_14:inv"], [yes, Scripted.new()])
 	var target: Card = g.square[0]
 	await g.claim(g.players[1], target)
-	check(g.players[0].cadre.has(target) and g.players[0].teeth == 9, "Purger takes the claim for a tooth")
+	check(g.players[0].cadre.has(target) and g.players[0].teeth == GK.DEFAULTS.start_teeth - 1, "Purger takes the claim for a tooth")
 
 func test_async_controller_suspends_and_resumes() -> void:
 	var gui := Controller.Async.new()
@@ -165,7 +165,7 @@ func test_cost_teeth_can_be_replaced() -> void:
 	p.tokens.E = 5
 	g.pyre.append(CardDB.make(g, "earth_10"))
 	await g.use_act(p, p.cadre[0].ability, &"resurrect")
-	check(p.teeth == 10 and p.tokens.E == 0 and p.cadre.size() == 3, "Oathbreaker pays 5E instead of Pact Proctor's tooth")
+	check(p.teeth == GK.DEFAULTS.start_teeth and p.tokens.E == 0 and p.cadre.size() == 3, "Oathbreaker pays 5E instead of Pact Proctor's tooth")
 
 func test_god_struck_needs_potency() -> void:
 	var g := await game_with(["major_00:inv"])
@@ -195,7 +195,7 @@ func test_replacement_cannot_replace_itself() -> void:
 	var g := await game_with(["earth_09", "fire_prince"], [Scripted.new({&"either": func(c): return c.options[1]}), Scripted.new()])
 	var p := g.players[0]
 	await g.lose_teeth(p, 1)
-	check(p.teeth == 8 and not g.over(), "one prevented tooth cost 2 teeth via Strawman, then stopped (teeth %d)" % p.teeth)
+	check(p.teeth == GK.DEFAULTS.start_teeth - 2 and not g.over(), "one prevented tooth cost 2 teeth via Strawman, then stopped (teeth %d)" % p.teeth)
 
 ## Rules 2026-10-22: players with no teeth die; most keys among the living wins.
 func test_dead_players_cannot_win() -> void:
@@ -217,6 +217,15 @@ func test_teeth_floor_at_zero() -> void:
 	check(p.teeth == 0, "teeth stop at 0 (got %d)" % p.teeth)
 	await g.gain_teeth(p, 1)
 	check(p.teeth == 1, "a dead player can regain a tooth before the end")
+
+func test_card_variants_load() -> void:
+	CardDB.variants.assign(["test_noop"])
+	var g := Game.new()
+	var c := CardDB.make(g, "earth_01")
+	CardDB.variants.clear()
+	check(c.info.get("variant") == "test_noop" and c.info.rule == "Test text." and c.info.features.top == {keys = 1.0}, "variant text and features override the sheet")
+	check(c.faces[0].implemented and not c.faces[1].implemented, "variant script replaces both faces (missing Inv = text-only)")
+	check(CardDB.make(g, "earth_01").info.get("variant") == null, "inactive variants don't apply")
 
 func test_every_face_implemented() -> void:
 	var g := Game.new()

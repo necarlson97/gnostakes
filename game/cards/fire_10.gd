@@ -8,6 +8,7 @@ class Top extends Ability:  # Covert Degenerate
 	}
 	func can_uncommit(): return not me.committed().is_empty()
 	func act_uncommit(): await g.uncommit(me, await g.pick(me, "Uncommit which die?", me.committed(), self, &"die"), self)
+	func can_rotate(): return not live_dice().is_empty()
 	func act_rotate(): await rotate_any()
 	func on_scheme_start(_ev): await adjust_potency(1)
 

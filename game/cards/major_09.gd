@@ -13,4 +13,4 @@ class Inv extends Ability:  # Bird-Fouled Hagia
 			await gain_keys()
 			await incinerate_self()
 	func on_token_gained(ev):
-		if ev.type == "Q" and ev.src != self and buried("Q") > 0: await gain({Q = card.unbury("Q")})
+		if ev.type == "Q" and ev.src != self and buried("Q") > 0: await gain({Q = unbury("Q")})

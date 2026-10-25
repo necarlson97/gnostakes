@@ -4,6 +4,7 @@ extends RefCounted
 class Top extends Ability:  # Flayed Flagellant
 	func on_roll(ev): await potency_for(ev, "A")
 	func acts(): return {rotate = {when = "roll", per = &"round", cost = {A = 1}, label = "1A: rotate a die to any face"}}
+	func can_rotate(): return not live_dice().is_empty()
 	func act_rotate(): await rotate_any()
 
 class Inv extends Ability:  # Lash-Blessed Monk

@@ -4,25 +4,25 @@
 
 | | |
 |---|---|
-| Run | `20261023-093118` (game/sim/results/20261023-093118) |
+| Run | `20261024-020959` (game/sim/results/20261024-020959) |
 | Games | 1300 (4 players each) |
 | Bots | all |
-| Rule overrides | win_keys=7, start_teeth=7, max_teeth=7 |
-| Card data | design/source_snapshot, synced 2026-10-22 23:29 |
-| Learned card power | 2026-10-23 09:31 |
-| Written | 2026-10-23 09:43 |
+| Rule overrides | none (rules as written) |
+| Card data | design/source_snapshot, synced 2026-10-24 02:03 |
+| Learned card power | 2026-10-23 10:07 |
+| Written | 2026-10-24 03:18 |
 
 ## Headlines
 
-- **Game length:** 15.3 rounds on average (half of games end by round 15, 90% by round 23).
-- **How games end:** edification 58%, conflagration 37%, putrescence 4%.
-- **Deaths:** 1.2% of players finish with no teeth; 0.0% of games have no living winner.
+- **Game length:** 14.7 rounds on average (half of games end by round 15, 90% by round 22).
+- **How games end:** edification 63%, conflagration 31%, putrescence 5%.
+- **Deaths:** 1.4% of players finish with no teeth; 0.0% of games have no living winner.
 - **Winning score:** the winner holds 7 keys at the median (p10 4, p90 8).
-- **Strongest bots:** adaptive 1.45x, burner 1.43x, fire 1.42x.
-- **Weakest bots:** tooth_miser 0.76x, sculptor 0.75x, open_slots 0.67x.
-- **Best key cards (keys per claim):** Solifactory Smith / Brawny Striker 3.27, Twofold Widow / Lethean Elder 1.00, Bodysnatcher / Overworked Gravedigger 0.95. Average card: 0.30.
-- **Tokens:** the median player gains 5 tokens a game (90th percentile 23); 22% of players gain none.
-- **Most tooth loss to its holder (per claim):** Solifactory Smith / Brawny Striker 2.45, Sulfurous Sage / Socratic Self-Slayer 1.41, Hairshirt Bearer / Fleabitten Penitent 1.41.
+- **Strongest bots:** adaptive 1.38x, nihilist 1.37x, fire_air 1.32x.
+- **Weakest bots:** attrition 0.77x, straights 0.69x, sculptor 0.33x.
+- **Best key cards (keys per claim):** Solifactory Smith / Brawny Striker 3.49, Bodysnatcher / Overworked Gravedigger 1.09, Twofold Widow / Lethean Elder 1.03. Average card: 0.31.
+- **Tokens:** the median player gains 5 tokens a game (90th percentile 21); 22% of players gain none.
+- **Most tooth loss to its holder (per claim):** Solifactory Smith / Brawny Striker 2.67, Hairshirt Bearer / Fleabitten Penitent 1.48, Sulfurous Sage / Socratic Self-Slayer 1.45.
 
 ## Bots
 
@@ -30,49 +30,49 @@
 
 | Bot | Seats | Win % | ±95% | vs even | Keys/game | Teeth left | Dead % |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| adaptive | 171 | 36.2% | 7.2% | 1.45x | 3.67 | 5.4 | 0.6% |
-| burner | 190 | 35.7% | 6.8% | 1.43x | 3.65 | 5.5 | 0.5% |
-| fire | 177 | 35.6% | 7.1% | 1.42x | 4.02 | 5.4 | 0.6% |
-| air | 189 | 35.0% | 6.8% | 1.40x | 3.78 | 5.9 | 0.0% |
-| discarder | 176 | 31.6% | 6.9% | 1.27x | 3.60 | 5.6 | 0.0% |
-| fire_air | 168 | 31.4% | 7.0% | 1.26x | 3.73 | 5.8 | 0.6% |
-| earth_fire | 203 | 30.5% | 6.3% | 1.22x | 3.38 | 5.5 | 1.5% |
-| nihilist | 179 | 30.4% | 6.7% | 1.21x | 3.53 | 6.0 | 0.0% |
-| kinds | 163 | 28.4% | 6.9% | 1.14x | 3.27 | 5.7 | 0.0% |
-| water_air | 183 | 28.2% | 6.5% | 1.13x | 3.22 | 5.8 | 0.0% |
-| quintessence | 196 | 27.6% | 6.3% | 1.11x | 3.26 | 6.0 | 1.0% |
-| pairs | 186 | 25.5% | 6.3% | 1.02x | 3.02 | 5.9 | 1.6% |
-| water_fire | 180 | 25.5% | 6.4% | 1.02x | 3.49 | 5.3 | 0.6% |
-| economist | 168 | 25.2% | 6.6% | 1.01x | 3.17 | 5.9 | 1.8% |
-| saboteur | 181 | 23.5% | 6.2% | 0.94x | 3.05 | 5.8 | 0.0% |
-| attrition | 161 | 23.1% | 6.5% | 0.92x | 3.06 | 4.5 | 6.8% |
-| earth_water | 172 | 23.1% | 6.3% | 0.92x | 3.08 | 5.5 | 0.0% |
-| earth_air | 166 | 23.0% | 6.4% | 0.92x | 2.90 | 5.7 | 1.2% |
-| high_roller | 180 | 23.0% | 6.1% | 0.92x | 3.13 | 5.7 | 1.1% |
-| balanced | 146 | 22.5% | 6.8% | 0.90x | 2.83 | 5.9 | 1.4% |
-| straights | 172 | 22.4% | 6.2% | 0.90x | 2.81 | 5.6 | 0.6% |
-| colors | 180 | 21.2% | 6.0% | 0.85x | 3.19 | 5.5 | 0.0% |
-| water | 190 | 21.0% | 5.8% | 0.84x | 2.93 | 5.7 | 0.5% |
-| earth | 175 | 19.4% | 5.9% | 0.78x | 2.83 | 5.2 | 0.6% |
-| key_rusher | 196 | 19.2% | 5.5% | 0.77x | 2.93 | 5.1 | 6.6% |
-| tooth_miser | 211 | 18.9% | 5.3% | 0.76x | 2.61 | 6.6 | 0.5% |
-| sculptor | 188 | 18.8% | 5.6% | 0.75x | 2.58 | 5.7 | 0.0% |
-| open_slots | 174 | 16.9% | 5.6% | 0.67x | 2.38 | 5.7 | 0.6% |
-| random | 179 | 2.4% | 2.3% | 0.10x | 0.71 | 4.9 | 7.8% |
+| adaptive | 161 | 34.6% | 7.3% | 1.38x | 3.54 | 5.7 | 0.6% |
+| nihilist | 188 | 34.1% | 6.8% | 1.37x | 3.69 | 6.0 | 0.0% |
+| fire_air | 195 | 32.9% | 6.6% | 1.32x | 3.72 | 5.6 | 0.5% |
+| air | 200 | 32.5% | 6.5% | 1.30x | 3.60 | 5.6 | 0.5% |
+| kinds | 182 | 31.3% | 6.7% | 1.25x | 3.25 | 5.7 | 1.6% |
+| saboteur | 176 | 30.8% | 6.8% | 1.23x | 3.43 | 5.3 | 1.7% |
+| quintessence | 159 | 30.5% | 7.2% | 1.22x | 3.38 | 5.8 | 0.6% |
+| economist | 166 | 29.5% | 6.9% | 1.18x | 3.34 | 5.7 | 1.2% |
+| discarder | 156 | 29.4% | 7.2% | 1.18x | 3.63 | 5.9 | 0.0% |
+| water_air | 190 | 29.1% | 6.5% | 1.16x | 3.52 | 5.6 | 0.5% |
+| earth_water | 189 | 28.7% | 6.5% | 1.15x | 3.16 | 5.5 | 0.5% |
+| water_fire | 191 | 28.4% | 6.4% | 1.14x | 3.49 | 5.5 | 0.0% |
+| fire | 193 | 28.2% | 6.3% | 1.13x | 3.66 | 5.6 | 0.0% |
+| colors | 170 | 26.9% | 6.7% | 1.07x | 3.38 | 5.5 | 0.6% |
+| burner | 191 | 26.3% | 6.2% | 1.05x | 3.06 | 5.9 | 0.0% |
+| high_roller | 177 | 26.2% | 6.5% | 1.05x | 3.28 | 5.5 | 1.1% |
+| earth_fire | 179 | 26.1% | 6.4% | 1.04x | 3.31 | 5.4 | 2.2% |
+| earth | 168 | 23.0% | 6.4% | 0.92x | 2.89 | 5.6 | 0.0% |
+| tooth_miser | 181 | 22.8% | 6.1% | 0.91x | 2.96 | 6.6 | 0.0% |
+| water | 196 | 22.7% | 5.9% | 0.91x | 3.19 | 5.5 | 1.5% |
+| pairs | 162 | 21.7% | 6.3% | 0.87x | 3.03 | 6.0 | 0.6% |
+| earth_air | 180 | 21.4% | 6.0% | 0.86x | 2.97 | 5.9 | 0.0% |
+| key_rusher | 196 | 21.2% | 5.7% | 0.85x | 3.18 | 4.9 | 6.1% |
+| balanced | 166 | 20.9% | 6.2% | 0.84x | 3.12 | 5.9 | 0.6% |
+| open_slots | 188 | 19.9% | 5.7% | 0.80x | 2.72 | 5.5 | 0.5% |
+| attrition | 179 | 19.3% | 5.8% | 0.77x | 2.95 | 4.4 | 11.2% |
+| straights | 152 | 17.3% | 6.0% | 0.69x | 2.72 | 5.9 | 0.0% |
+| sculptor | 185 | 8.2% | 4.0% | 0.33x | 1.99 | 5.8 | 1.1% |
+| random | 184 | 0.8% | 1.3% | 0.03x | 0.59 | 5.0 | 6.5% |
 
-**adaptive** ends committed to: key_rusher 82, earth_air 17, economist 14, earth_fire 13, fire_air 9, water_air 7, burner 6, air 5.
+**adaptive** ends committed to: key_rusher 83, fire_air 13, earth_fire 11, earth_air 11, economist 9, earth_water 6, earth 6, air 5.
 
 ## Game length and endings
 
 | Rounds | min | p10 | p50 | mean | p90 | max |
 |---|---:|---:|---:|---:|---:|---:|
-| | 3 | 8 | 15 | 15.3 | 23 | 33 |
+| | 3 | 7 | 15 | 14.7 | 22 | 35 |
 
 | Ending | Games | Share |
 |---|---:|---:|
-| edification | 760 | 58.5% |
-| conflagration | 482 | 37.1% |
-| putrescence | 58 | 4.5% |
+| edification | 825 | 63.5% |
+| conflagration | 407 | 31.3% |
+| putrescence | 68 | 5.2% |
 
 ## Tokens
 
@@ -80,22 +80,22 @@ Per player. "Per game" percentiles are over player-games; peaks are the most hel
 
 | Token | Per round | Per game p50 | p90 | mean | Spent/game | None gained | Peak p50 | Peak p90 | Peak max |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| E | 0.07 | 0 | 2 | 1.1 | 0.9 | 80% | 0 | 2 | 39 |
-| W | 0.07 | 0 | 3 | 1.1 | 0.8 | 74% | 0 | 3 | 54 |
-| F | 0.19 | 0 | 10 | 2.9 | 2.0 | 55% | 0 | 6 | 75 |
-| A | 0.21 | 0 | 13 | 3.3 | 2.6 | 68% | 0 | 5 | 53 |
-| Q | 0.04 | 0 | 2 | 0.6 | 0.3 | 76% | 0 | 1 | 12 |
-| all | 0.58 | 5 | 23 | 8.9 |  | 22% | 3 | 11 | 92 |
+| E | 0.07 | 0 | 2 | 1.1 | 0.8 | 78% | 0 | 2 | 29 |
+| W | 0.06 | 0 | 3 | 0.9 | 0.8 | 75% | 0 | 3 | 31 |
+| F | 0.17 | 0 | 8 | 2.5 | 1.7 | 56% | 0 | 5 | 36 |
+| A | 0.21 | 0 | 12 | 3.1 | 2.5 | 67% | 0 | 5 | 31 |
+| Q | 0.04 | 0 | 2 | 0.6 | 0.3 | 77% | 0 | 1 | 15 |
+| all | 0.56 | 5 | 21 | 8.2 |  | 22% | 3 | 11 | 90 |
 
 ### Top 5 producers per token
 
 Share of all income of that token, total produced in this run, and per claim of the card.
 
-- **E** (8 cards give at least 1%): Venomous Vessel 32% (1824, 3.0/claim); Hopeful Sower 27% (1574, 2.8/claim); Driveling Chemist 20% (1151, 1.8/claim); Burn-Scarred Glasswright 10% (556, 0.6/claim); Reeking Husk 4% (204, 0.2/claim)
-- **W** (8 cards give at least 1%): Dependable Tosspot 45% (2499, 2.6/claim); Driveling Chemist 21% (1151, 1.8/claim); Pot-Licking Friar 16% (858, 0.9/claim); Gout-Ridden Glutton 6% (322, 0.3/claim); Charitable Ciderist 3% (150, 0.2/claim)
-- **F** (7 cards give at least 1%): Doomed Pandorite 33% (4908, 5.9/claim); Lithiated Assayer 20% (3030, 4.2/claim); Furnace Keeper 16% (2337, 4.6/claim); Powder Miller 14% (2086, 2.2/claim); Driveling Chemist 8% (1151, 1.8/claim)
-- **A** (5 cards give at least 1%): Overworked Gravedigger 51% (8729, 9.3/claim); Dubious Demonologist 34% (5756, 9.5/claim); Driveling Chemist 7% (1151, 1.8/claim); Ayahuascite 5% (802, 1.0/claim); Tongueless Traitor 2% (263, 0.4/claim)
-- **Q** (7 cards give at least 1%): Expendable Assistant 52% (1646, 2.2/claim); Shunned Executioner 20% (636, 0.9/claim); Oathkeeper 8% (266, 0.5/claim); Bird-Fouled Hagia 7% (217, 0.2/claim); Active Assistant 7% (209, 0.2/claim)
+- **E** (9 cards give at least 1%): Venomous Vessel 35% (1986, 3.3/claim); Hopeful Sower 20% (1154, 2.1/claim); Driveling Chemist 20% (1144, 2.0/claim); Burn-Scarred Glasswright 9% (512, 0.6/claim); Short-Lived Brute 5% (290, 0.4/claim)
+- **W** (9 cards give at least 1%): Dependable Tosspot 40% (1968, 2.2/claim); Driveling Chemist 23% (1144, 2.0/claim); Pot-Licking Friar 17% (841, 0.9/claim); Gout-Ridden Glutton 5% (236, 0.3/claim); Enthralling Eulogist 4% (219, 0.3/claim)
+- **F** (7 cards give at least 1%): Doomed Pandorite 40% (5135, 6.0/claim); Lithiated Assayer 23% (2958, 4.1/claim); Powder Miller 15% (1893, 2.0/claim); Driveling Chemist 9% (1144, 2.0/claim); Timeless Warrior-Poet 6% (774, 1.2/claim)
+- **A** (5 cards give at least 1%): Overworked Gravedigger 52% (8320, 8.9/claim); Dubious Demonologist 33% (5225, 9.1/claim); Driveling Chemist 7% (1144, 2.0/claim); Ayahuascite 5% (808, 1.0/claim); Tongueless Traitor 2% (295, 0.4/claim)
+- **Q** (7 cards give at least 1%): Expendable Assistant 51% (1555, 2.2/claim); Shunned Executioner 20% (608, 0.9/claim); Active Assistant 8% (255, 0.3/claim); Oathkeeper 7% (222, 0.4/claim); Bird-Fouled Hagia 6% (192, 0.2/claim)
 
 ## Cards
 
@@ -103,84 +103,86 @@ Per claim of the card (either face). Teeth lost (holder) = teeth the card's own 
 
 | Card (upright / inverted) | Claims | Keys/claim | Teeth lost (holder) | Teeth taken (others) | Teeth regained | Tokens/claim | Main tokens | Holder win % | Holder dead % |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---:|
-| Solifactory Smith / Brawny Striker | 1033 | 3.27 | 2.45 | 0.00 | 0.00 | 0.0 | E0.0 Q0.0 | 62% | 2% |
-| Twofold Widow / Lethean Elder | 912 | 1.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
-| Bodysnatcher / Overworked Gravedigger | 935 | 0.95 | 0.01 | 0.00 | 0.00 | 9.4 | A9.4 | 22% | 1% |
-| Broken Martyr / Tarred Prophet | 947 | 0.91 | 0.89 | 0.00 | 0.92 | 0.0 |  | 34% | 1% |
-| Flayed Flagellant / Lash-Blessed Monk | 947 | 0.84 | 0.00 | 0.00 | 0.00 | 0.0 |  | 36% | 0% |
-| Epicurean Gourmand / Gout-Ridden Glutton | 958 | 0.84 | 0.00 | 0.00 | 0.00 | 0.4 | W0.3 Q0.0 | 38% | 1% |
-| Fire-Drake / Powder Miller | 951 | 0.83 | 0.00 | 0.00 | 0.00 | 2.2 | F2.2 | 35% | 1% |
-| Autoerotic Anesthetist / Back-Alley Butcher | 954 | 0.82 | 0.51 | 0.00 | 0.00 | 0.0 |  | 33% | 1% |
-| Gin-Soaked Gutter-Sweeper / Dependable Tosspot | 948 | 0.76 | 0.00 | 0.00 | 0.00 | 2.7 | W2.7 | 35% | 1% |
-| Sulfurous Sage / Socratic Self-Slayer | 911 | 0.72 | 1.41 | 0.00 | 0.00 | 0.0 |  | 38% | 1% |
-| Passive Puffer / Active Assistant | 941 | 0.69 | 0.00 | 0.00 | 0.00 | 0.2 | Q0.2 | 36% | 1% |
-| Noble Ghostwriter / Pilfered Penname | 957 | 0.68 | 0.00 | 0.00 | 0.00 | 0.1 | W0.1 | 35% | 1% |
-| Glass-Eyed Alchemist / Sun-Blinded Prismist | 981 | 0.68 | 0.00 | 0.00 | 0.00 | 0.0 | A0.0 | 32% | 1% |
-| Pillar-top Hermit / Bird-Fouled Hagia | 923 | 0.62 | 0.00 | 0.00 | 0.00 | 0.2 | Q0.2 | 35% | 1% |
-| Witch Drowner / Corrupted Inquisitor | 966 | 0.46 | 0.00 | 0.00 | 0.00 | 0.1 | Q0.1 | 27% | 2% |
-| Primed Pomologist / Charitable Ciderist | 962 | 0.43 | 0.00 | 0.00 | 0.00 | 0.4 | E0.2 W0.2 Q0.0 | 30% | 1% |
-| Lead Drinker / Bacchus Host | 949 | 0.41 | 0.01 | 0.00 | 0.00 | 0.0 | W0.0 | 40% | 1% |
-| Hollowhead / God-Struck Fool | 950 | 0.41 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Hollow-Bellied Saint / Pot-Licking Friar | 928 | 0.36 | 0.00 | 0.00 | 0.00 | 1.0 | W1.0 | 28% | 1% |
-| Academic Artillerist / Craven Cannoneer | 920 | 0.30 | 0.00 | 0.00 | 0.00 | 0.1 | F0.1 | 28% | 1% |
-| Alembic Servitor / Burn-Scarred Glasswright | 892 | 0.30 | 0.00 | 0.00 | 0.00 | 0.6 | E0.6 | 30% | 1% |
-| Persecuted Paranoiac / Psychotic Christ | 894 | 0.26 | 0.02 | 0.01 | 0.00 | 0.0 | A0.0 | 26% | 1% |
-| Plate-Plundering Deacon / Pious Parishioner | 879 | 0.24 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Reeking Husk / Discarded Follower | 893 | 0.17 | 0.00 | 0.00 | 0.00 | 0.3 | E0.2 A0.0 | 27% | 1% |
-| Bezoar Seeker / Sadistic Shepherd | 885 | 0.17 | 0.01 | 0.00 | 0.00 | 0.1 | E0.1 | 28% | 1% |
-| Pact Proctor / Wrathful Sovern | 814 | 0.08 | 0.01 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
-| Reliquary Larcenist / Finger-Bone Forager | 806 | 0.07 | 0.00 | 0.00 | 0.00 | 0.0 | A0.0 | 28% | 1% |
-| Self-Sacrificant / Post-Fate Oblate | 737 | 0.07 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Hairshirt Bearer / Fleabitten Penitent | 557 | 0.05 | 1.41 | 0.00 | 0.00 | 0.0 |  | 29% | 4% |
-| Shuar Headshrinker / Ayahuascite | 788 | 0.05 | 0.00 | 0.07 | 0.00 | 1.0 | A1.0 | 30% | 0% |
-| Shunned Executioner / Bloodstained Recluse | 710 | 0.05 | 0.00 | 0.00 | 0.00 | 0.9 | Q0.9 | 36% | 1% |
-| Promising Pugilist / Bruised Boxer | 633 | 0.04 | 0.04 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Enthralling Eulogist / Paid Mourner | 731 | 0.04 | 0.00 | 0.00 | 0.00 | 0.2 | W0.2 | 29% | 1% |
-| Branded Protégé / Expendable Assistant | 753 | 0.03 | 0.00 | 0.00 | 0.00 | 2.4 | Q2.3 F0.1 | 35% | 1% |
-| Promethean Pyro / Doomed Pandorite | 834 | 0.03 | 0.00 | 0.00 | 0.00 | 5.9 | F5.9 W0.0 E0.0 | 33% | 1% |
-| Tongueless Traitor / Candid Jester | 728 | 0.02 | 0.01 | 0.00 | 0.00 | 0.4 | A0.4 | 29% | 2% |
-| Fingerless Sapper / Powder Monkey | 717 | 0.02 | 0.01 | 2.37 | 0.00 | 0.0 | F0.0 | 34% | 1% |
-| Unshakable Empiricist / Vivisectionist | 555 | 0.01 | 0.00 | 0.00 | 1.04 | 0.0 |  | 32% | 2% |
-| Dubious Demonologist / Failed Exorcist | 605 | 0.00 | 0.00 | 0.00 | 0.00 | 9.5 | A9.5 F0.0 E0.0 | 35% | 1% |
-| Knower of True Names / Lockpicking Archon | 549 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Mooncalf Mother / Carrier of the Droplet | 590 | 0.00 | 0.01 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Gargoyle Mother / Famed Freemason | 464 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 32% | 1% |
-| Incorruptible Judge / Hardnosed Idealist | 520 | 0.00 | 0.56 | 0.00 | 0.00 | 0.0 |  | 29% | 2% |
-| Doomed Romantic / Kismet Syzygyst | 437 | 0.00 | 0.16 | 0.00 | 0.00 | 0.0 |  | 33% | 1% |
-| Hard-Weathered Quarryman / Stonefaced Stoic | 632 | 0.00 | 0.03 | 0.00 | 0.10 | 0.0 |  | 26% | 2% |
-| Barefoot Pilgrim / Marooned Wanderer | 554 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 34% | 3% |
-| Clamp-Turning Examiner / Confessional Magistrate | 493 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 2% |
-| Toothless Grinner / Corpse-Like Pauper | 478 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
-| Binger / Purger | 493 | 0.00 | 0.11 | 0.00 | 0.00 | 0.0 |  | 33% | 1% |
-| Faustian Scholar / Tumorous Magi | 538 | 0.00 | 0.05 | 0.00 | 0.00 | 0.0 |  | 28% | 1% |
-| Silent Companion / Patient Confidant | 613 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Sane Sorrowful / Insane Incandescent | 418 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 2% |
-| Reservoir of Sunshine / Beloved Homunculus | 500 | 0.00 | 0.01 | 0.00 | 0.00 | 0.0 |  | 29% | 2% |
-| Wailing Confessor / Voiceless Accused | 467 | 0.00 | 0.11 | 0.00 | 0.00 | 0.0 |  | 28% | 1% |
-| Mocking Recluse / Jar Dweller | 606 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 31% | 1% |
-| Shrewd Quaker / Hard-Tack Baker | 613 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 | F0.0 | 26% | 1% |
-| Perennial Pruner / Haphazard Herbalist | 603 | 0.00 | 0.00 | 0.00 | 0.33 | 0.0 |  | 28% | 1% |
-| Venomous Vessel / Sinuous Acolyte | 617 | 0.00 | 0.00 | 0.00 | 0.00 | 3.0 | E3.0 | 28% | 2% |
-| Oathbreaker / Oathkeeper | 520 | 0.00 | 0.01 | 0.00 | 0.00 | 0.5 | Q0.5 | 28% | 2% |
-| Hopeful Sower / Grain Hoarder | 569 | 0.00 | 0.00 | 0.00 | 0.00 | 2.8 | E2.8 | 31% | 1% |
-| The Tallyman / Dreaded Abacist | 514 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 2% |
-| Spagyric Physician / Arsenic Apothecary | 574 | 0.00 | 0.00 | 0.00 | 0.00 | 0.3 | E0.1 W0.1 A0.0 | 31% | 1% |
-| Iatrochemist / Mercury-Blooded | 509 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 3% |
-| Worm-Brained Absinthard / Fairy-Chaser | 570 | 0.00 | 0.00 | 0.00 | 0.00 | 0.2 | W0.2 | 26% | 1% |
-| Leech Catcher / Bloodless Somnambulist | 589 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
-| Nubile Nymph / Virgin Pure | 711 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
-| Orgasmic Musician / Brooding Composer | 669 | 0.00 | 0.00 | 0.00 | 0.00 | 0.1 | W0.1 E0.0 | 24% | 1% |
-| Short-Lived Brute / Timeless Warrior-Poet | 663 | 0.00 | 0.01 | 0.00 | 0.00 | 1.1 | F1.1 E0.0 | 33% | 2% |
-| Furnace Keeper / Staunch Stoker | 513 | 0.00 | 0.02 | 0.00 | 0.00 | 4.6 | F4.6 | 32% | 2% |
-| Covert Degenerate / Esteemed Burgher | 695 | 0.00 | 0.08 | 0.00 | 0.00 | 0.0 |  | 30% | 2% |
-| Closeted Apostate / Flaming Heretic | 469 | 0.00 | 0.00 | 0.00 | 0.00 | 0.1 | F0.1 | 31% | 2% |
-| Strawman / Burnt Effigy | 499 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 4% |
-| Epileptic Metallurgist / Lithiated Assayer | 716 | 0.00 | 0.00 | 0.00 | 0.00 | 4.3 | F4.3 A0.0 | 33% | 1% |
-| Mummy Grinder / Intrepid Archaeologist | 739 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
-| Footnoted Scholar / Pedantic Pedagogue | 497 | 0.00 | 0.00 | 1.04 | 0.00 | 0.5 | F0.5 | 31% | 2% |
-| Mercurial Monomaniac / Haunted Mind | 754 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 26% | 1% |
-| Driveling Chemist / Feverish Scribe | 624 | 0.00 | 0.01 | 0.00 | 0.00 | 7.4 | A1.8 E1.8 F1.8 | 36% | 1% |
-| Placenta Purloiner / Viscera Monger | 659 | 0.00 | 0.00 | 0.00 | 0.25 | 0.0 | A0.0 | 30% | 2% |
+| Solifactory Smith / Brawny Striker | 1039 | 3.49 | 2.67 | 0.00 | 0.00 | 0.1 | E0.0 Q0.0 | 64% | 3% |
+| Bodysnatcher / Overworked Gravedigger | 934 | 1.09 | 0.00 | 0.00 | 0.00 | 9.0 | A9.0 | 26% | 1% |
+| Twofold Widow / Lethean Elder | 924 | 1.03 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Broken Martyr / Tarred Prophet | 936 | 1.01 | 0.72 | 0.00 | 0.74 | 0.0 |  | 38% | 1% |
+| Flayed Flagellant / Lash-Blessed Monk | 914 | 0.86 | 0.00 | 0.00 | 0.00 | 0.1 | A0.1 | 34% | 1% |
+| Autoerotic Anesthetist / Back-Alley Butcher | 949 | 0.85 | 0.51 | 0.00 | 0.00 | 0.0 |  | 35% | 1% |
+| Epicurean Gourmand / Gout-Ridden Glutton | 932 | 0.83 | 0.00 | 0.00 | 0.00 | 0.3 | W0.3 Q0.0 | 36% | 1% |
+| Fire-Drake / Powder Miller | 939 | 0.82 | 0.01 | 0.00 | 0.00 | 2.0 | F2.0 | 39% | 1% |
+| Gin-Soaked Gutter-Sweeper / Dependable Tosspot | 915 | 0.78 | 0.00 | 0.00 | 0.00 | 2.2 | W2.2 | 34% | 1% |
+| Sulfurous Sage / Socratic Self-Slayer | 880 | 0.74 | 1.45 | 0.00 | 0.00 | 0.0 | A0.0 E0.0 F0.0 | 38% | 1% |
+| Passive Puffer / Active Assistant | 917 | 0.69 | 0.00 | 0.00 | 0.00 | 0.3 | Q0.3 | 33% | 1% |
+| Noble Ghostwriter / Pilfered Penname | 941 | 0.69 | 0.00 | 0.00 | 0.00 | 0.1 | W0.1 | 36% | 1% |
+| Glass-Eyed Alchemist / Sun-Blinded Prismist | 918 | 0.67 | 0.00 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
+| Pillar-top Hermit / Bird-Fouled Hagia | 925 | 0.61 | 0.00 | 0.00 | 0.00 | 0.2 | Q0.2 | 33% | 1% |
+| Witch Drowner / Corrupted Inquisitor | 930 | 0.48 | 0.00 | 0.00 | 0.00 | 0.1 | Q0.1 | 28% | 1% |
+| Lead Drinker / Bacchus Host | 907 | 0.42 | 0.00 | 0.00 | 0.00 | 0.0 | W0.0 | 38% | 1% |
+| Primed Pomologist / Charitable Ciderist | 926 | 0.41 | 0.00 | 0.00 | 0.00 | 0.4 | E0.2 W0.2 Q0.0 | 29% | 1% |
+| Hollowhead / God-Struck Fool | 919 | 0.39 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 1% |
+| Hollow-Bellied Saint / Pot-Licking Friar | 891 | 0.33 | 0.00 | 0.00 | 0.00 | 1.0 | W1.0 | 27% | 1% |
+| Academic Artillerist / Craven Cannoneer | 894 | 0.32 | 0.01 | 0.00 | 0.00 | 0.1 | F0.1 | 25% | 1% |
+| Alembic Servitor / Burn-Scarred Glasswright | 889 | 0.26 | 0.00 | 0.00 | 0.00 | 0.6 | E0.6 | 29% | 1% |
+| Plate-Plundering Deacon / Pious Parishioner | 884 | 0.25 | 0.01 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Persecuted Paranoiac / Psychotic Christ | 888 | 0.23 | 0.01 | 0.01 | 0.00 | 0.0 | A0.0 | 26% | 1% |
+| Reeking Husk / Discarded Follower | 869 | 0.21 | 0.00 | 0.00 | 0.00 | 0.2 | E0.1 A0.0 | 26% | 1% |
+| Bezoar Seeker / Sadistic Shepherd | 852 | 0.15 | 0.01 | 0.00 | 0.00 | 0.1 | E0.1 | 26% | 2% |
+| Pact Proctor / Wrathful Sovern | 821 | 0.07 | 0.01 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Self-Sacrificant / Post-Fate Oblate | 711 | 0.07 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 2% |
+| Reliquary Larcenist / Finger-Bone Forager | 774 | 0.05 | 0.01 | 0.00 | 0.00 | 0.0 | A0.0 | 26% | 1% |
+| Enthralling Eulogist / Paid Mourner | 741 | 0.05 | 0.00 | 0.00 | 0.00 | 0.3 | W0.3 | 27% | 1% |
+| Shunned Executioner / Bloodstained Recluse | 664 | 0.04 | 0.00 | 0.00 | 0.00 | 0.9 | Q0.9 | 33% | 1% |
+| Hairshirt Bearer / Fleabitten Penitent | 568 | 0.03 | 1.48 | 0.00 | 0.00 | 0.0 |  | 29% | 6% |
+| Branded Protégé / Expendable Assistant | 700 | 0.03 | 0.00 | 0.00 | 0.00 | 2.5 | Q2.3 F0.2 | 34% | 2% |
+| Shuar Headshrinker / Ayahuascite | 794 | 0.03 | 0.00 | 0.05 | 0.00 | 1.0 | A1.0 | 30% | 1% |
+| Promising Pugilist / Bruised Boxer | 602 | 0.03 | 0.03 | 0.00 | 0.00 | 0.0 |  | 32% | 2% |
+| Promethean Pyro / Doomed Pandorite | 856 | 0.03 | 0.00 | 0.00 | 0.00 | 6.0 | F6.0 W0.0 E0.0 | 32% | 1% |
+| Tongueless Traitor / Candid Jester | 764 | 0.02 | 0.00 | 0.00 | 0.00 | 0.4 | A0.4 | 28% | 2% |
+| Unshakable Empiricist / Vivisectionist | 585 | 0.01 | 0.00 | 0.00 | 1.13 | 0.0 |  | 36% | 3% |
+| Fingerless Sapper / Powder Monkey | 683 | 0.00 | 0.00 | 2.31 | 0.00 | 0.0 | F0.0 | 36% | 1% |
+| Knower of True Names / Lockpicking Archon | 573 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 26% | 2% |
+| Mooncalf Mother / Carrier of the Droplet | 536 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
+| Gargoyle Mother / Famed Freemason | 492 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 1% |
+| Incorruptible Judge / Hardnosed Idealist | 455 | 0.00 | 0.44 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Doomed Romantic / Kismet Syzygyst | 470 | 0.00 | 0.15 | 0.00 | 0.00 | 0.0 |  | 34% | 2% |
+| Hard-Weathered Quarryman / Stonefaced Stoic | 596 | 0.00 | 0.03 | 0.00 | 0.09 | 0.0 |  | 29% | 2% |
+| Barefoot Pilgrim / Marooned Wanderer | 541 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
+| Clamp-Turning Examiner / Confessional Magistrate | 494 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
+| Toothless Grinner / Corpse-Like Pauper | 482 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Binger / Purger | 446 | 0.00 | 0.11 | 0.00 | 0.00 | 0.0 |  | 27% | 2% |
+| Faustian Scholar / Tumorous Magi | 520 | 0.00 | 0.08 | 0.00 | 0.00 | 0.0 |  | 24% | 1% |
+| Silent Companion / Patient Confidant | 601 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 27% | 1% |
+| Sane Sorrowful / Insane Incandescent | 452 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 0% |
+| Reservoir of Sunshine / Beloved Homunculus | 448 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 25% | 1% |
+| Wailing Confessor / Voiceless Accused | 483 | 0.00 | 0.09 | 0.00 | 0.00 | 0.0 |  | 27% | 2% |
+| Mocking Recluse / Jar Dweller | 586 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 2% |
+| Shrewd Quaker / Hard-Tack Baker | 601 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 1% |
+| Perennial Pruner / Haphazard Herbalist | 610 | 0.00 | 0.00 | 0.00 | 0.33 | 0.0 |  | 29% | 1% |
+| Venomous Vessel / Sinuous Acolyte | 609 | 0.00 | 0.00 | 0.00 | 0.00 | 3.3 | E3.3 | 23% | 1% |
+| Oathbreaker / Oathkeeper | 529 | 0.00 | 0.03 | 0.00 | 0.00 | 0.4 | Q0.4 | 29% | 1% |
+| Hopeful Sower / Grain Hoarder | 556 | 0.00 | 0.00 | 0.00 | 0.00 | 2.1 | E2.1 | 28% | 1% |
+| The Tallyman / Dreaded Abacist | 511 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 24% | 1% |
+| Spagyric Physician / Arsenic Apothecary | 568 | 0.00 | 0.00 | 0.00 | 0.00 | 0.4 | E0.2 W0.1 A0.0 | 29% | 1% |
+| Iatrochemist / Mercury-Blooded | 544 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 23% | 2% |
+| Worm-Brained Absinthard / Fairy-Chaser | 557 | 0.00 | 0.00 | 0.00 | 0.00 | 0.2 | W0.2 | 28% | 3% |
+| Leech Catcher / Bloodless Somnambulist | 590 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 33% | 1% |
+| Nubile Nymph / Virgin Pure | 701 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 1% |
+| Orgasmic Musician / Brooding Composer | 639 | 0.00 | 0.00 | 0.00 | 0.00 | 0.1 | W0.0 E0.0 | 27% | 1% |
+| Short-Lived Brute / Timeless Warrior-Poet | 669 | 0.00 | 0.01 | 0.00 | 0.00 | 1.6 | F1.2 E0.4 | 25% | 2% |
+| Furnace Keeper / Staunch Stoker | 491 | 0.00 | 0.04 | 0.00 | 0.00 | 1.0 | F1.0 | 31% | 1% |
+| Covert Degenerate / Esteemed Burgher | 651 | 0.00 | 0.07 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
+| Closeted Apostate / Flaming Heretic | 450 | 0.00 | 0.00 | 0.00 | 0.00 | 0.1 | F0.1 | 26% | 2% |
+| Strawman / Burnt Effigy | 508 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 29% | 4% |
+| Epileptic Metallurgist / Lithiated Assayer | 715 | 0.00 | 0.00 | 0.00 | 0.00 | 4.2 | F4.2 A0.0 | 35% | 1% |
+| Mummy Grinder / Intrepid Archaeologist | 697 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 28% | 0% |
+| Footnoted Scholar / Pedantic Pedagogue | 500 | 0.00 | 0.00 | 1.10 | 0.00 | 0.5 | F0.5 | 33% | 1% |
+| Mercurial Monomaniac / Haunted Mind | 747 | 0.00 | 0.00 | 0.00 | 0.00 | 0.0 |  | 30% | 1% |
+| Driveling Chemist / Feverish Scribe | 586 | 0.00 | 0.00 | 0.00 | 0.00 | 7.8 | A2.0 E2.0 F2.0 | 39% | 1% |
+| Placenta Purloiner / Viscera Monger | 624 | 0.00 | 0.00 | 0.00 | 0.23 | 0.0 | A0.0 | 29% | 2% |
+| Dubious Demonologist / Failed Exorcist | 574 | 0.00 | 0.02 | 0.00 | 0.00 | 9.1 | A9.1 W0.0 F0.0 | 40% | 1% |
+
+Which ability lines fire, how often, and what each produces: see [sim_abilities.md](sim_abilities.md).
 
 ---
-Generated by `game/tools/league.py`. Re-create from saved games: `python game/tools/league.py --from game/sim/results/20261023-093118`.
+Generated by `game/tools/league.py`. Re-create from saved games: `python game/tools/league.py --from game/sim/results/20261024-020959`.

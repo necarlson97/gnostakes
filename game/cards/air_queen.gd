@@ -6,7 +6,7 @@ class Top extends Ability:  # Placenta Purloiner
 		if ev.player != me: bury("Q")
 	func on_scheme_start(_ev):
 		if buried("Q") >= 2 and await may("Placenta Purloiner: spend 2 buried Q to regain a tooth?", {cost = {Q = 1}, gain = {teeth = 1}}):
-			card.unbury("Q", 2)
+			unbury("Q", 2)
 			await g.gain_teeth(me, 1, self)
 
 class Inv extends Ability:  # Viscera Monger

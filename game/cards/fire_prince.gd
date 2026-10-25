@@ -7,4 +7,4 @@ class Top extends Ability:  # Strawman
 		return {A = 1} if g.has(p, {A = 1}) else {teeth = 2}
 
 class Inv extends Ability:  # Burnt Effigy
-	func on_leave(_ev): me.spare_faces.append("F")
+	func on_leave(_ev): gain_face("F")

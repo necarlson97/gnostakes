@@ -44,10 +44,6 @@ func _ready() -> void:
 	root.add_child(status)
 
 	prompt_panel = _panel()
-	prompt_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	prompt_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	prompt_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	prompt_panel.position = Vector2(0, -20)
 	var pv := VBoxContainer.new()
 	pv.alignment = BoxContainer.ALIGNMENT_CENTER
 	prompt_panel.add_child(pv)
@@ -61,12 +57,9 @@ func _ready() -> void:
 	prompt_buttons.add_theme_constant_override("separation", 12)
 	pv.add_child(prompt_buttons)
 	prompt_panel.visible = false
-	root.add_child(prompt_panel)
+	_dock(root, prompt_panel, BoxContainer.ALIGNMENT_CENTER, BoxContainer.ALIGNMENT_END, 20)
 
 	popup = _panel()
-	popup.set_anchors_preset(Control.PRESET_CENTER)
-	popup.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	popup.grow_vertical = Control.GROW_DIRECTION_BOTH
 	var ps := ScrollContainer.new()
 	ps.custom_minimum_size = Vector2(460, 0)
 	ps.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -76,7 +69,7 @@ func _ready() -> void:
 	ps.add_child(popup_box)
 	popup.add_child(ps)
 	popup.visible = false
-	root.add_child(popup)
+	_dock(root, popup, BoxContainer.ALIGNMENT_CENTER, BoxContainer.ALIGNMENT_CENTER)
 
 	ledger = _panel()
 	ledger.position = Vector2(14, 250)
@@ -106,41 +99,67 @@ func _ready() -> void:
 	root.add_child(sp)
 
 	inspector = _panel()
-	inspector.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	inspector.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	inspector.grow_vertical = Control.GROW_DIRECTION_BOTH
-	inspector.position = Vector2(-14, 0)
 	inspector.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var iv := VBoxContainer.new()
 	inspector.add_child(iv)
+	var holder := Control.new()
+	holder.custom_minimum_size = Vector2(340, 340)
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	iv.add_child(holder)
 	insp_tex = TextureRect.new()
-	insp_tex.custom_minimum_size = Vector2(340, 340)
+	insp_tex.set_anchors_preset(Control.PRESET_FULL_RECT)
 	insp_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	insp_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	insp_tex.pivot_offset = Vector2(170, 170)
-	iv.add_child(insp_tex)
+	holder.add_child(insp_tex)
+	# the bottom half (the face that isn't live) is shaded
+	var shade := TextureRect.new()
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var img := Image.create(4, 64, false, Image.FORMAT_RGBA8)
+	for y in 64:
+		var t := clampf((y / 63.0 - 0.4) / 0.25, 0.0, 1.0)   # clear on top, dark from ~mid-card down
+		var a := t * t * (3.0 - 2.0 * t) * 0.6
+		for x in 4: img.set_pixel(x, y, Color(0.06, 0.03, 0.01, a))
+	shade.texture = ImageTexture.create_from_image(img)
+	holder.add_child(shade)
 	insp_text = _label(15, INK)
 	insp_text.custom_minimum_size = Vector2(340, 0)
 	insp_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	iv.add_child(insp_text)
 	inspector.visible = false
-	root.add_child(inspector)
+	_dock(root, inspector, BoxContainer.ALIGNMENT_END, BoxContainer.ALIGNMENT_CENTER)
 
 	help = _label(13, Color(0.6, 0.55, 0.5))
 	help.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	help.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	help.position = Vector2(14, -14)
-	help.text = "Right-drag: look around · Wheel: lean in · 1/2/3/4: look at a seat · Space: confirm · F: face tags · Hold Tab: fast-forward\nClick a die to commit it, right-click to discard; drag dice, cards and tokens"
+	help.text = "Right-drag: look around · Wheel: lean in · 1/2/3/4: look at a seat · Space: confirm · F: face tags · Hold Tab: fast-forward\nClick a die to commit it, right-click to discard; drag dice, cards and tokens; click a Town Square card to turn it"
 	root.add_child(help)
 
 	end_panel = _panel()
-	end_panel.set_anchors_preset(Control.PRESET_CENTER)
-	end_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	end_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	end_panel.visible = false
-	root.add_child(end_panel)
+	_dock(root, end_panel, BoxContainer.ALIGNMENT_CENTER, BoxContainer.ALIGNMENT_CENTER)
 
 # --- builders -----------------------------------------------------------------------
+## Place a panel inside full-screen containers, so the layout (not hand-set offsets)
+## keeps it at the given edge however often its contents change size.
+func _dock(root: Control, panel: Control, h: BoxContainer.AlignmentMode, v: BoxContainer.AlignmentMode, margin := 14) -> void:
+	var m := MarginContainer.new()
+	m.set_anchors_preset(Control.PRESET_FULL_RECT)
+	m.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for side in ["left", "right", "top", "bottom"]: m.add_theme_constant_override("margin_" + side, margin)
+	var vb := VBoxContainer.new()
+	vb.alignment = v
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var hb := HBoxContainer.new()
+	hb.alignment = h
+	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	m.add_child(vb)
+	vb.add_child(hb)
+	hb.add_child(panel)
+	root.add_child(m)
+
 ## Remove children now (queue_free alone leaves them counted in minimum sizes this frame).
 static func _clear(n: Node) -> void:
 	for c in n.get_children():
@@ -190,7 +209,6 @@ func prompt(text: String, buttons: Array = []) -> void:
 		if b.get("primary", false) and en: primary = b.cb
 	if primary.is_null() and buttons.size() == 1 and buttons[0].get("enabled", true): primary = buttons[0].cb
 	prompt_panel.visible = true
-	prompt_panel.reset_size()
 
 func clear_prompt() -> void:
 	prompt_panel.visible = false
@@ -209,7 +227,7 @@ func _open_popup(title: String) -> void:
 func _fit_popup() -> void:
 	var sc: ScrollContainer = popup.get_child(0)
 	sc.custom_minimum_size.y = minf(popup_box.get_combined_minimum_size().y + 8, 560)
-	popup.reset_size()
+
 
 ## items: [{label, cb, hover = Card or null, tint}]
 func popup_options(title: String, items: Array) -> void:
@@ -318,21 +336,26 @@ func set_ledger(title: String, entries: Array) -> void:
 	ledger.reset_size()
 
 # --- inspector, log, scores, end ----------------------------------------------------
+## Set by the table: how a card is shown right now (pending spins, Town Square turns).
+var orientation_of: Callable = Callable()
+
 func inspect(c: Card) -> void:
 	if c == null:
 		inspector.visible = false
 		return
+	var inv: bool = orientation_of.call(c) if orientation_of.is_valid() else c.inverted
 	insp_tex.texture = Look.card_tex(c.id)
-	insp_tex.rotation = PI if c.inverted else 0.0
-	var ab := c.ability
-	var other: Ability = c.faces[0 if c.inverted else 1]
+	insp_tex.flip_h = inv   # flipping both ways = turning it 180 degrees
+	insp_tex.flip_v = inv
+	var ab: Ability = c.faces[1 if inv else 0]
+	var other: Ability = c.faces[0 if inv else 1]
 	var where := ""
 	match c.loc:
 		GK.Loc.SQUARE: where = "In the Town Square"
 		GK.Loc.CADRE: where = "%s's cadre" % c.owner.name
 		GK.Loc.ATTACHED: where = "Attached to %s (relinquished by %s)" % [c.attached_to, c.owner.name]
 		GK.Loc.PYRE: where = "In the pyre"
-	insp_text.text = "%s%s\n%s\n\n(other face: %s)%s" % [ab.title, "  [inverted]" if c.inverted else "", ab.text, other.title, ("\n" + where) if where else ""]
+	insp_text.text = "%s%s\n%s\n\n(other face: %s)%s" % [ab.title, "  [inverted]" if inv else "", ab.text, other.title, ("\n" + where) if where else ""]
 	inspector.visible = true
 
 func log_line(s: String) -> void:

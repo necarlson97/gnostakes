@@ -7,7 +7,7 @@ class Top extends Ability:  # Twofold Widow
 	func acts(): return {earth = {when = "scheme", label = "1 buried E: swap in an E for any face"}}
 	func can_earth(): return buried("E") > 0
 	func act_earth():
-		card.unbury("E", 1)
+		unbury("E", 1)
 		await swap_face("E")
 
 class Inv extends Ability:  # Lethean Elder

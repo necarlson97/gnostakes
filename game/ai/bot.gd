@@ -141,9 +141,17 @@ func choose_wager(g: Game, c: Choice) -> Dictionary:
 # =============================================================================
 # Scheme & cards
 # =============================================================================
+## Engines (generate on one face, cash in on the other) follow Valuer.engine_plan; the rest
+## take the better-valued face.
 func choose_orient(g: Game, c: Choice) -> Array:
 	var p := c.player
-	return c.options.filter(func(card): return valuer.face_value(g, p, card, true) > valuer.face_value(g, p, card, false) + EPS)
+	return c.options.filter(func(card):
+		var plan := valuer.engine_plan(g, p, card)
+		if plan >= 0: return plan == 1
+		return valuer.face_value(g, p, card, true) > valuer.face_value(g, p, card, false) + EPS)
+
+## Potency-for-tokens trades (Fingerless Sapper, Hollow-Bellied Saint): the token gain is the pips.
+func choose_potency_die(_g: Game, c: Choice): return _argmax(c.options, func(d): return d.pips())
 
 func choose_trim(g: Game, c: Choice): return _worst_card(g, c)
 func choose_cost_inc(g: Game, c: Choice): return _worst_card(g, c)

@@ -5,8 +5,8 @@ class Top extends Ability:  # Dubious Demonologist
 	func on_roll(ev): await potency_for(ev, "A")
 	func acts(): return {quint = {when = "scheme", cost = {A = 3}, label = "3A: replace a crystal face with Q"}}
 	func act_quint():
-		var d: Die = await g.pick(me, "Which die?", me.dice.filter(func(d): return d.kind == GK.Kind.ELEMENTAL), self, &"die")
-		var crystal := range(d.faces.size()).filter(func(i): return d.faces[i] is String and d.faces[i] != "")
+		var d: Die = await g.pick(me, "Which die?", me.dice.filter(func(d): return d.kind == GK.Kind.ELEMENTAL and d.faces.any(func(f): return f is String and f != "" and f != "Q")), self, &"die")
+		var crystal := range(d.faces.size()).filter(func(i): return d.faces[i] is String and d.faces[i] != "" and d.faces[i] != "Q")
 		await g.set_face(me, d, await g.pick_face(me, "Replace which face?", crystal, self), "Q", self)
 
 class Inv extends Ability:  # Failed Exorcist

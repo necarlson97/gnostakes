@@ -37,6 +37,10 @@ const HURT := 0.15           # an opponent loses a tooth
 const DENY := 0.3            # an opponent loses a card
 const OPTION := 0.2          # taking an extra "or" option (Toothless Grinner)
 const INFO := 0.03
+const KEY_REACH_FLOOR := 0.3 # an unaffordable key act still counts this much (income may come)
+const LATENT := 0.85         # a conversion on a card's other face: flipping is free at the next Scheme
+const GENERATOR := 1.0       # extra keys a repeatable key act is worth when the card's other face makes its token
+const ENGINE_BATCH := 3      # an engine cashes in once its tokens buy this many keys (each flip costs a round of income)
 const POTENTIAL := 0.6       # weight on partial sets while dice can still be rerolled
 const TIER := [0.0, 0.5, 0.8, 1.2]   # value of a set's tier for partial-progress scoring
 const SET_FLAVOR := 0.08     # strategy taste for a set family, per tier
@@ -64,6 +68,7 @@ var tooth_urgency := TOOTH_URGENCY
 var tooth_drain := TOOTH_DRAIN
 const KNOBS := {tooth = "tooth", last = "last_tooth", urgency = "tooth_urgency", drain = "tooth_drain"}
 static var _power := {}
+static var _probe := {}   # card id -> power ceiling from forced-hold probes (tools/probe_cards.py)
 
 func _init(b) -> void: bot = b
 
@@ -89,16 +94,15 @@ func token_price(g: Game, p: Player, t: String) -> float:
 	var key := "tok_" + t
 	if _cache.has(key): return _cache[key]
 	var v := TOKEN * _blend(g, p, func(s): return s.token_weight(t))
-	for c in p.cadre:   # conversions on my cards raise the price
-		var ab := c.ability.resolve()
-		var acts := ab.acts()
-		for id in acts:
-			var a: Dictionary = acts[id]
-			var keys: float = act_gain(ab, id).get("keys", 0.0)
-			if keys > 0 and a.get("cost", {}).has(t):
-				v = maxf(v, CONVERSION * keys / a.cost[t] * (ONE_SHOT if a.cost.get("burn") else 1.0))
+	var hoard := HOARD
+	for k in key_acts(p):   # conversions on either face of my cards raise the price
+		if not k.cost.has(t): continue
+		var sure: bool = k.live or not engine(p, k.card).is_empty()   # an engine plans to flip, so no discount
+		v = maxf(v, CONVERSION * k.keys / k.cost[t] * (ONE_SHOT if k.burn else 1.0) * (1.0 if sure else LATENT))
+		# a repeatable conversion turns every token into key progress, up to the keys I still need
+		if not k.burn: hoard = maxi(hoard, k.cost[t] * keys_needed(g, p))
 	var held: int = p.tokens[t]
-	if held > HOARD: v /= 1.0 + float(held - HOARD) / HOARD
+	if held > hoard: v /= 1.0 + float(held - hoard) / hoard
 	_cache[key] = v
 	return v
 
@@ -135,9 +139,13 @@ func tooth_price(g: Game, p: Player) -> float: return tooth_value(g, p, maxi(1, 
 static func power(c: Card) -> float:
 	if _power.is_empty() and FileAccess.file_exists("res://ai/data/card_power.json"):
 		_power = JSON.parse_string(FileAccess.get_file_as_string("res://ai/data/card_power.json"))
-	if _power.has(c.id): return _power[c.id]
+	if _probe.is_empty() and FileAccess.file_exists("res://ai/data/card_probe.json"):
+		_probe = JSON.parse_string(FileAccess.get_file_as_string("res://ai/data/card_probe.json"))
+	# the probe is a ceiling: learned power undersells cards that bots who misplay them claim
+	var probed: float = _probe.get(c.id, 0.0)
+	if _power.has(c.id): return maxf(_power[c.id], probed)
 	var fs: Dictionary = c.info.get("features", {})
-	return CARD_POWER + maxf(base_value(fs.get("top", {})), base_value(fs.get("inv", {})))
+	return maxf(probed, CARD_POWER + maxf(base_value(fs.get("top", {})), base_value(fs.get("inv", {}))))
 
 ## Strategy-free value of one face's features, in (-1, 1).
 static func base_value(f: Dictionary) -> float:
@@ -159,7 +167,7 @@ func card_value(g: Game, p: Player, c: Card, marginal := true) -> float:
 		var fv := face_risk(g, p, f)
 		for s in mix: fv += FIT * mix[s] * s.fit_face(f)
 		best = maxf(best, fv)
-	var v := power(c) + best
+	var v := power(c) + best + engine_value(g, p, c)
 	if marginal and not p.cadre.has(c):
 		v += CLAIM_BONUS
 		v -= OVER_PREF * maxf(0.0, p.cadre.size() + 1 - cadre_pref(g, p))
@@ -172,9 +180,106 @@ func card_value(g: Game, p: Player, c: Card, marginal := true) -> float:
 ## Value of one face of a card (for orientation choices).
 func face_value(g: Game, p: Player, c: Card, inverted: bool) -> float:
 	var f: Dictionary = c.info.get("features", {}).get("inv" if inverted else "top", {})
+	if f.has("keys"):
+		f = f.duplicate()
+		f.keys *= KEY_REACH_FLOOR + (1.0 - KEY_REACH_FLOOR) * key_reach(p, c, inverted, keys_needed(g, p))
 	var mix: Dictionary = bot.mix_for(g, p)
 	var v := base_value(f) + face_risk(g, p, f)
 	for s in mix: v += FIT * mix[s] * s.fit_face(f)
+	return v
+
+## How far I can pay for a face's key: 1 when its keys come from triggers or a free act,
+## else the share of the token cost I hold for its best key act. A repeatable act (no burn)
+## can go past 1: 35F on Powder Monkey ("5F: gain a key") is 7 keys, capped at `cap`.
+func key_reach(p: Player, c: Card, inverted: bool, cap := 1.0) -> float:
+	var i := 1 if inverted else 0
+	if c.faces.size() <= i: return 1.0
+	var ab: Ability = c.faces[i]
+	var acts: Dictionary = ab.acts()
+	var best := -1.0
+	for id in acts:
+		if not act_gain(ab, id).has("keys"): continue
+		var cost: Dictionary = acts[id].get("cost", {})
+		var need := 0
+		var have := 0
+		for t in GK.TOKENS:
+			if cost.has(t):
+				need += cost[t]
+				have += mini(p.tokens[t], cost[t])
+		if cost.has("any"):
+			need += cost.any
+			have += mini(GK.ELEMENTS.map(func(t): return p.tokens[t]).reduce(func(a, b): return a + b, 0), cost.any)
+		var reach := 1.0 if need == 0 else float(have) / need
+		if need > 0 and not cost.get("burn", false): reach = minf(cap, _affordable(p, cost))
+		best = maxf(best, reach)
+	return 1.0 if best < 0.0 else best
+
+## How many times I can pay a token cost from what I hold.
+func _affordable(p: Player, cost: Dictionary) -> float:
+	var n := INF
+	for t in GK.TOKENS:
+		if cost.has(t): n = minf(n, float(p.tokens[t]) / cost[t])
+	if cost.has("any"): n = minf(n, float(GK.ELEMENTS.map(func(t): return p.tokens[t]).reduce(func(a, b): return a + b, 0)) / cost.any)
+	if cost.has("one_type"): n = minf(n, float(GK.TOKENS.map(func(t): return p.tokens[t]).max()) / cost.one_type)
+	return 0.0 if n == INF else n
+
+# --- engines: generate on one face, cash in for keys on the other ------------------------
+func keys_needed(g: Game, p: Player) -> int: return maxi(1, g.win_keys() - p.keys)
+func can_gain_keys(g: Game, p: Player) -> bool: return g.query(&"can_gain_keys", p, true, {player = p, amount = 1})
+
+## Key conversions on both faces of my cadre (or of one card):
+## [{card, face, ab, id, cost, keys, burn, live}]. Flipping is free each Scheme, so a key
+## act on the face that's down is nearly as real as one on the face that's up.
+func key_acts(p: Player, card: Card = null) -> Array:
+	var out := []
+	for c in ([card] if card else p.cadre):
+		for i in c.faces.size():
+			var ab: Ability = c.faces[i].resolve()
+			var acts := ab.acts()
+			for id in acts:
+				var keys: float = act_gain(ab, id).get("keys", 0.0)
+				if keys <= 0: continue
+				var cost: Dictionary = acts[id].get("cost", {})
+				out.append({card = c, face = i, ab = ab, id = id, cost = cost, keys = keys, burn = cost.get("burn", false), live = c.faces[i] == c.ability})
+	return out
+
+func _gains(c: Card, face: int, t: String) -> bool:
+	return c.info.get("features", {}).get("inv" if face == 1 else "top", {}).get("gain_" + t, 0.0) > 0
+
+## A key act priced in one token type, whose token the card's *other* face produces
+## (Fingerless Sapper -> Powder Monkey, Enthralling Eulogist -> Paid Mourner). Returns
+## {k, t, other} or {}. Faces that make their own token (Overworked Gravedigger) don't count:
+## there is nothing to flip for.
+func engine(p: Player, c: Card) -> Dictionary:
+	for k in key_acts(p, c):
+		var toks: Array = k.cost.keys().filter(func(x): return GK.TOKENS.has(x))
+		if toks.size() != 1 or k.cost.size() - (1 if k.burn else 0) != 1: continue
+		var t: String = toks[0]
+		var other: int = 1 - k.face
+		if _gains(c, other, t) and not _gains(c, k.face, t): return {k = k, t = t, other = other}
+	return {}
+
+## Build, then flip: keep the generating face up until the tokens in hand buy ENGINE_BATCH
+## keys (or all I still need; one for a one-shot), or the game is ending; then turn to the
+## cash-in face. After cashing in, the shortfall flips it back. Returns 1 (inverted), 0, or -1 (no plan).
+func engine_plan(g: Game, p: Player, c: Card) -> int:
+	var e := engine(p, c)
+	if e.is_empty(): return -1
+	var cost: int = e.k.cost[e.t]
+	var target: int = cost * (1 if e.k.burn else mini(ENGINE_BATCH, keys_needed(g, p)))
+	var cash: bool = can_gain_keys(g, p) and (p.tokens[e.t] >= target or (g.ending != "" and p.tokens[e.t] >= cost))
+	return e.k.face if cash else e.other
+
+## Keys a card's repeatable key acts are still worth to me: what my tokens buy now (capped
+## at the keys I need), with a floor for income to come, and more when the card is an
+## engine. Burning or trimming the card loses this.
+func engine_value(g: Game, p: Player, c: Card) -> float:
+	var v := 0.0
+	var gen := not engine(p, c).is_empty()
+	for k in key_acts(p, c):
+		if k.burn: continue
+		var buys := minf(keys_needed(g, p), floorf(_affordable(p, k.cost)))
+		v = maxf(v, KEY * k.keys * maxf(KEY_REACH_FLOOR + (GENERATOR if gen else 0.0), buys))
 	return v
 
 ## Recurring tooth drain or gain on a face (feature "teeth"), priced at what my next
@@ -203,10 +308,11 @@ func price(g: Game, p: Player, d: Dictionary, src: Ability = null, as_gain := fa
 			"E", "W", "F", "A", "Q": v += n * token_price(g, p, k)
 			"any": v += n * GK.ELEMENTS.map(func(t): return token_price(g, p, t)).min()
 			"one_type": v += n * GK.TOKENS.filter(func(t): return p.tokens[t] >= n).map(func(t): return token_price(g, p, t)).reduce(func(a, b): return minf(a, b), 9.0)
-			"keys": v += n * KEY
+			"keys": v += n * KEY if can_gain_keys(g, p) else 0.0   # Lockpicking Archon: keys bought now are lost
 			"teeth": v += teeth_gain(g, p, n) if as_gain else teeth_loss(g, p, n)
 			"save_teeth": v += teeth_loss(g, p, n)   # a prevented loss is worth the tooth at risk
-			"burn": v += BURN_SELF * card_value(g, p, src.card, false) if src and n else 0.0
+			# burning a card for its own payoff loses its other value, and all of its key engine
+			"burn": v += BURN_SELF * card_value(g, p, src.card, false) + (1.0 - BURN_SELF) * engine_value(g, p, src.card) if src and n else 0.0
 			"burn_card": v += card_value(g, p, n, false)
 			"inc": v += n * p.cadre.filter(func(c): return not src or c != src.card).map(func(c): return card_value(g, p, c, false)).reduce(func(a, b): return minf(a, b), 1.0)
 			"discard": v += n * DISCARD

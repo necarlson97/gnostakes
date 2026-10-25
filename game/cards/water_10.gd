@@ -10,8 +10,8 @@ class Top extends Ability:  # Leech Catcher
 	func acts(): return {leech = {when = "roll", label = "1 buried F: undiscard a die"}}
 	func can_leech(): return buried("F") > 0 and not me.discarded().is_empty()
 	func act_leech():
-		card.unbury("F", 1)
+		unbury("F", 1)
 		await g.undiscard(me, await g.pick(me, "Undiscard which die?", me.discarded(), self, &"die"), self)
 
 class Inv extends Ability:  # Bloodless Somnambulist
-	func on_leave(_ev): me.spare_faces.append("W")
+	func on_leave(_ev): gain_face("W")

@@ -14,4 +14,4 @@ class Top extends Ability:  # Nubile Nymph
 			await gain_keys()
 
 class Inv extends Ability:  # Virgin Pure
-	func on_leave(_ev): me.spare_faces.append("W")
+	func on_leave(_ev): gain_face("W")

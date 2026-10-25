@@ -16,5 +16,5 @@ class Inv extends Ability:  # Sadistic Shepherd
 	func act_key(): await gain_keys()
 	func on_scheme_start(_ev):
 		if buried("E") >= 5 and await may("Sadistic Shepherd: spend 5 buried E to gain an E face?", {cost = {E = 2.5}, gain = {face = 1}}):
-			card.unbury("E", 5)
-			me.spare_faces.append("E")
+			unbury("E", 5)
+			gain_face("E")

@@ -9,7 +9,7 @@ class Top extends Ability:  # Venomous Vessel
 			bury("E")
 		elif ev.die.shows("W") and buried("E") > 0 and await may("Venomous Vessel: discard that W to gain the %d buried E?" % buried("E"), {cost = {discard = 1}, gain = {E = buried("E")}}):
 			await g.discard(me, ev.die, self)
-			await gain({E = card.unbury("E")})
+			await gain({E = unbury("E")})
 	func on_rolled(ev):
 		var airs: Array = ev.dice.filter(func(d): return d.shows("A") and d.ready())
 		if airs.size() >= 2 and buried("E") > 0 and await may("Venomous Vessel: discard two A to double the buried E?", {cost = {discard = 2}, gain = {E = buried("E")}}):
@@ -23,5 +23,5 @@ class Inv extends Ability:  # Sinuous Acolyte
 			bury("E")
 	func on_swig_start(_ev):
 		if buried("E") > 0 and me.ready_dice() and await may("Sinuous Acolyte: spend 1 buried E to rotate and commit a ready die?", {cost = {E = 0.5}, gain = {control = 2}}):
-			card.unbury("E", 1)
+			unbury("E", 1)
 			await rotate_and_commit()

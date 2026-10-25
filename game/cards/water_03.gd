@@ -5,6 +5,7 @@ class Top extends Ability:  # Gin-Soaked Gutter-Sweeper
 	func on_token_gained(ev):
 		if ev.type == "W" and not ev.additional and await may("Gutter-Sweeper: gain +1W?", {gain = {W = 1}}): await gain({W = 1}, true)
 	func acts(): return {mimic = {when = "roll", per = &"round", cost = {W = 1}, label = "1W: rotate a die to match another rolled face"}}
+	func can_mimic(): return live_dice().size() >= 2
 	func act_mimic():
 		var live := me.swig_dice.filter(func(d): return not d.discarded())
 		var d: Die = await g.pick(me, "Rotate which die?", live, self, &"die")

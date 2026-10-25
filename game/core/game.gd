@@ -40,6 +40,16 @@ var keep_log := true
 ## engine rolls with `rng`, so headless sims and replays are unaffected.
 var roller := Callable()
 var trace = null                    # set to {} to count "<card title>.<hook>" calls (coverage)
+## Ability meter: set to {} to record, per seat, per card face, per ability line (hook or
+## act method), how often it actually *did something* and what it produced:
+##   meter[seat][face_id][method] = {n, keys, tokens {t: n}, spent {t: n}, teeth_self, teeth_other, teeth_gained}
+## face_id is "<card id>" (upright), "<card id>:inv", or "<card id>:copy" (Failed Exorcist).
+var meter = null
+var _frames: Array = []             # abilities currently resolving: [{ab, m, did}]
+const EFFECTS := [&"token_gained", &"spent", &"key_gained", &"key_lost", &"tooth_lost", &"tooth_gained",
+	&"claim", &"incinerate", &"discard", &"undiscard", &"uncommit", &"commit", &"rotate", &"face_swap",
+	&"relinquish", &"invert", &"deck_burn", &"teeth_swapped", &"convert", &"tribute", &"rolled", &"paid",
+	&"bury", &"act", &"square_burn", &"unbury", &"face_gained", &"game_over"]
 var _depth := 0
 var _running := {}                 # hooks currently on the stack (no self-retrigger)
 var _next_die := 0
@@ -263,7 +273,10 @@ func requests() -> void:
 		if picks.is_empty(): return
 		for s in picks:
 			var who: Array = picks[s]
-			var winner: Player = who[0][0] if who.size() == 1 else await wager(who.map(func(w): return w[0]), square[s])
+			var reserve := {}   # a token purchase keeps its price out of the wager
+			for w in who:
+				if w[1].tokens: reserve[w[0]] = w[1].tokens
+			var winner: Player = who[0][0] if who.size() == 1 else await wager(who.map(func(w): return w[0]), square[s], reserve)
 			for w in who:
 				if w[0] == winner:
 					if w[1].right != null: rights[winner].erase(w[1].right)
@@ -275,14 +288,17 @@ func slot_price(s: int) -> Dictionary: return {cfg.slot_tokens[s]: cfg.token_req
 
 ## Hidden simultaneous wager of specific tokens. The highest raw total wins and spends
 ## exactly what they wagered. Ties re-wager; a tie after that rolls off.
-func wager(ps: Array, card: Card) -> Player:
+## `reserve`: player -> tokens they must still have afterwards (a slot price), so their
+## wager can only use what's left (ruling 2026-10-23: you can't overspend by winning).
+func wager(ps: Array, card: Card, reserve := {}) -> Player:
 	for p in ps:
 		if query(&"wager_auto_win", p, false): return await _wager_result(p, ps, {})
 	var live := ps.duplicate()
 	var bids := {}
 	for _r in cfg.max_wager_rounds:
 		for p in live:
-			var c := Choice.new(p, &"tokens", "Wager tokens for %s" % card, [p.tokens.duplicate()], 0, p.token_total(), null, &"wager")
+			var free := _after_reserve(p, reserve.get(p, {}))
+			var c := Choice.new(p, &"tokens", "Wager tokens for %s" % card, [free], 0, Game._sum(free), null, &"wager")
 			c.data = {card = card, rivals = ps.filter(func(x): return x != p)}
 			bids[p] = await ask(c)
 		var top: int = live.map(func(p): return Game._sum(bids[p])).max()
@@ -290,6 +306,15 @@ func wager(ps: Array, card: Card) -> Player:
 		if live.size() == 1: break
 	var w: Player = live[rng.randi_range(0, live.size() - 1)]   # roll for it if still tied
 	return await _wager_result(w, ps, bids[w])
+
+## Holdings left once `price` is set aside (its own type first, Q for any shortfall).
+func _after_reserve(p: Player, price: Dictionary) -> Dictionary:
+	var out := p.tokens.duplicate()
+	for t in price:
+		var own := mini(price[t], out.get(t, 0))
+		out[t] -= own
+		out.Q = maxi(0, out.Q - (price[t] - own))
+	return out
 
 static func _sum(tok: Dictionary) -> int: return tok.values().reduce(func(a, b): return a + b, 0)
 
@@ -555,7 +580,9 @@ func replace(name: StringName, ev: Dictionary) -> bool:
 		if not ab.has_method(m) or _running.has(key): continue
 		_running[key] = true
 		_trace(ab, m)
+		var f := _begin(ab, m)
 		var done: bool = await ab.call(m, ev)
+		_end(f, done)
 		_running.erase(key)
 		if done:
 			_log({name = &"replaced", what = name, by = ab})
@@ -570,8 +597,61 @@ func _fire(ab: Ability, m: String, ev: Dictionary) -> void:
 	if _running.has(key): return
 	_running[key] = true
 	_trace(ab, m)
+	var f := _begin(ab, m)
 	await ab.call(m, ev)
+	_end(f)
 	_running.erase(key)
+
+# --- ability meter -------------------------------------------------------------
+func _begin(ab: Ability, m: String) -> Dictionary:
+	var f := {ab = ab, m = m, did = false}
+	_frames.append(f)
+	return f
+
+## Close a frame; it counts as an activation if it caused any effect (or `force`).
+func _end(f: Dictionary, force := false) -> void:
+	_frames.pop_back()
+	if meter != null and (f.did or force): _meter_row(f.ab, f.m).n += 1
+
+static func face_id(ab: Ability) -> String:
+	if ab.card == null: return "engine"
+	var c := ab.card
+	if c.faces.size() > 1 and c.faces[1] == ab: return c.id + ":inv"
+	if c.faces.size() > 0 and c.faces[0] == ab: return c.id
+	return c.id + ":copy"
+
+func _meter_row(ab: Ability, m: String) -> Dictionary:
+	var seat: int = ab.me.idx if ab.me else -1
+	if not meter.has(seat): meter[seat] = {}
+	var fid := Game.face_id(ab)
+	if not meter[seat].has(fid): meter[seat][fid] = {}
+	if not meter[seat][fid].has(m):
+		meter[seat][fid][m] = {n = 0, keys = 0, tokens = {}, spent = {}, teeth_self = 0, teeth_other = 0, teeth_gained = 0}
+	return meter[seat][fid][m]
+
+## Mark the resolving ability as having done something, and credit what it produced to
+## the ability that caused it (ev.src when given, else the innermost resolving ability).
+func _meter(ev: Dictionary) -> void:
+	if _frames.is_empty() or not EFFECTS.has(ev.name): return
+	_frames.back().did = true
+	if meter == null: return
+	var src = ev.get("src")
+	var ab: Ability = src if src is Ability else _frames.back().ab
+	var m: String = _frames.back().m
+	for i in range(_frames.size() - 1, -1, -1):
+		if _frames[i].ab == ab:
+			m = _frames[i].m
+			break
+	var row := _meter_row(ab, m)
+	match ev.name:
+		&"key_gained": row.keys += ev.amount
+		&"token_gained": row.tokens[ev.type] = row.tokens.get(ev.type, 0) + ev.amount
+		&"spent":
+			for t in ev.tokens: row.spent[t] = row.spent.get(t, 0) + ev.tokens[t]
+		&"tooth_lost":
+			if ev.player == ab.me: row.teeth_self += 1
+			else: row.teeth_other += 1
+		&"tooth_gained": row.teeth_gained += ev.get("amount", 1)
 
 func _trace(ab: Ability, m: String) -> bool:
 	if trace != null:
@@ -581,6 +661,7 @@ func _trace(ab: Ability, m: String) -> bool:
 
 func _log(ev: Dictionary) -> void:
 	if keep_log: log.append(ev)
+	if not _frames.is_empty(): _meter(ev)
 	event.emit(ev)
 
 ## Period stamps for once-per limits.
@@ -683,10 +764,14 @@ func action_window(p: Player, window: StringName) -> void:
 func use_act(p: Player, ab: Ability, id: StringName) -> void:
 	var a: Dictionary = ab.acts()[id]
 	if a.has("per"): ab.once(id, a.per)
-	if a.has("cost") and not await pay(p, a.cost, ab): return
+	var f := _begin(ab, "act_" + id)   # an activated ability always counts, cost included
+	if a.has("cost") and not await pay(p, a.cost, ab):
+		_end(f)
+		return
 	_trace(ab, "act_" + id)
 	await emit(&"act", {player = p, ability = ab, id = id})
 	if ab.has_method("act_" + id): await ab.call("act_" + id)
+	_end(f, true)
 
 # =============================================================================
 # Choices

@@ -8,7 +8,7 @@ Each player gets:
 a flat area for rolling dice - your laboratory
 an area for committing dice - your glassworks
 and an area for keeping active cards -your cadre of followers and fiends
-10 starting teeth (and 0 starting keys)
+7 starting teeth (and 0 starting keys)
 
 Take the deck of villager cards, shuffle, and place the deck (face down) in the middle of the table.Have a space for the incinerated pyre of discarded villager cards next to it.
 
@@ -75,7 +75,7 @@ Enlightenment
 Keys are, well, key to winning. They are acquired with villager abilities - pay special attention to villagers that grant them.
 
 There are 3 conditions that end the game:
-Edification: any player garners 10 keys
+Edification: any player garners 7 keys
 Putrescence: any player loses all their teeth
 Conflagration: the Village Deck has run out
 Once one of these conditions have been met, the game is over at the end of the next Scheme Phase.
@@ -103,4 +103,4 @@ Just because you scored a set, doesn't mean you need to request a villager, it i
 
 A die has to be in a scoring set to be considered "scored'. I.e.: a committed die that doesn't end up part of any set is not "scored".
 
-You can't gain more than 10 teeth.
+You can't gain more than 7 teeth.

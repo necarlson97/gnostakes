@@ -15,9 +15,9 @@ enum Loc { DECK, SQUARE, CADRE, ATTACHED, PYRE, GONE }
 ## Tunables. Anything a card can change goes through Game.query() on top of these.
 const DEFAULTS := {
 	"players": 2,
-	"start_teeth": 10,
-	"max_teeth": 10,
-	"win_keys": 10,
+	"start_teeth": 7,
+	"max_teeth": 7,
+	"win_keys": 7,
 	"villager_limit": 4,
 	"commit_min": 5,
 	"potency_dice": 5,

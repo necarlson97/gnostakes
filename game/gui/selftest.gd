@@ -104,6 +104,8 @@ func _answer() -> void:
 				if inter.c == c and not inter._matching(): inter._apply_option(0)
 			if inter.c == c: _primary()
 		&"request":
+			var sq: Array = table.game.square.filter(func(x): return x != null)
+			if sq and rng.randf() < 0.5: await click(table.cards[sq[0]].global_position)   # turn it around
 			var cards: Array = inter.card_opts.keys()
 			if cards and rng.randf() < 0.85:
 				var card: Card = cards[rng.randi_range(0, cards.size() - 1)]

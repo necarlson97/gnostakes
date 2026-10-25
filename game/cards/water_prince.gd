@@ -8,7 +8,7 @@ class Top extends Ability:  # Orgasmic Musician
 	func acts(): return {uncommit = {when = "roll", label = "1 buried W: uncommit a die"}}
 	func can_uncommit(): return buried("W") > 0 and not me.committed().is_empty()
 	func act_uncommit():
-		card.unbury("W", 1)
+		unbury("W", 1)
 		await g.uncommit(me, await g.pick(me, "Uncommit which die?", me.committed(), self, &"die"), self)
 
 class Inv extends Ability:  # Brooding Composer

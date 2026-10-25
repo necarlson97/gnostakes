@@ -21,4 +21,4 @@ class Inv extends Ability:  # Lithiated Assayer
 	func can_take(): return buried("F") > 0
 	func act_take():
 		var n: int = await g.ask(Choice.new(me, &"number", "Take how much F?", [], 1, buried("F"), self, &"amount"))
-		await gain({F = card.unbury("F", n)})
+		await gain({F = unbury("F", n)})

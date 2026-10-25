@@ -12,12 +12,14 @@ extends SceneTree
 ##        trigger-happy, and reports which card hooks never ran.
 ## verbose=1 prints each final state; verbose=2 also prints each seed before it plays.
 ## Any GK.DEFAULTS key overrides that rule for every game, e.g. win_keys=7 commit_min=4.
+## variant=a,b uses card variants from res://cards/variants/<a>/ (see CardDB).
 
 func _initialize() -> void:
 	var args := {games = 100, players = 3, seed = 1, verbose = 0, fuzz = 0, bots = "", pool = "", out = ""}
 	for a in OS.get_cmdline_user_args():
 		var kv := a.split("=", true, 1)
-		if kv.size() == 2: args[kv[0]] = kv[1] if kv[0] in ["bots", "pool", "out"] else int(kv[1])
+		if kv.size() == 2: args[kv[0]] = kv[1] if kv[0] in ["bots", "pool", "out", "variant"] else int(kv[1])
+	if args.has("variant"): CardDB.variants.assign(Array(args.variant.split(",")))   # card-design experiments
 	var rules := {}   # rule overrides (GK.DEFAULTS keys other than players)
 	for k in args:
 		if GK.DEFAULTS.has(k) and k != "players": rules[k] = args[k]
@@ -57,6 +59,7 @@ func _initialize() -> void:
 			bots.append(b)
 		var g := Game.new().setup(bots, s, rules)
 		g.keep_log = false
+		if out_file: g.meter = {}   # per-ability activations and output (see Game.meter)
 		if args.fuzz:
 			g.trace = trace
 			for p in g.players:
@@ -125,8 +128,9 @@ func _initialize() -> void:
 				seats.append({bot = names[k], keys = p.keys, teeth = p.teeth, win = (1.0 / g.winners.size()) if g.winners.has(p) else 0.0,
 					strategy = bots[k].main_strategy().name if bots[k] is Bot else "", claims = claims.get(p, []), key_src = key_src.get(p, {}),
 					tok_gain = tok[p].gain, tok_spent = tok[p].spent, tok_peak = tok[p].peak, tok_peak_total = tok[p].peak_total,
-					tok_src = tok[p].src, paid = tok[p].paid, tooth_lost = tok[p].tooth_lost, tooth_gained = tok[p].tooth_gained})
-			out_file.store_line(JSON.stringify({seed = s, rounds = g.round_no, ending = g.ending, rules = rules, seats = seats}))
+					tok_src = tok[p].src, paid = tok[p].paid, tooth_lost = tok[p].tooth_lost, tooth_gained = tok[p].tooth_gained,
+					abilities = g.meter.get(p.idx, {})})
+			out_file.store_line(JSON.stringify({seed = s, rounds = g.round_no, ending = g.ending, rules = rules, variants = CardDB.variants, seats = seats}))
 		if args.verbose: print(g.summary())
 		g.dispose()
 	var ms := Time.get_ticks_msec() - t0

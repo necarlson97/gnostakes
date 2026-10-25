@@ -190,7 +190,7 @@ func sync_resources(table_center: Vector3) -> void:
 func _sync_tokens(center: Vector3) -> void:
 	for t in GK.TOKENS:
 		var arr: Array = piles[t]
-		var want := mini(player.tokens[t], TOKEN_CAP)
+		var want := clampi(player.tokens[t], 0, TOKEN_CAP)
 		var added := 0
 		while arr.size() < want:
 			var tv := TokenView.new().setup(t)

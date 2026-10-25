@@ -3,7 +3,7 @@ extends RefCounted
 
 class Top extends Ability:  # Furnace Keeper
 	func on_roll(ev):
-		if ev.die.shows("F") and await may_pay({inc = 1}, "Furnace Keeper: incinerate a card to gain 3F?", {F = 3}): await gain({F = 3})
+		if ev.die.shows("F") and await may_pay({inc = 1}, "Furnace Keeper: incinerate a card to gain 2F?", {F = 2}): await gain({F = 2})
 	func on_scheme_start(_ev): await adjust_potency(1)
 
 class Inv extends Ability:  # Staunch Stoker

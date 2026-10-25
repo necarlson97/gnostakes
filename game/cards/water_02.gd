@@ -4,6 +4,7 @@ extends RefCounted
 class Top extends Ability:  # Noble Ghostwriter
 	func on_incinerate(_ev): await gain({W = 1})
 	func acts(): return {nudge = {when = "roll", per = &"round", cost = {W = 1}, label = "1W: rotate a die one face over"}}
+	func can_nudge(): return not live_dice().is_empty()
 	func act_nudge(): await rotate_step()
 
 class Inv extends Ability:  # Pilfered Penname

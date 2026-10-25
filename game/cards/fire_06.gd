@@ -7,6 +7,7 @@ class Top extends Ability:  # Short-Lived Brute
 			if ev.die.shows(t) and await may("Short-Lived Brute: bury a %s here?" % t, {gain = {E = 0.5}}): bury(t)
 	# Burning clears buried tokens, so the payout is counted before paying.
 	func acts(): return {cash = {label = "Incinerate: gain E equal to the lower of buried W and F"}}
+	func can_cash(): return mini(buried("W"), buried("F")) > 0
 	func act_cash():
 		var n := mini(buried("W"), buried("F"))
 		if await pay({burn = true}) and n > 0: await gain({E = n})

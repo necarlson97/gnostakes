@@ -57,13 +57,13 @@ You sit at head height over your seat. In front of you are your cadre, a dice tr
 |---|---|
 | Swig | Drag upward and release (or press Space) to throw your dice. Click a die to commit it and right-click to discard it, or drag it to the commit row or the discard pile. The sets you could form are ringed in colour, listed on the left and lit on the mat. Click a listed set to commit its dice. **Advise me** asks the AdaptiveBot's dice solver. |
 | Scry | Your committed dice are laid out in their scoring groups. Drag dice between groups, or to the back row to leave them out, or browse the legal arrangements with ◀ ▶. |
-| Requests | Town Square cards you may request glow. Drag one to your cadre, or click it. Right-click to choose between a set right and paying tokens. |
+| Requests | Town Square cards you may request glow. Drag one to your cadre. Right-click to choose between a set right and paying tokens. |
 | Wagers | Drag tokens into the brass dish (click one to take it back). |
 | Scheme | Click your villagers to spin them, then confirm. |
 | Abilities | A villager glows when its ability can be used now. Click it. |
 | Other choices | Card and die targets glow when they're on the table. Everything else is a pop-up list; hover a card name to inspect it. |
 
-Hovering any face-up card shows it large, with both faces' text. Right-drag looks around, the wheel leans in, 1–4 look at a seat, and holding Tab fast-forwards.
+Click a Town Square card at any time to turn it around and read its other face (just the view: requested cards still arrive upright). Hovering any face-up card shows it large, the way it's shown on the table: the live face is on top with its rules below, and the bottom half is shaded. Right-drag looks around, the wheel leans in, 1–4 look at a seat, and holding Tab fast-forwards.
 
 How it hooks into the engine (the engine itself is untouched apart from one hook):
 - **Your seat** is a `Controller.Async`. `Interaction` turns each `Choice` (by `kind` and `tag`) into a table mode, and the result goes back through `submit()`.
@@ -125,7 +125,23 @@ Bots                  ai/bots.gd           factory: "random" | "adaptive" | "<st
 - Tempo and conflict: key_rusher, attrition, saboteur, tooth_miser.
 - Tokens: earth, water, fire, air, quintessence, economist, plus all six element pairs (earth_water … fire_air).
 
-Learned numbers live in `ai/data/` (`card_power.json`, `viability.json`), so regenerating strategies never erases learning.
+Learned numbers live in `ai/data/` (`card_power.json`, `viability.json`, `card_probe.json`), so regenerating strategies never erases learning.
+
+**Engines (two-face plans).** Flipping is free every Scheme, so `Valuer` reads key conversions on *both* faces of each card (`key_acts`).
+- A conversion on the face that's down still raises that token's price, discounted by `LATENT`.
+- A repeatable one (no burn) lifts the hoarding discount up to the tokens needed for the remaining keys.
+- An **engine** is a card whose face A produces the token that face B's key act costs (Fingerless Sapper → Powder Monkey, Enthralling Eulogist → Paid Mourner). `Bot.choose_orient` follows `Valuer.engine_plan`: keep A up while building, turn to B once the tokens buy `ENGINE_BATCH` keys (or the game is ending), cash in, then turn back.
+- Burning or trimming a card loses its `engine_value`, so Monkey's "opponents lose a tooth" burn no longer looks cheap.
+- Keys are priced at 0 while you can't gain them (Lockpicking Archon), so bots stop buying lost keys.
+
+**Card probe** (`tools/probe_cards.py`, `sim/combo_probe.gd`) is a forced-hold test. For every card, seat 0 is dealt it upright at game start, on the same seeds as a no-card baseline. The run writes `ai/data/card_probe.json` (a power ceiling from keys/game over the baseline) and `design/card_probe.md`, which flags cards the league undervalues. `Valuer.power()` takes the larger of learned and probed power. That breaks the loop where bots misplay a card, learning rates it low, and they keep misplaying it.
+```bash
+python game/tools/probe_cards.py --games 100 --jobs 13
+```
+```bash
+game/run.sh probe games=200 card=fire_05 me=sapper verbose=1
+```
+The second command plays one card. `me=sapper` is a scripted human line for Sapper → Monkey, kept as a reference ceiling.
 
 **Leagues** (`tools/league.py`) run many Godot processes in parallel.
 - In pool mode each game seats a random sample of bots, and every game is saved as a JSON line under `sim/results/`.
@@ -221,6 +237,7 @@ Phrase helpers on `Ability`: `potency_for` ("On rolling X, you may discard a Pot
 - Triggers resolve in seat order, then cadre left-to-right.
 - Sun-Blinded Prismist: "If all your dice are committed and show either A or 6: you win."
 - Players with no teeth at game end die and cannot win; most keys among the living wins, and nobody wins if all are dead. A player can trigger Putrescence and still regain teeth before the final Scheme ends. Teeth never go below 0.
+- (2026-10-23) A player who requests a slot by paying its tokens can only wager what's left after setting that price aside, so winning the wager never leaves them short.
 - A replacement effect can't replace an event caused while it is itself resolving (Oathbreaker + Strawman would otherwise loop forever).
 
 ### Readings still assumed (each is commented in its card file)

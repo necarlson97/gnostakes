@@ -1,16 +1,16 @@
-Gill Word,Numeral,Suit,,Rank,Name,Rule,Inverted Name,Inverted Rule,Race,Age,Gender,Art?
+Gill Word,Numeral,Suit,,Rank,Name,Rule,Inverted Name,Inverted Rule,Race,Age,Gender,Art?,Flip Art
 Fool,0,Major Arcana,Major Arcana,The Fool,Hollowhead,"When you gain a key:
 if you have only 2 other active cards: gain an additional key.",God-Struck Fool,"While this is active, you get a bonus die that is all 1s.
-On Scry, if you did not score any Potency dice: incinerate this card.",Black,Middle,Male,jester
+On Scry, if you did not score any Potency dice: incinerate this card.",Black,Middle,Male,jester,y
 Magician,I,Major Arcana,Major Arcana,The Magician,Knower of True Names,"Any time you score a set without F: bury a W on this card.
 On Scheme start, if there is W buried:
 you must swap in a W crystal, then unbury all W on this card.",Lockpicking Archon,"Relinquish this card, attaching it to any players card.
 When the attached card is incinerated, this card is incinerated too.
 That player cannot lose teeth, and cannot gain keys.",White,Middle,Male,magician
-High Priestess,II,Major Arcana,Major Arcana,The High Priestess,Mooncalf Mother,"Once per roll, you may discard a die to rotate a die to any face.",Carrier of the Droplet,"At any time, you may spend 3W to invert a card.",Black,Middle,Female,mother
+High Priestess,II,Major Arcana,Major Arcana,The High Priestess,Mooncalf Mother,"Once per roll, you may discard a die to rotate a die to any face.",Carrier of the Droplet,"At any time, you may spend 3W to invert a card.",Black,Middle,Female,mother,y
 Empress,III,Major Arcana,Major Arcana,The Empress,Gargoyle Mother,"While this is active, you only need to commit/discard 4 dice per roll.",Famed Freemason,"While this is active, you get a bonus Potency die.
 You cannot score:
-Three Straight, Two Color-Pairs, Triplet, Four of a Color.",White,Old,Female,gargoyle
+Three Straight, Two Color-Pairs, Triplet, Four of a Color.",White,Old,Female,gargoyle,y
 Emperor,IV,Major Arcana,Major Arcana,The Emperor,Incorruptible Judge,"While this is active, you get a bonus die that is all E
 Any time you score a set without E:
 convert all of a non-E token to E
@@ -18,10 +18,10 @@ If you get 0 non-E tokens: lose a tooth",Hardnosed Idealist,"On Scheme start, in
 choose a die, swap all its crystals for a single color of your choice.",Black,Young,Male,judge
 Priest,V,Major Arcana,Major Arcana,The Priest,Plate-Plundering Deacon,"Whenever you claim a card, you may spend 2Q to claim any other.
 (this claim automatically loses against wagers)",Pious Parishioner,"If you incinerate two cards in a single round:
-gain 1 key and incinerate this card.",White,Middle,Male,deacon
+gain 1 key and incinerate this card.",White,Middle,Male,deacon,y
 Lovers,VI,Major Arcana,Major Arcana,The Lovers,Doomed Romantic,"When you incinerate this card:
 swap tooth count with another player then lose 1 tooth",Kismet Syzygyst,"On Scheme start: incinerate this card to:
-permanently gain another elemental die, starting with only F faces",Hispanic,Old,Female,skele
+permanently gain another elemental die, starting with only F faces",Hispanic,Old,Female,skele,y
 Chariot,VII,Major Arcana,Major Arcana,The Chariot,Promising Pugilist,"Choose one of the following scoring sets:
 Quadruplet (bury E), Five Straight (bury W),
 Five of a Color(bury F),  Four Air (bury A)
@@ -47,7 +47,7 @@ the new card and Clamp-Turning Examiner.",Confessional Magistrate,"On Scheme sta
 Hanged Man,XII,Major Arcana,Major Arcana,The Hanged Man,Self-Sacrificant,"Whenever you are allowed to make a swap, you may instead:
 pay 3 of any one token color to gain 1 key",Post-Fate Oblate,You can now score Four Air with four fire faces,White,Middle,Male,hanged
 Death,XIII,Major Arcana,Major Arcana,Death,Toothless Grinner,"When a card reads ""or"", you may spend 2Q to substitute ""and""",Corpse-Like Pauper,"On Scheme start, you may replace a 1 with a 9 on a Potency die",White,Middle,Female,pauper
-Temperance,XIV,Major Arcana,Major Arcana,Temperance,Binger,"You can now score straights with a one gap of 1
+Temperance,XIV,Major Arcana,Major Arcana,Temperance,Binger,"You can now score straights with one gap of 1
 (E.g., 1,2,4 scores as a Three Straight)",Purger,"On Scheme start, you may decrease a Potency by -1
 Whenever an opponent claims a card, you may:
 lose a tooth and incinerate this card
@@ -59,12 +59,12 @@ it permanently becomes a new empty card slot",Tumorous Magi,"Spend 1Q and lose a
 to permanently gain another Potency die.",Indian,Old,Male,faust
 Star,XVII,Major Arcana,Major Arcana,The Star,Silent Companion,"On Scheme start: you may spend 2Q to
 replace an elemental face with Q - which can be counted as any color",Patient Confidant,"On rolling an E, you may rotate it to a W
-On rolling a W, you may rotate it to an E",White,Old,Female,nun,,,,,,,,,,,,,,`
+On rolling a W, you may rotate it to an E",White,Old,Female,nun,,,,,,,,,,,,,,,`
 Moon,XVIII,Major Arcana,Major Arcana,The Moon,Sane Sorrowful,"While this is active, you get a bonus die of all W
 Any time you commit one or more W dice: discard 1 die",Insane Incandescent,"While you have this active, you get a bonus die that starts empty.
 (empty faces don't really score - but can be committed, discarded, etc)
 
-All players now require one extra key to win.",White,Young,Female,insane
+All players now require one extra key to win.",White,Young,Female,insane,y
 Sun,XIX,Major Arcana,Major Arcana,The Sun,Reservoir of Sunshine,You may discard a die and spend 1Q to bury any token on any card,Beloved Homunculus,"On Scheme start, choose one of your dice:
 swap all its crystals for a single number of your choice
 and incinerate this card.",White,Young,Male,homunculus
@@ -79,7 +79,7 @@ Wealth,1,Disks,Earth,Ace,Primed Pomologist,"On Scry start, look at the highest P
 gain that many E.
 If it is 6+, you may instead gain 2Q.",Charitable Ciderist,"Any time you gain E, or W, you may gain one more
 
-On scoring four earth: gain 1 key and incinerate this card.",Asian,Young,Male,cider
+On scoring four earth: gain 1 key and incinerate this card.",Asian,Young,Male,cider,y
 Unity,2,Disks,Earth,Two,Passive Puffer,"Whenever you commit 5 or more dice at once,
 you may uncommit another die.
 
@@ -96,17 +96,17 @@ On rolling a W, F or A, you may spend 1 E
 to rotate a ready die one face over in either direction.",Sadistic Shepherd,"Incinerate a card to bury 1E on this card.
 On Scheme start, spend 5 buried E to gain an E face.
 
-Spend 2E to gain 1 key and incinerate this card.",White,Young,Female,shepard
+Spend 2E to gain 1 key and incinerate this card.",White,Young,Female,shepard,y
 Adaptation,5,Disks,Earth,Five,Reeking Husk,"On rolling an E, you may discard that die and a Potency die, and gain E equal to the Potency
 
 On rolling an A, you may discard that die and a Potency die, and gain A or E equal to the Potency",Discarded Follower,"Whenever you commit a triplet or quadruplet,
 rotate and commit a ready die.
 
-Spend 7 of any one token type to gain 1 key.",Asian,Middle,Female,leper,,"The same woman, her weapon removed, her hands in cuffs. She looks venomously at the camera, holding up her cuffed hands, as if overcome with a feeling of spite and betrayal. She glares directly into the camera."
+Spend 7 of any one token type to gain 1 key.",Asian,Middle,Female,leper,y,,"The same woman, her weapon removed, her hands in cuffs. She looks venomously at the camera, holding up her cuffed hands, as if overcome with a feeling of spite and betrayal. She glares directly into the camera."
 Well-Being,6,Disks,Earth,Six,Shrewd Quaker,"On Scheme start, you may decrease a Potency by -1
 Whenever you score Two Color-Pairs or Four Pairs,
 you may spend 3E to get 2F or 2A",Hard-Tack Baker,"You can now score Triplets as Quadruples.
-You cannot score any straights.",Black,Middle,Female,quaker,"A middle-aged black colonial quaker woman with clear eyes, a long practical nose, and neatly parted hair hidden beneath a buckled hat. Every feature of her face suggests wisdom and careful judgment. She holds a folded ledger against her chest, one finger marking a page. Her expression is composed, observant, and quietly calculating.","The same woman, now holding a baking paddle/peel. On it sits small, even, circular loaves of hard tac. She smiles down at them, as if satisfied and proud of the neat, orderly result of her baking."
+You cannot score any straights.",Black,Middle,Female,quaker,,"A middle-aged black colonial quaker woman with clear eyes, a long practical nose, and neatly parted hair hidden beneath a buckled hat. Every feature of her face suggests wisdom and careful judgment. She holds a folded ledger against her chest, one finger marking a page. Her expression is composed, observant, and quietly calculating.","The same woman, now holding a baking paddle/peel. On it sits small, even, circular loaves of hard tac. She smiles down at them, as if satisfied and proud of the neat, orderly result of her baking."
 Delay,7,Disks,Earth,Seven,Perennial Pruner,"On Swig start, you may spend 2E to rotate and commit a ready die.
 
 Whenever you win a wager, gain a tooth.",Haphazard Herbalist,"Whenever you score a Two Color-Pairs, Triplet, or Quadruplet, choose:
@@ -115,15 +115,15 @@ Skill,8,Disks,Earth,Eight,Venomous Vessel,"Whenever you roll an E, discard that 
 Whenever you roll two As, discard those dice to double the E on this card
 Whenever you roll a W, discard that die to gain the E buried on this card",Sinuous Acolyte,"Whenever you roll an E, discard that die to bury 1E on this card
 
-On Swig start, spend 1 buried E to rotate and commit a ready die.",White,Young,Female,snake
+On Swig start, spend 1 buried E to rotate and commit a ready die.",White,Young,Female,snake,y
 Prudence,9,Disks,Earth,Nine,Oathbreaker,"Whenever you would lose a tooth, instead you may:
 spend 5E or incinerate this card",Oathkeeper,"Whenever you score a Triplet, or Quadruplet: gain 1Q
-Whenever you score a straight: incinerate this card",White,Middle,Male,oath,"A middle-aged cossack soldier with tired blue eyes, a neatly trimmed beard, and gentle crows feet. He holds his chest high, chin up, looking into the distance with a sense of quiet pride. On his shoulder, he rests a one-sided battle axe, clean and shining.","The same soldier, with deep lines across his brow. He carries the axe, now bloodied, low by his waist. He looks forelornly, almost bewildered, at the stained axehead. Shame and quiet rationalization wrestle across his face."
+Whenever you score a straight: incinerate this card",White,Middle,Male,oath,,"A middle-aged cossack soldier with tired blue eyes, a neatly trimmed beard, and gentle crows feet. He holds his chest high, chin up, looking into the distance with a sense of quiet pride. On his shoulder, he rests a one-sided battle axe, clean and shining.","The same soldier, with deep lines across his brow. He carries the axe, now bloodied, low by his waist. He looks forelornly, almost bewildered, at the stained axehead. Shame and quiet rationalization wrestle across his face."
 Prosperity,10,Disks,Earth,Ten,Solifactory Smith,"Whenever you incinerate a card: gain 1E
 
 If you score a set of all E, or a set of all >= 4: gain 1Q",Brawny Striker,"On Scheme Start:
 lose 2 teeth or spend 8E or spend 4Q or incinerate two cards
-to gain 1 key",Black,Young,Female,blacksmith,"A young Black woman with powerful shoulders, broad hands, and bright intelligent eyes. She lifts a blacksmith's forming hammer high, flexing with her muscled arms, preparing to bring the hammer down on a waist-high anvil. In the other hand, she grips a pair of tongs, which hold firm a white-hot ingot in the process of having its shape refined","The same woman.
+to gain 1 key",Black,Young,Female,blacksmith,y,"A young Black woman with powerful shoulders, broad hands, and bright intelligent eyes. She lifts a blacksmith's forming hammer high, flexing with her muscled arms, preparing to bring the hammer down on a waist-high anvil. In the other hand, she grips a pair of tongs, which hold firm a white-hot ingot in the process of having its shape refined","The same woman.
 
 She now holds the finished massive ingot of gold in one brany hand, its weight clearly requiring her to angle her arm and flex her biceps to keep it held. She is showing it off, her other arm resting on her hip, in a pose of pride and joy. Her eyes are closed, and a wide grim lights up her face."
 Growth,Princess,Disks,Earth,Princess,Hopeful Sower,"Whenever you score Two Color-Pairs, Triplet, or Quadruplet, choose one:
@@ -133,14 +133,14 @@ Construction,Prince,Disks,Earth,Prince,The Tallyman,"Bury a Potency die on The T
 Whenever you incinerate a card, increment that die.
 When the die reaches 6 - you get that die as a bonus Potency die,
 as long as Tallyman remains active.",Dreaded Abacist,"On Scheme start, you may increase a Potency by +1
-On Scheme start, you may decrease a Potency by -1",Hispanic,Old,Male,abacus
+On Scheme start, you may decrease a Potency by -1",Hispanic,Old,Male,abacus,y
 Nurture,Queen,Disks,Earth,Queen,Spagyric Physician,"Whenever you discard an Elemental die, bury 1 token matching its face's element on this card.
 Whenever you score Triplet or Quadruplet gain this card's buried tokens.
 ",Arsenic Apothecary,"When you incinerate this, gain an E face.
 During Scheme, you may swap it in.",White,Middle,Female,arsnice
 Conception,King,Disks,Earth,King,Iatrochemist,"If you commit 7 dice at once, you may bury an E on this card.
 Spend 1E buried on this card to rotate a committed die to any face.",Mercury-Blooded,"Anytime you lose a tooth: bury 4E on this card
-Spend 1E buried on this card to rotate a committed die to any face.",Hispanic,Middle,Male,powder,"Sickly, single-toothed, tapping powder from a horn onto their tongue","Same sickly person, flexing, showing their addled flesh"
+Spend 1E buried on this card to rotate a committed die to any face.",Hispanic,Middle,Male,powder,,"Sickly, single-toothed, tapping powder from a horn onto their tongue","Same sickly person, flexing, showing their addled flesh"
 Beauty,1,Cups,Water,Ace,Lead Drinker,"On committing two W, you may discard a Potency die
 to gain W equal to that Potency.
 
@@ -153,30 +153,30 @@ Once per round, spend W to rotate a die one face over in either direction
 (this does trigger another 'on roll' to the new face)",Pilfered Penname,"On Scheme start, you may look at the top card of the draw deck.
 You may incinerate Pilfered Penname to take it.
 
-On scoring a straight: gain 1 key and incinerate this card.",Hispanic,Young,Female,ghostwriter,"Writing in a large book, feverish, white knuckling the feather pen, scrawling crazily","Holding up the large book to cover their face, on the cover of the book, is the face of a wise old man"
+On scoring a straight: gain 1 key and incinerate this card.",Hispanic,Young,Female,ghostwriter,,"Writing in a large book, feverish, white knuckling the feather pen, scrawling crazily","Holding up the large book to cover their face, on the cover of the book, is the face of a wise old man"
 Joy,3,Cups,Water,Three,Gin-Soaked Gutter-Sweeper,"Whenever you gain W, you may gain +1W
 Once per round, spend W to rotate 1 die to match another face that was rolled
 (this does trigger another 'on roll' to the new face)",Dependable Tosspot,"If you score nothing: gain 3W.
 
-Spend 2W to gain 1 key and incinerate this card.",Hispanic,Middle,Male,gin,"Hairy, pot-bellied, in one hand, holding two gin bottles, in the other arm, holding a bucket with more","Head down into bucket, vomiting, giving thumbs up"
+Spend 2W to gain 1 key and incinerate this card.",Hispanic,Middle,Male,gin,,"Hairy, pot-bellied, in one hand, holding two gin bottles, in the other arm, holding a bucket with more","Head down into bucket, vomiting, giving thumbs up"
 Satiety,4,Cups,Water,Four,Hollow-Bellied Saint,"On rolling a W, you may discard a Potency die to gain W equal to that Potency.
 On Scheme start, you may decrease a Potency by -1",Pot-Licking Friar,"Whenever you discard a die, gain 1W.
 
-Spend 2W to gain 1 key and incinerate this card.",White,Young,Male,soup
+Spend 2W to gain 1 key and incinerate this card.",White,Young,Male,soup,y
 Regret,5,Cups,Water,Five,Enthralling Eulogist,"On rolling a W, you may discard a Potency die to gain W equal to that Potency.
 On Scheme start, you may decrease a Potency by -1",Paid Mourner,"Once per Scry, spend 2W to score a set again.
 (Retriggers on-score, and allows you to make another villager request)
 
-Spend 6 W to gain 1 key",White,Old,Female,mourn,"Wearing victorian 'widows weeds' mourning outfit. With one arm, she holds a small grandfather clock, with the other hand she pinches the minute and hour hand, stopping the clock.","Same woman, sobbing, big wet tears welling up in her eyes. One hand is pressed over her mouth in a show of abject, agonizing sorrow. With the other hand, she holds out her palm, and a single large coin rests in it."
+Spend 6 W to gain 1 key",White,Old,Female,mourn,,"Wearing victorian 'widows weeds' mourning outfit. With one arm, she holds a small grandfather clock, with the other hand she pinches the minute and hour hand, stopping the clock.","Same woman, sobbing, big wet tears welling up in her eyes. One hand is pressed over her mouth in a show of abject, agonizing sorrow. With the other hand, she holds out her palm, and a single large coin rests in it."
 Satisfaction,6,Cups,Water,Six,Twofold Widow,"Whenever you score a straight: bury 1E on this card
 During Scheme, you may spend 1E on this card
 to swap in an E for any face",Lethean Elder,"On scoring nothing:
-incinerate all your cards, including this, to gain 2 keys.",White,Old,Female,veil
+incinerate all your cards, including this, to gain 2 keys.",White,Old,Female,veil,y
 Imagination,7,Cups,Water,Seven,Worm-Brained Absinthard,"Whenever you score a straight:
 * Bury 2 W on this card
 Whenever you score a non-straight or nothing:
 * Remove 1 W from this card",Fairy-Chaser,"Gain all W buried on this card.
-If W is exactly 5: gain a tooth and incinerate this card",White,Middle,Female,fairy,"Thin, sallow, dreamy looking reaches out gently with a hand to three fairies which fly about her. She looks blissfully drunk.","In one hand, she holds an absinthe decanter by the stand. In the other, she holds a small absinthe glass she pours into. She looks giddy, tipsy."
+If W is exactly 5: gain a tooth and incinerate this card",White,Middle,Female,fairy,y,"Thin, sallow, dreamy looking reaches out gently with a hand to three fairies which fly about her. She looks blissfully drunk.","In one hand, she holds an absinthe decanter by the stand. In the other, she holds a small absinthe glass she pours into. She looks giddy, tipsy."
 Instability,8,Cups,Water,Eight,Hairshirt Bearer,"When scoring, spend 1 A to:
 score a straight with 1 fewer dice than normal.
 E.g.: 1,2 could score as Three straight",Fleabitten Penitent,"Whenever you score a Five Straight: gain 1 key
@@ -186,30 +186,30 @@ Content,9,Cups,Water,Nine,Epicurean Gourmand,"After scoring a set with one or mo
 * incinerate a card
 * and gain 2Q.",Gout-Ridden Glutton,"On Scry start, If you have no discarded dice, choose 1:
 * gain 2W
-* lose all W and E tokens, incinerate this card, and gain 1 key",Indian,Old,Female,gout,Holding a massive plate of honey-drizzled mithai. Holds one over her open mouth.,"In one hand, holds a parfait, in the other, a spoon - but she is not eating. She winces painfully, a large goiter growing at her throat."
+* lose all W and E tokens, incinerate this card, and gain 1 key",Indian,Old,Female,gout,,Holding a massive plate of honey-drizzled mithai. Holds one over her open mouth.,"In one hand, holds a parfait, in the other, a spoon - but she is not eating. She winces painfully, a large goiter growing at her throat."
 Success,10,Cups,Water,Ten,Leech Catcher,"On Swig start, you may incinerate a card. If you do:
 * Bury 3 F on this card
 * During this Swig, you may expend buried F to undiscard dice
 (or save it to expend next round)",Bloodless Somnambulist ,"When you incinerate this, gain a W face.
-During Scheme, you may swap it in.",Black,Old,Male,leech,"Holding a basket of leeches in one arm, holding up one wriggling one towards the camera, smiling","Sleeves rolled up, both forearms exposed, covered in leeches, head thrown back in bliss"
+During Scheme, you may swap it in.",Black,Old,Male,leech,,"Holding a basket of leeches in one arm, holding up one wriggling one towards the camera, smiling","Sleeves rolled up, both forearms exposed, covered in leeches, head thrown back in bliss"
 Evolution,Princess,Cups,Water,Princess,Nubile Nymph,"Whenever you could score a Four or Five Straight, you may instead:
 * Uncommit a die
 * Bury 1W on this card
 If you have 3W on this card: incinerate it and gain 1 key",Virgin Pure,"When you incinerate this, gain a W face.
-During Scheme, you may swap it in.",White,Young,Female,virgin,Woman in the modest venus pose,"Woman peeling back the skin of a pomegranate with her teeth, both arms holding the fruit in such a way that her forearms obscure her chest"
+During Scheme, you may swap it in.",White,Young,Female,virgin,y,Woman in the modest venus pose,"Woman peeling back the skin of a pomegranate with her teeth, both arms holding the fruit in such a way that her forearms obscure her chest"
 Creativity,Prince,Cups,Water,Prince,Orgasmic Musician,"On Scheme start, you may increase a Potency by +1
 Whenever you score Two Color-Pairs or Four Pairs,
 bury a W on this card.
 Spend 1 buried W to uncommit a die.",Brooding Composer,"Relinquish this card, attaching it to an opponent's card.
 Whenever that opponent gains an E or W, you gain one as well.
-When the attached card is incinerated, this card is incinerated too.",White,Middle,Male,music,"Frazzled white hair, like Beethoven, looking ecstatic, eyes closed in pure bliss, as he plays the violin","Swearing, spitting, looking furious as he white knuckles sheet music in one hand, and hols a feather pen in the other for making corrections"
+When the attached card is incinerated, this card is incinerated too.",White,Middle,Male,music,,"Frazzled white hair, like Beethoven, looking ecstatic, eyes closed in pure bliss, as he plays the violin","Swearing, spitting, looking furious as he white knuckles sheet music in one hand, and hols a feather pen in the other for making corrections"
 Contemplation,Queen,Cups,Water,Queen,Broken Martyr,"On Scry start: lose a tooth, then, gain a tooth
 On Scheme start, you may increase a Potency by +1",Tarred Prophet,"Relinquish this card, attaching it to an opponent's card.
 Whenever that opponent gains a key, you gain one as well.
-When the attached card is incinerated, this card is incinerated too.",White,Young,Female,tar,"Moth closed, looking beautiful and demure, holding pliers with a human tooth (Saint Apollonia of Alexandria)","The same woman, tarred from the neck down, smiling, missing teeth"
+When the attached card is incinerated, this card is incinerated too.",White,Young,Female,tar,,"Moth closed, looking beautiful and demure, holding pliers with a human tooth (Saint Apollonia of Alexandria)","The same woman, tarred from the neck down, smiling, missing teeth"
 Inspiration,King,Cups,Water,King,Sulfurous Sage,"When you score All Colors, if you have 0 of any E,W,F or A:
 gain 1 of each E,W,F and A",Socratic Self-Slayer,"Lose two teeth and incinerate this card
-to take a key from the player with the most keys.",White,Middle,Male,socratic,"Wise, musculed, shirtless (looking like socrates) - in one hand, he holds an iron brazier. The other hand he holds in the flames, charring his hand to blackness. He flinches, in pain, but stares knowingly at his burning flesh.","The 'Death of Socrates' pose - one finger raised, the other hand having just grabbed a cup of hemlock. The charcoal hand is the one raised, pointing upward, with with the charred, withered fingers."
+to take a key from the player with the most keys.",White,Middle,Male,socratic,,"Wise, musculed, shirtless (looking like socrates) - in one hand, he holds an iron brazier. The other hand he holds in the flames, charring his hand to blackness. He flinches, in pain, but stares knowingly at his burning flesh.","The 'Death of Socrates' pose - one finger raised, the other hand having just grabbed a cup of hemlock. The charcoal hand is the one raised, pointing upward, with with the charred, withered fingers."
 Potency,1,Wands,Fire,Ace,Promethean Pyro,"On rolling an A:
 * If you have 1 empty card slot, gain W
 * If you have 2 empty card slots, gain W and E
@@ -220,96 +220,97 @@ Dominion,2,Wands,Fire,Two,Branded Protégé,"Whenever you discard a die, gain 1F
 
 You may now spend 2F to get 1Q.",Expendable Assistant,"When you lose a tooth, or lose a wager: gain 1Q.
 
-On scoring four fire: gain 1 key and incinerate this card.",White,Middle,Female,branded,"Frowning, one arm, holding a cattle brand - the symbol is a triangle. The other shoulder they show to the camera, the triangle burn scar on their upper arm.","Still branded, they hold a 600s cast iron spherical grenade bomb. In the other hand, they hold a match. They look down warily at the bomb, confused, frightened, concerned "
+On scoring four fire: gain 1 key and incinerate this card.",White,Middle,Female,branded,,"Frowning, one arm, holding a cattle brand - the symbol is a triangle. The other shoulder they show to the camera, the triangle burn scar on their upper arm.","Still branded, they hold a 600s cast iron spherical grenade bomb. In the other hand, they hold a match. They look down warily at the bomb, confused, frightened, concerned "
 Enterprise,3,Wands,Fire,Three,Academic Artillerist,"Any time you gain F, you may gain +1F.
 When scoring, you always choose before other players.",Craven Cannoneer,"Opponents cannot make you lose teeth.
 
-Spend 2F to gain 1 key and incinerate this card.",White,Old,Male,cannonneer,"Spanish artilleryman, with bandolier, in one hand, they raise a brass 'gunner’s quadrant'/'clinometer' - which they sight down, looking proudly into the distance. In the other hand, they hold a cannon 'worm', a long pole with a iron double spiral atop.","Crying out in fear, ducking, holding onto hat - as a cannonball flies overhead"
+Spend 2F to gain 1 key and incinerate this card.",White,Old,Male,cannonneer,,"Spanish artilleryman, with bandolier, in one hand, they raise a brass 'gunner’s quadrant'/'clinometer' - which they sight down, looking proudly into the distance. In the other hand, they hold a cannon 'worm', a long pole with a iron double spiral atop.","Crying out in fear, ducking, holding onto hat - as a cannonball flies overhead"
 Completion,4,Wands,Fire,Four,Fire-Drake,"On rolling an F, you may discard a Potency die to gain F equal to that Potency.
 Whenever a player incinerates a card, you may spend 2F to claim that card instead",Powder Miller,"On Scry start: gain 1F.
 
-Spend 2F to gain 1 key and incinerate this card.",Black,Young,Female,,"Dark skinned moroccan girl wearing a reggada dance outfit, and holding a ceremonial Moukahla rifle over her head. Her head is turned downward, her earrings and necklace flinging out, as if the image is caught mid-twist and dance.","Holding a deep, bucket-sized ornate bronze cast mortar and pestle, grinding powder, smiling as she performs her work"
+Spend 2F to gain 1 key and incinerate this card.",Black,Young,Female,miller,,"Dark skinned moroccan girl wearing a reggada dance outfit, and holding a ceremonial Moukahla rifle over her head. Her head is turned downward, her earrings and necklace flinging out, as if the image is caught mid-twist and dance.","Holding a deep, bucket-sized ornate bronze cast mortar and pestle, grinding powder, smiling as she performs her work"
 Endeavor,5,Wands,Fire,Five,Fingerless Sapper,"On rolling an F, you may discard a Potency die to gain F equal to that Potency.
 Once per round, you may spend 2F to undiscard all discarded dice",Powder Monkey,"Incinerate this card to force all opponents to lose a tooth.
 
-Spend 5F to gain 1 key.",White,Middle,Female,,"Sweaty dirty, crouched, carrying a half-spade in one hand, a mattock in the other. She looks frightened, as if hearing explosions around her. The sleeves of her shirt are torn off, revealing muscled arms. Her hands are bandaged, and she is missing the middle finger on both hands.","Holds a lit powder barrel, the slow-fuze smoking. She strains under the weight of the barrel, straining to carry it with both arms, flexing mightily. Hands still bandaged, still missing the middle finger on both hands."
+Spend 5F to gain 1 key.",White,Middle,Female,sapper,,"Sweaty dirty, crouched, carrying a half-spade in one hand, a mattock in the other. She looks frightened, as if hearing explosions around her. The sleeves of her shirt are torn off, revealing muscled arms. Her hands are bandaged, and she is missing the middle finger on both hands.","Holds a lit powder barrel, the slow-fuze smoking. She strains under the weight of the barrel, straining to carry it with both arms, flexing mightily. Hands still bandaged, still missing the middle finger on both hands."
 Victory,6,Wands,Fire,Six,Short-Lived Brute,"On rolling a W, you may bury a W on this card.
 On rolling a F, you may bury a F on this card. 
 Incinerate this card: Gain E equal to whichever is lower: this card's W or F.
 ('None' is indeed 'lower')",Timeless Warrior-Poet,"Whenever you incinerate a card: gain 1F
-Spend 1F to uncommit a die",White,Middle,Male,,"Scottish warrior, holding a claymore low by his waist, with the blade running up through the middle of the frame, hiding half his face. He smiles knowingly, almost threateningly, behind the sword's edge.","The same man, looking a bit older, wiser. He shouts proudly into a speaking horn, his shirt torn a bit revealing a handsome muscled bare chest. He appears to be giving a heroic speech."
+Spend 1F to uncommit a die",White,Middle,Male,warrior,,"Scottish warrior, holding a claymore low by his waist, with the blade running up through the middle of the frame, hiding half his face. He smiles knowingly, almost threateningly, behind the sword's edge.","The same man, looking a bit older, wiser. He shouts proudly into a speaking horn, his shirt torn a bit revealing a handsome muscled bare chest. He appears to be giving a heroic speech."
 Valor,7,Wands,Fire,Seven,Witch Drowner,"Whenever you incinerate a card: gain 1Q
 On Scheme start, you may decrease a Potency by -1",Corrupted Inquisitor,"At the end of a round, if you incinerated 2 or more cards:
-* gain 1 key",White,Young,Male,,"Puritan priest screaming, spitting, pointing accusatory at the camera.","The same man, unbuttoning his shirt, looking lecherously at the camera."
-Speed,8,Wands,Fire,Eight,Furnace Keeper,"On rolling an F, you may incinerate a card to gain 3 F
-On Scheme start, you may increase a Potency by +1",Staunch Stoker,Spend 1Q to resurrect and gain the most recently incinerated card.,Black,Middle,Female
+* gain 1 key",White,Young,Male,,,"Puritan priest screaming, spitting, pointing accusatory at the camera.","The same man, unbuttoning his shirt, looking lecherously at the camera."
+Speed,8,Wands,Fire,Eight,Furnace Keeper,"On rolling an F, you may incinerate a card to gain 2 F
+On Scheme start, you may increase a Potency by +1",Staunch Stoker,Spend 1Q to resurrect and gain the most recently incinerated card.,Black,Middle,Female,,,"An older south-indian woman, broad face an knowing, hard-working smile. holds a brazier in both arms","The same woman, sweating, exerting herself - she holds a large accordion bellows in both hands, pumping it vigorously"
 Preparation,9,Wands,Fire,Nine,Shunned Executioner,On Scheme start: incinerate a card and gain 1Q,Bloodstained Recluse,"On scoring Four of Fire:
-incinerate all your cards, including this, to gain 2 keys.",Hispanic,Old,Male
+incinerate all your cards, including this, to gain 2 keys.",Hispanic,Old,Male,,,"A medieval executioner, with black hooded face. He grips his great axe in both hands, staring ominously into the camera. ","The same man - with mask removed. He is an older hispanic man, his face haggard and dejected. His arms are stained black with blood - but they hold nothing. With one hand, he grips his other wrist as if tired, sore"
 Oppression,10,Wands,Fire,Ten,Covert Degenerate,"Spend 1F to: Uncommit a die
 Spend 2E to: Rotate a die to any face, once per round
 On Scheme start, you may increase a Potency by +1",Esteemed Burgher,"Place 1 tooth upon a Town Square slot.
 When players request this slot, they must pay you 2 of any token.
 The next time you lose a tooth, lose this reserving tooth.
-",White,Middle,Female
+",White,Middle,Female,,,"An mature french woman. She looks like an esteemed member of society - a wealthy burgher, not just a socialite, but a mover and shaker, one ruthlessly willing to spend social capital.
+She holds out a sealed envelope to the camera, and smirks a bit - as if delivering bad news with schadenfreude. ","The same woman, wearing a heavy iron prisoner's collar with short chains to heavy iron wristbands. She is still looking smugly, knowingly down at the camera, even in her binds. The neck/wrist device is like jougs or shackles "
 Transformation,Princess,Wands,Fire,Princess,Closeted Apostate,"Whenever you perform an italicized section of a card, gain 1F
 On Scheme start, you may decrease a Potency by -1",Flaming Heretic,"When you incinerate this, gain a F face.
-During Scheme, you may swap it in.",Hispanic,Middle,Female
+During Scheme, you may swap it in.",Hispanic,Young,Male,,,"An effeminate, sweet looking glasses-wearing curly haired reconquista spanyard. He is thin, perhaps early 20s, and clutches bible close to his chest, gripping hard with both arms, as if for comfort. He looks shocked, both eyes wide, mouth open, as if we have just run up and startled him.","The same man, his shirt-top open, his arms raised out to his sides, His eyes are closed in reverent bliss, his mouth is open in a relaxed smile. His hair flows gorgeously. He is carefree"
 Aspiration,Prince,Wands,Fire,Prince,Strawman,"While this is active, replace all italicized sections on your cards with:
 spend 1A - if you cannot, lose two teeth",Burnt Effigy,"When you incinerate this, gain a F face.
-During Scheme, you may swap it in.",White,Young,Male
+During Scheme, you may swap it in.",White,Middle,Male,,,"A middle aged, athletic, rugged looking european medieval farmer. He holds a book in one hand, and reads it aloud, one hand pointing out to the left, as if reading to some crowd off to the side.","The same man, arms tied behind his back and wrapped around a post. He is gagged, looking out fearfully, as if a crowd stands out around his pyre post he is bound to."
 Reflection,Queen,Wands,Fire,Queen,Epileptic Metallurgist,"Any time you gain A, or F, you may gain one more
 On Scheme start, you may decrease a Potency by -1",Lithiated Assayer,"Whenever you:
 incinerate a card OR discard a die OR lose a tooth
 bury an F on this card.
 Whenever you like, you can gain F off of this card.
-If you have 10F on this card, incinerate it, and gain 1 key.",White,Middle,Female
+If you have 10F on this card, incinerate it, and gain 1 key.",White,Middle,Female,assayer,,"A middle-aged rustic european woman wearing a nightgown, with a shaved head. She is bucksome, hale and hearty - but her eyes have a baggy, crazed look. In her hand, she holds a spiked mace, looking ait it wonderingly, as if admiring its heft.","The same woman - holding the fulcrum of a set of medieval scales in her teeth. Her arms are shrugging out to her side, palms up, empty. She has a crazed sparkle in her dark eyes."
 Innovation,King,Wands,Fire,King,Unshakable Empiricist,"Relinquish this card, attaching it to an opponent's card.
 Whenever that opponent gains a key, they gain a tooth instead.
 When the attached card is incinerated, this card is incinerated too.",Vivisectionist,"Whenever you gain a key, you must instead choose one of your dice to roll:
 1-2 = you get 0 keys
 3-5 = you get 1 key
-6+ = you get 2 keys",White,Middle,Male
+6+ = you get 2 keys",White,Middle,Male,,,"A faustian english doctor with wide brimmed hat, high-necked black buttoned frock and cane. With one hand, he holds the cane, and in the other, he holds a uroscopy matula up to the light, inspecting it with care and scrutiny.","The same doctor, sleeves rolled back, hands bloody. In his cupped hands he holds a heart, and he looks down at it with maddening wonder, as if enraptured."
 Energy,1,Swords,Air,Ace,Glass-Eyed Alchemist,"If you score nothing, gain A equal to your highest discarded Potency.
 Spend 1A to uncommit 2 dice.",Sun-Blinded Prismist,"If all your dice are committed and show either A or 6: you win.
 
-On scoring a set with an A: gain 1 key and incinerate this card.",Hispanic,Young,Female
+On scoring a set with an A: gain 1 key and incinerate this card.",Hispanic,Young,Female,,,"A young aztec woman, a postcolonial urbanite holding a prism in a set of calipers, holding up as if to the sun, and squinting, peering into it, as if searching for something microscopic.","The same woman, bandages over her eyes, smiling broadly. One hand is folded under per breasts, the other hand has fingers splayed, towards the camera. Between each splayed finger is a glass eyeball - she is showing them off to the camera."
 Peace,2,Swords,Air,Two,Tongueless Traitor,"Whenever you swap a crystal or Potency, gain 2A
 Once per round, spend 1 W to rotate a die to any face
 (this does trigger another 'on roll' to the new face)",Candid Jester,"On scoring five A dice or five F dice:
 force a player to lose a tooth
 
-On scoring Four Air: you may incinerate this card to gain 1 key.",Hispanic,Young,Male
+On scoring Four Air: you may incinerate this card to gain 1 key.",Hispanic,Young,Male,,,"An early medieval jester, with bell tassels, elongated waxed mustache, and lord farquaad haircut. He grins wildly, his back hand up and is front hand pointing tauntingly at the camera, as if showing off for the crowd. He is pompous, projecting, posturing, mocking.","The same jester, mouth open, with a weak pained smile. He seems to have no tongue. He looks sheepish, body language closed, elbows tucked in, apologetic."
 Sorrow,3,Swords,Air,Three,Persecuted Paranoiac,"Whenever you gain A, you may gain +1A.
 
 Spend 1F to incinerate and redraw a villager in the Town Square.",Psychotic Christ,"On scoring a set with an F:
 lose a tooth to force an opponent to lose a tooth
 
-Spend 2A to gain 1 key and incinerate this card.",Black,Middle,Male
+Spend 2A to gain 1 key and incinerate this card.",Black,Middle,Male,,,"A psychotic young moorish man, he is crouched, staring feverishly up at the sky, hands raised to protect himself, as if from some demiurge high above. He wears a sackcloth tunic, and a crown of thorns","The same man, arms wide and palms up, a benevolent gesture, as if offering a hug. However, his eyes still contain the same look of madness. A trickle of blood runs down his face, from where the thorn crown has nicked him."
 Rest,4,Swords,Air,Four,Flayed Flagellant,"On rolling an A, you may discard a Potency die to gain A equal to that Potency.
 Once per round, spend 1 A to rotate a die to any face.",Lash-Blessed Monk,"Whenever another player gains a key, you may incinerate this card to gain a key.
 
-Spend 2A to gain 1 key and incinerate this card.",White,Young,Female
+Spend 2A to gain 1 key and incinerate this card.",White,Young,Female,,,"A pale young Englishwoman, early 20s, back turned to the camera. Her bare back is visible - she is thin: the ridges of her delicate shoulder blades and spine visible. She lays a cat-of-nine-tails flaggilator on her shoulder, draping down her back, the little flails dangling. She looks over her shoulder, eyes wide, a bit frightened, but beseechingly.","The same woman, still viewed from behind, but now twisting towards the camera, as if trying to crack her back. She blissfully smiling, her arms clasped behind her head, relaxed"
 Loss,5,Swords,Air,Five,Bodysnatcher,"Whenever you incinerate a card: gain 1A.
 
 Spend 4A to claim the top card of the discard pile.",Overworked Gravedigger,"At the start of a Swig, name a set and gain 1A.
 You can only score that set this Swig / Scry.
 
-Spend 5A to gain 1 key.",White,Young,Male
+Spend 5A to gain 1 key.",White,Young,Male,,,"A gaunt, frightening looking young colonial american gravedigger. He is bald, with a single piercing, a grizzled chin and broad moustache. He is perhaps in his early 30s, but looks worse off. Over his shoulder he carries a shovel. In the other hand, he is carrying a cadaver's arm, radius and ulna visible poking out the severed end. He looks wary, a bit frightened, as if caught unawares.","The same man sweating, exasperated, raising a shovel over his head with both hands, as if to strike down with it."
 Change,6,Swords,Air,Six,Mummy Grinder,"Whenever you score an 'x of a color': bury 2A on this card
 On Swig start, you may spend 1 buried A
 to rotate and commit a die.
 On losing a tooth, if this card has 6 or more buried A:
 Do not lose the tooth and Incinerate this card.",Intrepid Archaeologist,"When you gain W or F, convert all your A to E.
-Whenever you would lose a tooth, you may instead pay 4 E",White,Old,Female
+Whenever you would lose a tooth, you may instead pay 4 E",White,Old,Female,,,"An old englishwoman, a early-victorian archeologist and scholar. In one hand, she holds up a lanter, and cradled in the other arm is an ornate egyptian cat sarcophagus. She looks intrepid, showing a brave face, with a bit of fear and wonder seeping in.","The same woman, holding a mummified head. She holds it low, in both hands, looking down at it. She is tense, worried, with a furrowed brow."
 Uncertainty,7,Swords,Air,Seven,Reliquary Larcenist,"Whenever you score Four of a Color: gain 3A
 Whenever you score Five of a Color: gain 6A",Finger-Bone Forager,"Spend 2Q to gain 1 key and incinerate this card.
 During Scheming, you may spend 3A to replace a crystal face with Q
-(can be counted as any crystal color)",Asian,Young,Female
+(can be counted as any crystal color)",Asian,Young,Female,,,"A young vietnamese woman, a reliquary hunter! She is wearing a linen pocketed coat. With both hands, she holds up an ornate glass-and-gold reliquary. Inside of it, there appears to be a mummified pair of fingers, still connected at the knuckle. She holds the reliquary a bit toward the camera.","The same woman, clutching the reliquary close to her chest, as if stealing it, starting to dash away with her burgled quarry."
 Conflict,8,Swords,Air,Eight,Footnoted Scholar,"On scoring a set with F, choose one:
 * You gain 1 F
 * An opponent loses 3 tokens of their choice",Pedantic Pedagogue,"Relinquish this card, attaching it to an opponent's card.
 When they invert a card, they lose 1 tooth.
-After the attached card is incinerated, this card is incinerated too.",White,Young,Female
+After the attached card is incinerated, this card is incinerated too.",White,Middle,Female,,,"A woman in her 60s, wearing the gentleman's-scholar outfit of the early victorian era. She wears glasses, and looks deeply engrossed in her book. She looks down at it hatefully, as if enraged at what she reads.","The same woman, she has removed her glasses, and holds them in one hand, with her other hand, she is pinching the bridge of her nose, as if in exasperated frustration."
 Despair,9,Swords,Air,Nine,Shuar Headshrinker,"Relinquish this card, attaching it to an opponent's card.
 On Scheme start, that opponent loses 1 tooth.
 When the attached card is incinerated, this card is incinerated too.",Ayahuascite,"Every time you manually rotate a die, bury 1A on this card.
@@ -322,8 +323,8 @@ Whenever that opponent incinerates a card,
 they must incinerate an additional card.
 After the attached card is incinerated, this card is incinerated too.",Hispanic,Middle,Male
 Control,Princess,Swords,Air,Princess,Driveling Chemist,"On scheme start, if you have the fewest keys, gain an E, W, F and A",Feverish Scribe,"Discard two dice to bury 1A on this card.
-If >10 A buried, 'X keys' enlightenment threshold to end the game
-becomes equal to the A on this card.",White,Middle,Female
+If >7A buried, 'X keys' enlightenment threshold to end the game
+becomes equal to the A on this card.",White,Old,Female,,,"An ancient german chemist woman, she must be in her late 80s or 90s. She wears a simple renaissance outfit, that of a alchemist and craftswoman. In one had, she grips a schlenk flask, and in the other, a kjeldahl flask. Her mouth hangs agape, a bit of drool dripping out. She looks to have Alzheimer's, to be driveling and lost in her mind.",d
 Action,Prince,Swords,Air,Prince,Autoerotic Anesthetist,"When performing an italic section of any card,
 you may substitute it with incinerate Autoerotic Anesthetist",Back-Alley Butcher,"Whenever you gain a key:
 * if you have tokens, you must lose them all, and gain an additional key
@@ -337,8 +338,8 @@ During Scheming, you may spend 3A to replace a crystal face with Q
 
 
 
-,,,,,,,,,,Male,38
-,,,,,,,,,,Female,40
+,,,,,,,,,,Male,39
+,,,,,,,,,,Female,39
 
 ,,,,,,,,,,,,Extra Art
 ,,,,,,,,,,,,coins
